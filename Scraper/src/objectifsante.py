@@ -53,7 +53,9 @@ class objectifsante(threading.Thread):
         menudict['pharmacie']=dict()
         menudict['parapharmacie'] = dict()
         for item in soup.find_all("li"):
-            if item.find("a")!=None and item.find("a")
+            if item.find("a")!=None and item.find("a")["id"]=="pharmacieDropdown":
+                for anchor in item.find("ul",{"class":"list-unstyled"}).find("li",recursive=False):
+                    menudict['pharmacie'][anchor.find("a").text.strip()]=menudict['pharmacie'][anchor.find("a")['href']]
         for item in soup.find_all("li", {"class": "nav-item show"}):
             if (item.find("a") != None):
                 if ("parapharmacie" in item.find("a")['href']):
@@ -212,7 +214,7 @@ class objectifsante(threading.Thread):
     def run(self):
         config = self.config
         url = config['urls']
-        soup = get_soup(url)
+        soup = self.get_soup(url)
         # get segments
         if (config['Mega-category'] == "Medicament"):
             config['Category'] = "Médicaments"
