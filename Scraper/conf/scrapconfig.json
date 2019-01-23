@@ -183,5 +183,12 @@
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
 	"urlsuffix" :"/"
+  },{
+	"template": "objectifsante",
+	"mongolink":  "mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape",
+	"sites": ["https://www.pharmaciepolygone.com"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
   }
 ]

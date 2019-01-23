@@ -18,6 +18,7 @@ from src.lasante import lasante
 from src.santediscount import santediscount
 from src.pharmagdd import pharmagdd
 from src.pharmabestprado1 import pharmabestprado1
+from src.objectifsante import objectifsante
 # import libraries
 import random
 import pymongo
