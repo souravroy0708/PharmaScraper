@@ -41,13 +41,15 @@ def main(scrapconfig,nthread):
                 client = pymongo.MongoClient(config["mongolink"])
                 db = client[str(template['db'])]
                 sitecount = db[str(template['collection'])].find({"Source": config['site']}).count()
+                print(sitecount)
                 client.close()
                 if (sitecount < 100):
                     config["urls"] = str(config["site"] + template["urlsuffix"])
                     configlist.append(config.copy())
                 else:
                     continue
-            except:
+            except Exception as e:
+                print(str(e))
                 continue
     threadlist=[]
     if (nthread > 0):
