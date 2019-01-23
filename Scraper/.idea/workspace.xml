@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5504b528-df2a-476b-a4b6-653435135db9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/conf/scrapconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/conf/scrapconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/objectifsante.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/objectifsante.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/elsie.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +19,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pharmaplay_WIP/pharmaplay.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-297">
-              <caret line="214" column="21" selection-end-line="266" selection-end-column="4" />
+            <state relative-caret-position="453">
+              <caret line="264" column="20" lean-forward="true" selection-start-line="248" selection-end-line="264" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -47,7 +46,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/conf/scrapconfig.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="842">
@@ -56,11 +55,23 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/elsie.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="56" column="62" selection-start-line="56" selection-start-column="62" selection-end-line="56" selection-end-column="62" />
+              <folding>
+                <element signature="e#113#126#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/objectifsante.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="903">
-              <caret line="239" lean-forward="true" selection-start-line="239" selection-end-line="239" />
+            <state relative-caret-position="138">
+              <caret line="188" column="59" lean-forward="true" selection-end-line="241" />
               <folding>
                 <element signature="e#113#126#0" expanded="true" />
               </folding>
@@ -81,6 +92,7 @@
     <findStrings>
       <find>118</find>
       <find>bran</find>
+      <find>re</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -107,6 +119,7 @@
         <option value="$PROJECT_DIR$/src/objectifsante.py" />
         <option value="$PROJECT_DIR$/scraper.py" />
         <option value="$PROJECT_DIR$/conf/scrapconfig.json" />
+        <option value="$PROJECT_DIR$/src/elsie.py" />
       </list>
     </option>
   </component>
@@ -138,6 +151,12 @@
               <item name="Scraper" type="b2602c69:ProjectViewProjectNode" />
               <item name="Scraper" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Scraper" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scraper" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pharmaplay_WIP" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -259,12 +278,12 @@
       <workItem from="1548135877274" duration="4919000" />
       <workItem from="1548143120028" duration="5143000" />
       <workItem from="1548161252584" duration="2054000" />
-      <workItem from="1548218079866" duration="14731000" />
+      <workItem from="1548218079866" duration="17809000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="142993000" />
+    <option name="totallyTimeSpent" value="146071000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -477,16 +496,6 @@
         <state relative-caret-position="-1350" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/objectifsante.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="903">
-          <caret line="239" lean-forward="true" selection-start-line="239" selection-end-line="239" />
-          <folding>
-            <element signature="e#113#126#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pharmagdd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -494,13 +503,6 @@
           <folding>
             <element signature="e#113#126#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pharmaplay_WIP/pharmaplay.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-297">
-          <caret line="214" column="21" selection-end-line="266" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -515,6 +517,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="842">
           <caret line="188" column="48" selection-start-line="188" selection-start-column="48" selection-end-line="188" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/objectifsante.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="188" column="59" lean-forward="true" selection-end-line="241" />
+          <folding>
+            <element signature="e#113#126#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pharmaplay_WIP/pharmaplay.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="453">
+          <caret line="264" column="20" lean-forward="true" selection-start-line="248" selection-end-line="264" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/elsie.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="56" column="62" selection-start-line="56" selection-start-column="62" selection-end-line="56" selection-end-column="62" />
+          <folding>
+            <element signature="e#113#126#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
