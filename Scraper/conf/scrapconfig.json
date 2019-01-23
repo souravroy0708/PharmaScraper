@@ -2,7 +2,7 @@
   {
 	"template": "aprium",
 	"Mega-category": "None",
-	"mongolink":"mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":"mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://edgar-quinet.aprium-pharmacie.fr/accueil", "https://popincourt.aprium-pharmacie.fr/", "https://centrale-roquette.aprium-pharmacie.fr/accueil", "https://eiffel-commerce.pharmacie-monge.fr", "https://notre-dame.pharmacie.monge.fr", "https://sacre-coeur.pharmacie-monge.fr", "https://orleans.pharmacie-monge.fr", "https://aix-rotonde.pharmacie-monge.fr", "https://cannes-riviera.pharmacie-monge.fr"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -10,7 +10,7 @@
   },{
 	"template": "boticinal",
 	"Mega-category": "None",
-	"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.powersante.com/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -18,7 +18,7 @@
   },{
 	"template": "shoppharmacie",
 	"Mega-category": "None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.shop-pharmacie.fr/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -26,7 +26,7 @@
   },{
 	"template": "pharmaviewol",
 	"Mega-category": "None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://grandepharmaciedumail-78140.pharmavie.fr/","https://grandepharmacie-issoire.pharmavie.fr/","https://grandepharmaciepoitiers.pharmavie.fr/","https://grandepharmaciethiers.pharmavie.fr/","https://pharmacie3000.pharmavie.fr/","https://pharmacieadam-livrade.pharmavie.fr/","https://pharmaciealarybernadotte.pharmavie.fr/","https://pharmaciebarbierdaudre.pharmavie.fr/","https://pharmaciebelair.pharmavie.fr/","https://pharmaciebenquet.pharmavie.fr/","https://pharmaciebergel.pharmavie.fr/","https://pharmacieberteauxpilleux.pharmavie.fr/","https://pharmaciebertin.pharmavie.fr/","https://pharmaciebous.pharmavie.fr/","https://pharmaciebrandinelli.pharmavie.fr/","https://pharmaciebriel.pharmavie.fr/","https://pharmaciecampourcy.pharmavie.fr/","https://pharmacie-castelsarrasin.pharmavie.fr/","https://pharmaciecazalyfabre.pharmavie.fr/","https://pharmaciecentrale-acheres.pharmavie.fr/","https://pharmaciecentrale-bourgsaintandeol.pharmavie.fr/","https://pharmaciecentrale-sarrebourg.pharmavie.fr/","https://pharmaciecentrale-union.pharmavie.fr/","https://pharmaciecitesante.pharmavie.fr/","https://pharmacieconiglio.pharmavie.fr/","https://pharmaciecora.pharmavie.fr/","https://pharmaciecorcylaon.pharmavie.fr/","https://pharmaciecrosetto.pharmavie.fr/","https://pharmaciedebellevue.pharmavie.fr/","https://pharmaciedegalion.pharmavie.fr/","https://pharmaciedelabasilique.pharmavie.fr/","https://pharmaciedelabaulche.pharmavie.fr/","https://pharmaciedelaberaudiere.pharmavie.fr/","https://pharmaciedelamitterie-lomme.pharmavie.fr/","https://pharmaciedelamorlande.pharmavie.fr/","https://pharmaciedelaplaine.pharmavie.fr/","https://pharmaciedelatraverse.pharmavie.fr/","https://pharmaciedelavalleeviolette.pharmavie.fr/","https://pharmaciedeleglise.pharmavie.fr/","https://pharmaciedeleglise-houdan.pharmavie.fr/","https://pharmaciedelescale.pharmavie.fr/","https://pharmaciedeleurope-maurs.pharmavie.fr/","https://pharmaciedeleuroteleport-roubaix.pharmavie.fr/","https://pharmaciedelhallue.pharmavie.fr/","https://pharmaciedelodon-breteville.pharmavie.fr/","https://pharmaciedepradines.pharmavie.fr/","https://pharmaciedesaintchef.pharmavie.fr/","https://pharmaciedesallees-valence.pharmavie.fr/","https://pharmaciedesarmeries.pharmavie.fr/","https://pharmaciedeschaises.pharmavie.fr/","https://pharmaciedesdauphins.pharmavie.fr/","https://pharmaciedesdiablots.pharmavie.fr/","https://pharmaciedesfrancs-tourcoing.pharmavie.fr/","https://pharmaciedesmarais.pharmavie.fr/","https://pharmaciedesmarais-franconville.pharmavie.fr/","https://pharmaciedespremierescotes.pharmavie.fr/","https://pharmaciedesteppes.pharmavie.fr/","https://pharmaciedeville-ville.pharmavie.fr/","https://pharmaciedherin.pharmavie.fr/","https://pharmaciedubassin-sainteflorine.pharmavie.fr/","https://pharmaciedubourgdenis.pharmavie.fr/","https://pharmacieducanal-montech.pharmavie.fr/","https://pharmacieducanton.pharmavie.fr/","https://pharmacieducentre-andernos.pharmavie.fr/","https://pharmacieducentrecommercialblois2.pharmavie.fr/","https://pharmacieducentre-saintave.pharmavie.fr/","https://pharmacieducentre-stjean.pharmavie.fr/","https://pharmacieducentre-tournan.pharmavie.fr/","https://pharmacieduchene.pharmavie.fr/","https://pharmacieduforum-vierzon.pharmavie.fr/","https://pharmaciedugier.pharmavie.fr/","https://pharmaciedukm400.pharmavie.fr/","https://pharmaciedulac-ploermel.pharmavie.fr/","https://pharmaciedulion-forbach.pharmavie.fr/","https://pharmacieduluy.pharmavie.fr/","https://pharmaciedupondaillan.pharmavie.fr/","https://pharmaciedupontdelameilhe.pharmavie.fr/","https://pharmaciedupontmadeleine.pharmavie.fr/","https://pharmacieduprogres-gannat.pharmavie.fr/","https://pharmaciedurand-martigne.pharmavie.fr/","https://pharmacieduran-quincampoix.pharmavie.fr/","https://pharmaciedusoldatlaboureur.pharmavie.fr/","https://pharmaciedutivoli.pharmavie.fr/","https://pharmacieenjolras.pharmavie.fr/","https://pharmacie-europe.pharmavie.fr/","https://pharmacie-godart-fontenaytresigny.pharmavie.fr/","https://pharmaciegomez-tours.pharmavie.fr/","https://pharmaciegrandbressuire.pharmavie.fr/","https://pharmacieguiot.pharmavie.fr/","https://pharmacieharir.pharmavie.fr/","https://pharmaciehoteldeville-toucy.pharmavie.fr/","https://pharmacie-isle.pharmavie.fr/","https://pharmacieissartel.pharmavie.fr/","https://pharmacie-jadeau-fontenaylecomte.pharmavie.fr/","https://pharmaciekuentz.pharmavie.fr/","https://pharmacielacroixduprince-pau.pharmavie.fr/","https://pharmacielaurie.pharmavie.fr/","https://pharmacielequere.pharmavie.fr/","https://pharmacieleyguemauroux-auch.pharmavie.fr/","https://pharmaciemacherez.pharmavie.fr/","https://pharmaciemuratel.pharmavie.fr/","https://pharmacienour.pharmavie.fr/","https://pharmacieparaire-tomas.pharmavie.fr/","https://pharmacieparoielle.pharmavie.fr/","https://pharmacieperez.pharmavie.fr/","https://pharmaciepion-havard.pharmavie.fr/","https://pharmacieplacemexico.pharmavie.fr/","https://pharmacieploy.pharmavie.fr/","https://pharmaciepotot.pharmavie.fr/","https://pharmaciepuigleveille.pharmavie.fr/","https://pharmacierepublique.pharmavie.fr/","https://pharmacierevel.pharmavie.fr/","https://pharmacieroyallieu.pharmavie.fr/","https://pharmaciesainteanne.pharmavie.fr/","https://pharmacie-saintes-boiffiers.pharmavie.fr/","https://pharmaciesaintjacques-vernon.pharmavie.fr/","https://pharmaciesaintpierre.pharmavie.fr/","https://pharmaciesantini.pharmavie.fr/","https://pharmacieseptfonds.pharmavie.fr/","https://pharmacie-sofianos-herblay.pharmavie.fr/","https://pharmaciesoleil-ondres.pharmavie.fr/","https://pharmaciesonzogni.pharmavie.fr/","https://pharmaciethermale.pharmavie.fr/","https://pharmacietoisondor.pharmavie.fr/","https://pharmacietournoux.pharmavie.fr/","https://pharmacieverdenet-saintvit.pharmavie.fr/","https://pharmacie-zussy-valdoie.pharmavie.fr/","https://pharma-lebisey.pharmavie.fr/","https://pharmaciedelamontade.pharmavie.fr/","https://pharmaciecentrale-barsuraube.pharmavie.fr","https://pharmaciedelaplace-lesandelys.pharmavie.fr","https://pharmaciedelabibliotheque-paris.pharmavie.fr","https://pharmaciesaintange.pharmavie.fr"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -34,7 +34,7 @@
   },{
 	"template": "pharmanity",
 	"Mega-category": "Medicament",
-	"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["http://www.milkpharma.com/","http://www.pharmacie-riquet.fr/","http://www.pharmacie-terral.com/","https://www.grandepharmaciedelabaie.fr/","https://www.pharmacie123.fr/","https://www.pharmacie3gares.fr/","https://www.pharmacieagroparc.fr/","https://www.pharmacieaigle.fr/","https://www.pharmacie-aignan.fr/","https://www.pharmacie-allard-perigueux.fr/","https://www.pharmacie-alpes-vizille.fr/","https://www.pharmaciealsacelorraine.fr/","https://www.pharmacie-amou.fr/","https://www.pharmacie-arago.fr/","https://www.pharmacie-arconnay.fr/","https://www.pharmacie-avenue-sassenage.fr/","https://www.pharmacie-badier-champier.fr/","https://www.pharmacie-barla-nice.fr/","https://www.pharmacie-barthelemy.fr/","https://www.pharmacie-barthelemy73.fr/","https://www.pharmaciebealieres.fr/","https://www.pharmaciebehobie-paysbasque.fr/","https://www.pharmacie-belle-etoile.fr/","https://www.pharmacieberlemont.fr/","https://www.pharmacie-boudot-bachetta-hericourt.fr/","https://www.pharmacie-bourlon.fr/","https://www.pharmacie-brochet-isbergues.fr/","https://www.pharmaciecabonbirrien.fr/","https://www.pharmacie-californie-cannes.fr/","https://www.pharmacie-capevand.fr/","https://www.pharmacie-carmes-pertuis.fr/","https://www.pharmacie-cathedrale-apt.fr/","https://www.pharmacie-centrale-carpentras.fr/","https://www.pharmaciecentraledecrest.fr/","https://www.pharmacie-centrale-vif.fr/","https://www.pharmaciecentregivet.fr/","https://www.pharmacie-challes-les-eaux.fr/","https://www.pharmacie-champfleury-avignon.fr/","https://www.pharmacie-champ-sur-drac.fr/","https://www.pharmacie-cote-des-blancs.fr/","https://www.pharmacie-courthezon.fr/","https://www.pharmaciedallacorte.fr/","https://www.pharmaciedebelair.fr/","https://www.pharmaciedebrignoud.fr/","https://www.pharmaciedebrousse.fr/","https://www.pharmacie-de-callian.fr/","https://www.pharmacie-declef.fr/","https://www.pharmacie-de-coublevie.fr/","https://www.pharmacie-de-domenjod.fr/","https://www.pharmaciededravemont.fr/","https://www.pharmacie-de-grenoble.fr/","https://www.pharmacie-de-la-croisee.fr/","https://www.pharmacie-de-la-fontaine-seloncourt.fr/","https://www.pharmacie-de-lagnes.fr/","https://www.pharmacie-de-la-madeleine-herault.fr/","https://www.pharmaciedelamarne.fr/","https://www.pharmacie-de-la-monta.fr/","https://www.pharmacie-de-l-ardoise.fr/","https://www.pharmaciedelarochette.fr/","https://www.pharmaciedelasensee.fr/","https://www.pharmacie-de-la-vence.fr/","https://www.pharmaciedelileverte.fr/","https://www.pharmacie-de-l-olivier.fr/","https://www.pharmacie-de-morainvilliers.fr/","https://www.pharmacie-demoulin.fr/","https://www.pharmaciedes3tours.fr/","https://www.pharmacie-de-saint-didier.fr/","https://www.pharmaciedesaintger.fr/","https://www.pharmacie-des-alpes67.fr/","https://www.pharmacie-des-arcades-la-trinite.fr/","https://www.pharmaciedesarceaux.fr/","https://www.pharmaciedesarts.fr/","https://www.pharmaciedesauveterre30.fr/","https://www.pharmacie-de-schiltigheim.fr/","https://www.pharmacie-des-deux-vallees.fr/","https://www.pharmaciedesfelibres.fr/","https://www.pharmaciedespoetes.fr/","https://www.pharmacie-des-portiques.fr/","https://www.pharmacie-des-roses.fr/","https://www.pharmacie-des-thermes.fr/","https://www.pharmacie-de-violes.fr/","https://www.pharmacie-didonne.fr/","https://www.pharmacie-didot.fr/","https://www.pharmacie-du-cours-mazan.fr/","https://www.pharmacieducredo.com/","https://www.pharmacie-du-haut-meylan.fr/","https://www.pharmaciedulucq.fr/","https://www.pharmacie-du-magnolia.fr/","https://www.pharmaciedumarche75014.com/","https://www.pharmacie-du-mont-ventoux.fr/","https://www.pharmacieduneron.fr/","https://www.pharmacie-du-pantheon.fr/","https://www.pharmaciedupont-crest.fr/","https://www.pharmaciedusoleil67.fr/","https://www.pharmacie-du-theatre-antique.fr/","https://www.pharmacieduversoud.fr/","https://www.pharmacie-echillais.fr/","https://www.pharmacie-emilie.fr/","https://www.pharmacie-etoile-sur-rhone.fr/","https://www.pharmacie-europe-sens.fr/","https://www.pharmacie-fleuristes.fr/","https://www.pharmaciefroment.com/","https://www.pharmacie-gare-juan-les-pins.fr/","https://www.pharmacie-gare-saumur.fr/","https://www.pharmacie-genty.fr/","https://www.pharmacie-goosse.fr/","https://www.pharmacie-grande-chartreuse.fr/","https://www.pharmacie-herboristerie-bayonne.fr/","https://www.pharmacie-horloge-angers.fr/","https://www.pharmacie-hotel-de-ville-bondy.fr/","https://www.pharmacie-issy.fr/","https://www.pharmacie-jean-moulin.fr/","https://www.pharmaciekebaili.fr/","https://www.pharmacielabruyere.fr/","https://www.pharmacielarapee.fr/","https://www.pharmacie-laroche-bireau.fr/","https://www.pharmacie-lefeuvre.fr/","https://www.pharmacie-livron.fr/","https://www.pharmacielouis12.fr/","https://www.pharmacie-luuduc.fr/","https://www.pharmacie-marc.fr/","https://www.pharmacie-marchon.fr/","https://www.pharmaciemioche.fr/","https://www.pharmacie-moissey.fr/","https://www.pharmaciemulhousealsace.com/","https://www.pharmacienotredame.com/","https://www.pharmacie-nouvelle-voiron.fr/","https://www.pharmacie-opera.fr/","https://www.pharmacieornano33.fr/","https://www.pharmacie-oyonnax.fr/","https://www.pharmaciepaysbasque.fr/","https://www.pharmacie-place.fr/","https://www.pharmacie-porte-vanves.fr/","https://www.pharmacie-prairie.fr/","https://www.pharmacie-predieu.fr/","https://www.pharmacie-prorel-briancon.fr/","https://www.pharmacie-provencale-montelimar.fr/","https://www.pharmacie-quillon-beaurepaire.com/","https://www.pharmacierigaudieres.fr/","https://www.pharmacie-rive-gauche.fr/","https://www.pharmacie-rondeau-echirolles.fr/","https://www.pharmacie-roybon-miramond.fr/","https://www.pharmacie-saint-charles-nice.fr/","https://www.pharmaciesaintgery.fr/","https://www.pharmacietaden.fr/","https://www.pharmacie-tartare.fr/","https://www.pharmacie-vacher.fr/","https://www.pharmacie-verlaine.fr/","https://www.pharmacie-village.fr/","https://www.pharmacie-vitry.fr/","https://www.pharmacie-voiron.com/","https://www.pharmacie-voiron-michallet.fr/","https://www.pharmacie-warambourg-eu.fr/","https://www.pharmacolosse.fr/","https://www.pharmastnicolas.fr/","https://www.seesmapharma.fr/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -42,7 +42,7 @@
   },{
 	"template": "pharmanity",
 	"Mega-category": "parapharmacie",
-	"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["http://www.milkpharma.com/","http://www.pharmacie-riquet.fr/","http://www.pharmacie-terral.com/","https://www.grandepharmaciedelabaie.fr/","https://www.pharmacie123.fr/","https://www.pharmacie3gares.fr/","https://www.pharmacieagroparc.fr/","https://www.pharmacieaigle.fr/","https://www.pharmacie-aignan.fr/","https://www.pharmacie-allard-perigueux.fr/","https://www.pharmacie-alpes-vizille.fr/","https://www.pharmaciealsacelorraine.fr/","https://www.pharmacie-amou.fr/","https://www.pharmacie-arago.fr/","https://www.pharmacie-arconnay.fr/","https://www.pharmacie-avenue-sassenage.fr/","https://www.pharmacie-badier-champier.fr/","https://www.pharmacie-barla-nice.fr/","https://www.pharmacie-barthelemy.fr/","https://www.pharmacie-barthelemy73.fr/","https://www.pharmaciebealieres.fr/","https://www.pharmaciebehobie-paysbasque.fr/","https://www.pharmacie-belle-etoile.fr/","https://www.pharmacieberlemont.fr/","https://www.pharmacie-boudot-bachetta-hericourt.fr/","https://www.pharmacie-bourlon.fr/","https://www.pharmacie-brochet-isbergues.fr/","https://www.pharmaciecabonbirrien.fr/","https://www.pharmacie-californie-cannes.fr/","https://www.pharmacie-capevand.fr/","https://www.pharmacie-carmes-pertuis.fr/","https://www.pharmacie-cathedrale-apt.fr/","https://www.pharmacie-centrale-carpentras.fr/","https://www.pharmaciecentraledecrest.fr/","https://www.pharmacie-centrale-vif.fr/","https://www.pharmaciecentregivet.fr/","https://www.pharmacie-challes-les-eaux.fr/","https://www.pharmacie-champfleury-avignon.fr/","https://www.pharmacie-champ-sur-drac.fr/","https://www.pharmacie-cote-des-blancs.fr/","https://www.pharmacie-courthezon.fr/","https://www.pharmaciedallacorte.fr/","https://www.pharmaciedebelair.fr/","https://www.pharmaciedebrignoud.fr/","https://www.pharmaciedebrousse.fr/","https://www.pharmacie-de-callian.fr/","https://www.pharmacie-declef.fr/","https://www.pharmacie-de-coublevie.fr/","https://www.pharmacie-de-domenjod.fr/","https://www.pharmaciededravemont.fr/","https://www.pharmacie-de-grenoble.fr/","https://www.pharmacie-de-la-croisee.fr/","https://www.pharmacie-de-la-fontaine-seloncourt.fr/","https://www.pharmacie-de-lagnes.fr/","https://www.pharmacie-de-la-madeleine-herault.fr/","https://www.pharmaciedelamarne.fr/","https://www.pharmacie-de-la-monta.fr/","https://www.pharmacie-de-l-ardoise.fr/","https://www.pharmaciedelarochette.fr/","https://www.pharmaciedelasensee.fr/","https://www.pharmacie-de-la-vence.fr/","https://www.pharmaciedelileverte.fr/","https://www.pharmacie-de-l-olivier.fr/","https://www.pharmacie-de-morainvilliers.fr/","https://www.pharmacie-demoulin.fr/","https://www.pharmaciedes3tours.fr/","https://www.pharmacie-de-saint-didier.fr/","https://www.pharmaciedesaintger.fr/","https://www.pharmacie-des-alpes67.fr/","https://www.pharmacie-des-arcades-la-trinite.fr/","https://www.pharmaciedesarceaux.fr/","https://www.pharmaciedesarts.fr/","https://www.pharmaciedesauveterre30.fr/","https://www.pharmacie-de-schiltigheim.fr/","https://www.pharmacie-des-deux-vallees.fr/","https://www.pharmaciedesfelibres.fr/","https://www.pharmaciedespoetes.fr/","https://www.pharmacie-des-portiques.fr/","https://www.pharmacie-des-roses.fr/","https://www.pharmacie-des-thermes.fr/","https://www.pharmacie-de-violes.fr/","https://www.pharmacie-didonne.fr/","https://www.pharmacie-didot.fr/","https://www.pharmacie-du-cours-mazan.fr/","https://www.pharmacieducredo.com/","https://www.pharmacie-du-haut-meylan.fr/","https://www.pharmaciedulucq.fr/","https://www.pharmacie-du-magnolia.fr/","https://www.pharmaciedumarche75014.com/","https://www.pharmacie-du-mont-ventoux.fr/","https://www.pharmacieduneron.fr/","https://www.pharmacie-du-pantheon.fr/","https://www.pharmaciedupont-crest.fr/","https://www.pharmaciedusoleil67.fr/","https://www.pharmacie-du-theatre-antique.fr/","https://www.pharmacieduversoud.fr/","https://www.pharmacie-echillais.fr/","https://www.pharmacie-emilie.fr/","https://www.pharmacie-etoile-sur-rhone.fr/","https://www.pharmacie-europe-sens.fr/","https://www.pharmacie-fleuristes.fr/","https://www.pharmaciefroment.com/","https://www.pharmacie-gare-juan-les-pins.fr/","https://www.pharmacie-gare-saumur.fr/","https://www.pharmacie-genty.fr/","https://www.pharmacie-goosse.fr/","https://www.pharmacie-grande-chartreuse.fr/","https://www.pharmacie-herboristerie-bayonne.fr/","https://www.pharmacie-horloge-angers.fr/","https://www.pharmacie-hotel-de-ville-bondy.fr/","https://www.pharmacie-issy.fr/","https://www.pharmacie-jean-moulin.fr/","https://www.pharmaciekebaili.fr/","https://www.pharmacielabruyere.fr/","https://www.pharmacielarapee.fr/","https://www.pharmacie-laroche-bireau.fr/","https://www.pharmacie-lefeuvre.fr/","https://www.pharmacie-livron.fr/","https://www.pharmacielouis12.fr/","https://www.pharmacie-luuduc.fr/","https://www.pharmacie-marc.fr/","https://www.pharmacie-marchon.fr/","https://www.pharmaciemioche.fr/","https://www.pharmacie-moissey.fr/","https://www.pharmaciemulhousealsace.com/","https://www.pharmacienotredame.com/","https://www.pharmacie-nouvelle-voiron.fr/","https://www.pharmacie-opera.fr/","https://www.pharmacieornano33.fr/","https://www.pharmacie-oyonnax.fr/","https://www.pharmaciepaysbasque.fr/","https://www.pharmacie-place.fr/","https://www.pharmacie-porte-vanves.fr/","https://www.pharmacie-prairie.fr/","https://www.pharmacie-predieu.fr/","https://www.pharmacie-prorel-briancon.fr/","https://www.pharmacie-provencale-montelimar.fr/","https://www.pharmacie-quillon-beaurepaire.com/","https://www.pharmacierigaudieres.fr/","https://www.pharmacie-rive-gauche.fr/","https://www.pharmacie-rondeau-echirolles.fr/","https://www.pharmacie-roybon-miramond.fr/","https://www.pharmacie-saint-charles-nice.fr/","https://www.pharmaciesaintgery.fr/","https://www.pharmacietaden.fr/","https://www.pharmacie-tartare.fr/","https://www.pharmacie-vacher.fr/","https://www.pharmacie-verlaine.fr/","https://www.pharmacie-village.fr/","https://www.pharmacie-vitry.fr/","https://www.pharmacie-voiron.com/","https://www.pharmacie-voiron-michallet.fr/","https://www.pharmacie-warambourg-eu.fr/","https://www.pharmacolosse.fr/","https://www.pharmastnicolas.fr/","https://www.seesmapharma.fr/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -51,7 +51,7 @@
 	"template": "citypharma",
 	"Mega-category": "Medicament",
 	"Category": "Medicament",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://pharmacie-citypharma.fr/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -59,7 +59,7 @@
   },{
 	"template": "lafayette_1",
 	"Mega-category": "Medicament",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.grandepharmaciedecatalognelafayette.com/","https://www.pharmacie3blafayette.com/","https://www.pharmacieaillaudlafayette.com/","https://www.pharmaciealienorlafayette.com/","https://www.pharmaciebridecharlierlafayette.com/","https://www.pharmaciecentralelafayettechalons.com/","https://www.pharmacieclementmarotlafayette.com/","https://www.pharmaciedelabbayelafayette.com/","https://www.pharmaciedelaboccalafayette.com/","https://www.pharmaciedelautanlafayette.com/","https://www.pharmaciedeparislafayette.com/","https://www.pharmaciedesarcadeslafayette.com/","https://www.pharmaciedeshalleslafayette.com/","https://www.pharmacieducorbeaulafayette.com/","https://www.pharmaciedulaurierlafayette.com/","https://www.pharmaciedumarchelafayette.com/","https://www.pharmaciedutheatrelafayette.com/","https://www.pharmacieduvieuxmoulinlafayette.com/","https://www.pharmaciefochmaisonbleuelafayette.com/","https://www.pharmaciegambettalafayette.com/","https://www.pharmaciehoteldevillelafayette.com/","https://www.pharmaciekrieflafayette.com/","https://www.pharmacielafayettedecarnel.com/","https://www.pharmacielafayettedelhoteldeville.com/","https://www.pharmacielafayettedutheatre.com/","https://www.pharmacielehmannlafayette.com/","https://www.pharmaciemassillonlafayette.com/","https://www.pharmacienoirardlafayette.com/","https://www.pharmacieperronlafayette.com/","https://www.pharmaciepriouxlafayette.com/","https://www.pharmaciesaintcapraislafayette.com/","https://www.pharmaciegambettalafayette.com/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -67,7 +67,7 @@
   },{
 	"template": "lafayette_1",
 	"Mega-category": "parapharmacie",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.grandepharmaciedecatalognelafayette.com/","https://www.pharmacie3blafayette.com/","https://www.pharmacieaillaudlafayette.com/","https://www.pharmaciealienorlafayette.com/","https://www.pharmaciebridecharlierlafayette.com/","https://www.pharmaciecentralelafayettechalons.com/","https://www.pharmacieclementmarotlafayette.com/","https://www.pharmaciedelabbayelafayette.com/","https://www.pharmaciedelaboccalafayette.com/","https://www.pharmaciedelautanlafayette.com/","https://www.pharmaciedeparislafayette.com/","https://www.pharmaciedesarcadeslafayette.com/","https://www.pharmaciedeshalleslafayette.com/","https://www.pharmacieducorbeaulafayette.com/","https://www.pharmaciedulaurierlafayette.com/","https://www.pharmaciedumarchelafayette.com/","https://www.pharmaciedutheatrelafayette.com/","https://www.pharmacieduvieuxmoulinlafayette.com/","https://www.pharmaciefochmaisonbleuelafayette.com/","https://www.pharmaciegambettalafayette.com/","https://www.pharmaciehoteldevillelafayette.com/","https://www.pharmaciekrieflafayette.com/","https://www.pharmacielafayettedecarnel.com/","https://www.pharmacielafayettedelhoteldeville.com/","https://www.pharmacielafayettedutheatre.com/","https://www.pharmacielehmannlafayette.com/","https://www.pharmaciemassillonlafayette.com/","https://www.pharmacienoirardlafayette.com/","https://www.pharmacieperronlafayette.com/","https://www.pharmaciepriouxlafayette.com/","https://www.pharmaciesaintcapraislafayette.com/","https://www.pharmaciegambettalafayette.com/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -75,7 +75,7 @@
   },{
 	"template": "lafayette_2",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.pharmaciearnaudbernardlafayette.com/","https://www.pharmaciebernardaudlafayette.com/","https://www.pharmaciecentralelafayette.com/","https://www.pharmaciechancellafayette.com/","https://www.pharmaciecroixmorinlafayette.com/","https://www.pharmaciedautezaclafayette.com/","https://www.pharmaciedelavoutelafayette.com/","https://www.pharmaciedu11novembrelafayette.com/","https://www.pharmaciedufaubourgsaintpierrelafayette.com/","https://www.pharmaciedufourniaudlafayette.com/","https://www.pharmaciedugrandmarchelafayette.com/","https://www.pharmaciedurondpointlafayette.com/","https://www.pharmaciefochlafayette.com/","https://www.pharmaciegengembrelafayette.com/","https://www.pharmacielafayetteauch.com/","https://www.pharmacielafayettedelalma.com/","https://www.pharmacielafayettetoulouse.com/","https://www.pharmacieportejeunelafayette.com/","https://www.pharmacieremybiedlafayette.com/","https://www.pharmaciereveillonlafayette.com/","https://www.pharmacietolosanelafayette.com/","https://www.pharmaciefloritlafayette.com/","https://www.pharmaciedelavoutelafayette.com","https://www.pharmaciefochlafayette.com/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -83,14 +83,14 @@
   },{
 	"template": "mesoigner",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://accoceberry.mesoigner.fr/","https://grande-pharmacie-auteuil.mesoigner.fr/","https://grande-pharmacie-du-commerce.mesoigner.fr/","https://grande-pharmacie-soupetard-toulouse.mesoigner.fr/","https://mapharmacie-aquitaine-libourne.mesoigner.fr/","https://mapharmacie-bastide.mesoigner.fr/","https://mapharmacie-bosc.mesoigner.fr/","https://mapharmacie-cauderan-carnel.mesoigner.fr/","https://mapharmacie-talence-bernazeau.mesoigner.fr/","https://para-pharmacie-geant.mesoigner.fr/","https://pharmacie58-paris.mesoigner.fr/","https://pharmacie-agensud.mesoigner.fr/","https://pharmacie-appel.mesoigner.fr/","https://pharmacie-arago-pessac.mesoigner.fr/","https://pharmacie-atlantis-albi.mesoigner.fr/","https://pharmacie-atlantis-merignac.mesoigner.fr/","https://pharmacieauterive-ropars.mesoigner.fr/","https://pharmacie-auterive-stpaul.mesoigner.fr/","https://pharmacie-bacalan-amestoy-campet.mesoigner.fr/","https://pharmacie-beaudouin-pedron.mesoigner.fr/","https://pharmacie-belcier.mesoigner.fr/","https://pharmacie-belhomme-saint-medard.mesoigner.fr/","https://pharmacie-bergonie.mesoigner.fr/","https://pharmaciebilgraer.mesoigner.fr/","https://pharmacieborgel-paris.mesoigner.fr/","https://pharmaciebreton-daumesnil-paris.mesoigner.fr/","https://pharmaciebugnard-lavernose.mesoigner.fr/","https://pharmacie-cavignac-gafsi.mesoigner.fr/","https://pharmacie-cenon-p4p.mesoigner.fr/","https://pharmacie-centrale-alesia-paris.mesoigner.fr/","https://pharmacie-centrale-bruguieres-herboristerie.mesoigner.fr/","https://pharmaciecentraledespyrenees-paris.mesoigner.fr/","https://pharmaciecentralemartyrs-paris.mesoigner.fr/","https://pharmaciecentrale-saintdenis.mesoigner.fr/","https://pharmacie-charras.mesoigner.fr/","https://pharmacie-cheminlong.mesoigner.fr/","https://pharmacie-cochet-naudin.mesoigner.fr/","https://pharmacie-corbiac.mesoigner.fr/","https://pharmaciecourcelles-demours-paris.mesoigner.fr/","https://pharmacie-cuisery.mesoigner.fr/","https://pharmacie-dauny-paris17.mesoigner.fr/","https://pharmaciedechaillot.mesoigner.fr/","https://pharmaciedejouvence.mesoigner.fr/","https://pharmaciedelacroixbleue.mesoigner.fr/","https://pharmaciedelagareargenteuil.mesoigner.fr/","https://pharmaciedelagare-rumilly.mesoigner.fr/","https://pharmacie-delamadeleine.mesoigner.fr/","https://pharmaciedelamarne-libourne.mesoigner.fr/","https://pharmaciedelamer.mesoigner.fr/","https://pharmaciedelanationale-saint-jory.mesoigner.fr/","https://pharmaciedelaplace-paris.mesoigner.fr/","https://pharmaciedelaplage-biscarrosse.mesoigner.fr/","https://pharmaciedelaprovidence-paris.mesoigner.fr/","https://pharmaciedelarepublique-paris.mesoigner.fr/","https://pharmaciedelarepublique-saintdenis.mesoigner.fr/","https://pharmaciedelasave-montaigut-sur-save.mesoigner.fr/","https://pharmaciedelavache-le-bouscat.mesoigner.fr/","https://pharmaciedelavenuedemuret-toulouse.mesoigner.fr/","https://pharmaciedelevallois.mesoigner.fr/","https://pharmacie-de-levignac.mesoigner.fr/","https://pharmacie-de-lherm.mesoigner.fr/","https://pharmaciedemontgiscard.mesoigner.fr/","https://pharmaciedepodensac.mesoigner.fr/","https://pharmaciedesarches.mesoigner.fr/","https://pharmaciedesarchives-paris.mesoigner.fr/","https://pharmacie-des-arts-aucamville.mesoigner.fr/","https://pharmacie-des-bellesfeuilles-paris.mesoigner.fr/","https://pharmaciedescoteauxargenteuil.mesoigner.fr/","https://pharmacie-des-etoiles-fleurance.mesoigner.fr/","https://pharmaciedesevres.mesoigner.fr/","https://pharmaciedesoiseaux-stgermainenlaye.mesoigner.fr/","https://pharmaciedestilleulsvillierssurmarne.mesoigner.fr/","https://pharmaciedoumerc-st-martin-paris.mesoigner.fr/","https://pharmacie-du-20eme-paris.mesoigner.fr/","https://pharmaciedubourg.mesoigner.fr/","https://pharmacieducentreclamart.mesoigner.fr/","https://pharmacieducentre-marmande.mesoigner.fr/","https://pharmacieduchateau-chassesurrhone.mesoigner.fr/","https://pharmaciedulion-hagondange.mesoigner.fr/","https://pharmacie-du-marche.mesoigner.fr/","https://pharmaciedumarche-beauchamp.mesoigner.fr/","https://pharmacie-dumarche-villecresnes.mesoigner.fr/","https://pharmaciedumonde-paris.mesoigner.fr/","https://pharmaciedumoulinavent-mondonville.mesoigner.fr/","https://pharmacieduroule.mesoigner.fr/","https://pharmaciedusoleil-pau.mesoigner.fr/","https://pharmacieschlosser-mulhouse-bourtzwiller.mesoigner.fr/","https://pharmaciedutheatre.mesoigner.fr/","https://pharmacie-fontana.mesoigner.fr/","https://pharmaciefrancoisdaudre-peronne.mesoigner.fr/","https://pharmacie-frutier.mesoigner.fr/","https://pharmaciegambetta.mesoigner.fr/","https://pharmacie-gascogne-seysses.mesoigner.fr/","https://pharmacie-generale-jungers.mesoigner.fr/","https://pharmacie-hauvespre.mesoigner.fr/","https://pharmacie-hourtin.mesoigner.fr/","https://pharmaciejardindesplantes-toulouse.mesoigner.fr/","https://pharmacielabarthegoissenunger.mesoigner.fr/","https://pharmacie-lacanau-ocean.mesoigner.fr/","https://pharmacie-lapalu-toulouse.mesoigner.fr/","https://pharmacie-lescombes.mesoigner.fr/","https://pharmacielesgarennes.mesoigner.fr/","https://pharmacie-longchamps.mesoigner.fr/","https://pharmacie-marty-toulouse.mesoigner.fr/","https://pharmacie-meignie.mesoigner.fr/","https://pharmacie-michelet-marseille.mesoigner.fr/","https://pharmacie-miramont.mesoigner.fr/","https://pharmaciemonger.mesoigner.fr/","https://pharmacie-noe.mesoigner.fr/","https://pharmacie-occitane-muret.mesoigner.fr/","https://pharmacie-odeon.mesoigner.fr/","https://pharmacie-parlement-toulouse.mesoigner.fr/","https://pharmacie-pessacfrance.mesoigner.fr/","https://pharmacieplacedesfetes-paris.mesoigner.fr/","https://pharmacieportedupin.mesoigner.fr/","https://pharmacie-porte-orleans.mesoigner.fr/","https://pharmacieprincipale-mauvezin.mesoigner.fr/","https://pharmacierenaudie-albi.mesoigner.fr/","https://pharmaciesaintemarie.mesoigner.fr/","https://pharmacie-saintetiennedetulmont.mesoigner.fr/","https://pharmacie-saint-lazare-paris.mesoigner.fr/","https://pharmaciesaintroch.mesoigner.fr/","https://pharmacieseptdeniers-toulouse.mesoigner.fr/","https://pharmaciesiboni.mesoigner.fr/","https://pharmaciestchristophe-deblaye.mesoigner.fr/","https://pharmacie-st-pierre-toulouse.mesoigner.fr/","https://pharmacie-turcat-carbon-blanc.mesoigner.fr/","https://pharmacie-vic-fezensac.mesoigner.fr/","https://pharmacie-villenave.mesoigner.fr/","https://pharmacievincennes-paris.mesoigner.fr/","https://pharmacievolontaires-paris.mesoigner.fr/","https://pharmacie-vong-stains.mesoigner.fr/","https://pharmaciewantz-dinsheimsurbruche.mesoigner.fr/","https://pharma-dub-spire.mesoigner.fr/","https://pharmagarerueil92.mesoigner.fr/","https://pharmacie-toulenne.rocade.fr/","https://pharmacie-audenge.rocade.fr/","https://pharmacie-gujan.rocade.fr/","https://pharmacie-bruges.rocade.fr/","https://pharmacie-saintmedard.rocade.fr/","https://pharmacie-biganos.rocade.fr/","https://pharmacie-ambares.rocade.fr/","https://pharmacie-andernos.rocade.fr/","https://pharmacie-farguessainthilaire.rocade.fr/","https://pharmacie-saintjeandillac.rocade.fr/","https://pharmacieholveck.rocade.fr/","https://pharmaciedelacourondelle.rocade.fr/","https://www.pararocade.fr/","https://pharmaciefrancoespagnole.rocade.fr/","https://pharmacie-canejan.rocade.fr/","https://pharmacie-durmenach.mesoigner.fr","https://pharmacieschlosser-mulhouse-bourtzwiller.mesoigner.fr","https://pharmacie-albo.mesoigner.fr","https://pharmaciedusoleil.pharm-and-you.fr","https://pharmaciemonger.pharm-and-you.fr","https://mesoigner.fr/pharmacie-corbiac","https://pharmaciedebias.mesoigner.fr","https://pharmacie-is-sur-tille.mesoigner.fr","https://pharmaciedelapuisaye-toucy.mesoigner.fr","https://pharmaciedenoroy.mesoigner.fr","https://pharmaciehergueux-baumelesdames.mesoigner.fr","https://pharmaciemesnilroux.mesoigner.fr","https://pharmaciekamami-paris.mesoigner.fr","https://pharmaciedupontdenvestit.mesoigner.fr","https://pharmacielafitte.mesoigner.fr","https://pharmacie-du-XXeme-corps-metz.mesoigner.fr","https://pharmacieprincipale-farebersviller.mesoigner.fr","https://pharmaciedufoirail-charre.mesoigner.fr","https://pharmaciegambetta.pharm-and-you.fr","https://pharmaciemirande.mesoigner.fr"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
 	"urlsuffix" :"/"
   },{
 	"template": "cocooncenter",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.cocooncenter.com"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -98,7 +98,7 @@
   },{
 	"template": "gpo",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.pharmacie-cap3000.com"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -106,7 +106,7 @@
   },{
 	"template": "pharmabestpraden",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.pharmacieagnespraden.com"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -114,7 +114,7 @@
   },{
 	"template": "pharmabestpraden",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.pharmacieagnespraden.com"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -122,7 +122,7 @@
   },{
 	"template": "pharmacies1001",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.1001pharmacies.com"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -130,7 +130,7 @@
   },{
 	"template": "newpharma",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.newpharma.fr/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -138,7 +138,7 @@
   },{
 	"template": "santediscount",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.santediscount.com/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -146,7 +146,7 @@
   },{
 	"template": "easyparapharmacie",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.easyparapharmacie.com/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -154,7 +154,7 @@
   },{
 	"template": "lasante",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://lasante.net"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -162,7 +162,7 @@
   },{
 	"template": "pharmagdd",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.pharma-gdd.com/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -170,7 +170,7 @@
   },{
 	"template": "pharmabestprado2",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.pharmacie-prado-mermoz.com"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
@@ -178,14 +178,14 @@
   },{
 	"template": "pharmabestprado1",
 	"Mega-category":"None",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.parapharmacie-et-medicament.com"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
 	"urlsuffix" :"/"
   },{
 	"template": "objectifsante",
-	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"sites": ["https://www.pharmaciepolygone.com"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5504b528-df2a-476b-a4b6-653435135db9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conf/scrapconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/conf/scrapconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,20 +37,40 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scraper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+            <state relative-caret-position="136">
+              <caret line="58" column="23" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
+              <folding>
+                <element signature="e#24#53#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pharmaviewol.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pharmanity.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1605">
+              <caret line="118" column="42" selection-start-line="118" selection-start-column="42" selection-end-line="118" selection-end-column="42" />
+              <folding>
+                <element signature="e#113#126#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/conf/scrapconfig.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="68" column="37" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
+            <state relative-caret-position="-80">
+              <caret line="75" column="15" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -80,7 +100,13 @@
     <findStrings>
       <find>118</find>
       <find>bran</find>
+      <find>mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape</find>
+      <find>27017/pharmascrape</find>
     </findStrings>
+    <replaceStrings>
+      <replace>mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/pharmascrape</replace>
+      <replace>27017/admin</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -104,8 +130,8 @@
         <option value="$PROJECT_DIR$/src/aprium.py" />
         <option value="$PROJECT_DIR$/src/pharmanity.py" />
         <option value="$PROJECT_DIR$/src/objectifsante.py" />
-        <option value="$PROJECT_DIR$/scraper.py" />
         <option value="$PROJECT_DIR$/conf/scrapconfig.json" />
+        <option value="$PROJECT_DIR$/scraper.py" />
       </list>
     </option>
   </component>
@@ -259,12 +285,12 @@
       <workItem from="1548143120028" duration="5143000" />
       <workItem from="1548161252584" duration="2054000" />
       <workItem from="1548218079866" duration="14731000" />
-      <workItem from="1548240176939" duration="1011000" />
+      <workItem from="1548240176939" duration="3556000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144004000" />
+    <option name="totallyTimeSpent" value="146549000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -279,7 +305,7 @@
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25069174" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25069174" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -294,7 +320,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32929516" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.30777538" />
+      <window_info anchor="bottom" id="Python Console" order="12" visible="true" weight="0.30777538" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -329,11 +355,6 @@
     <entry file="file://$PROJECT_DIR$/src/shoppharmacie.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1305" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pharmaviewol.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1530" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pharmabestpraden.py">
@@ -442,16 +463,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pharmanity.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="118" column="42" lean-forward="true" selection-start-line="118" selection-start-column="42" selection-end-line="118" selection-end-column="42" />
-          <folding>
-            <element signature="e#113#126#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pharmabestprado2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="560">
@@ -494,13 +505,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scraper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/objectifsante.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3480">
@@ -513,8 +517,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/conf/scrapconfig.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="68" column="37" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
+        <state relative-caret-position="-80">
+          <caret line="75" column="15" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pharmaviewol.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pharmanity.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1605">
+          <caret line="118" column="42" selection-start-line="118" selection-start-column="42" selection-end-line="118" selection-end-column="42" />
+          <folding>
+            <element signature="e#113#126#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scraper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="58" column="23" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
+          <folding>
+            <element signature="e#24#53#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
