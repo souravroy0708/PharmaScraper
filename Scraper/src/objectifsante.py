@@ -92,12 +92,12 @@ class objectifsante(threading.Thread):
                                 for subseg in elem.find("ul",{"class":"child-child-menu list-unstyled"}).find_all("li",recursive=False):
                                     menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
                                         subseg.find("a").text.strip()]=dict()
-                                    menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][subseg.find("a").text.strip()]['url']=config['site']+subseg.find("a")['href']
+                                    menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][subseg.find("a").text.strip()]['url']=self.config['site']+subseg.find("a")['href']
                             else:
                                 menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
                                     subseg.find("a").text.strip()]=dict()
                                 menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
-                                    subseg.find("a").text.strip()]['url']=config['site']+elem.find("a")['href']
+                                    subseg.find("a").text.strip()]['url']=self.config['site']+elem.find("a")['href']
             except:
                 continue
         for item in soup.find_all("li"):
@@ -109,12 +109,12 @@ class objectifsante(threading.Thread):
                                 for subseg in elem.find("ul",{"class":"child-child-menu list-unstyled"}).find_all("li",recursive=False):
                                     menudict['parapharmacie'][anchor.find("h3").text.strip()][
                                         elem.find("a").text.strip()][subseg.find("a").text.strip()]=dict()
-                                    menudict['parapharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][subseg.find("a").text.strip()]['url']=config['site']+subseg.find("a")['href']
+                                    menudict['parapharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][subseg.find("a").text.strip()]['url']=self.config['site']+subseg.find("a")['href']
                             else:
                                 menudict['parapharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
                                     subseg.find("a").text.strip()]=dict()
                                 menudict['parapharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
-                                    subseg.find("a").text.strip()]['url']=config['site']+elem.find("a")['href']
+                                    subseg.find("a").text.strip()]['url']=self.config['site']+elem.find("a")['href']
             except:
                 continue
 
@@ -196,7 +196,7 @@ class objectifsante(threading.Thread):
                     self.logger.info("soup:" + str(prod))
                     self.logger.error("Line 79:" + str(e))
                     continue
-            if (len(soup.find_all("div",{"class":"item next disabled"}))>0):
+            if (len(soup.find_all("div",{"class":"item next disabled"}))==0):
                 run=False
             pgid = pgid + 1
         client.close()
