@@ -18,6 +18,7 @@ from src.lasante import lasante
 from src.santediscount import santediscount
 from src.pharmagdd import pharmagdd
 from src.pharmabestprado1 import pharmabestprado1
+from src.objectifsante import objectifsante
 # import libraries
 import random
 import pymongo
@@ -40,13 +41,15 @@ def main(scrapconfig,nthread):
                 client = pymongo.MongoClient(config["mongolink"])
                 db = client[str(template['db'])]
                 sitecount = db[str(template['collection'])].find({"Source": config['site']}).count()
+                print(sitecount)
                 client.close()
                 if (sitecount < 100):
                     config["urls"] = str(config["site"] + template["urlsuffix"])
                     configlist.append(config.copy())
                 else:
                     continue
-            except:
+            except Exception as e:
+                print(str(e))
                 continue
     threadlist=[]
     if (nthread > 0):

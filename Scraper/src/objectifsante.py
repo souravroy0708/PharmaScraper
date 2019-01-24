@@ -11,6 +11,7 @@ import logging
 import threading
 import requests
 import httplib2
+import re
 from bs4 import BeautifulSoup
 
 # define product page extraction class
@@ -23,8 +24,7 @@ class objectifsante(threading.Thread):
         self.logger.setLevel(logging.INFO)
 
         # Create the Handler for logging data to a file
-        logger_handler = logging.FileHandler(
-            config['template'] + "_" + config["site"].replace("/", "_").replace(".", "_").replace(":", "") + ".log")
+        logger_handler = logging.FileHandler("logs/"+config['template'] + "_" + config["site"].replace("/", "_").replace(".", "_").replace(":", "") + ".log")
         logger_handler.setLevel(logging.DEBUG)
 
         # Create a Formatter for formatting the log messages
@@ -48,23 +48,77 @@ class objectifsante(threading.Thread):
             soup = BeautifulSoup(r.text)
         return (soup)
 
-    def get_menu(soup):
+    def get_menu(self,soup):
         menudict=dict()
         menudict['pharmacie']=dict()
         menudict['parapharmacie'] = dict()
         for item in soup.find_all("li"):
-            if item.find("a")!=None and item.find("a")
-        for item in soup.find_all("li", {"class": "nav-item show"}):
-            if (item.find("a") != None):
-                if ("parapharmacie" in item.find("a")['href']):
-                    catlist.append(self.config["site"] + item.find("a")['href'])
-        return catlist
+            try:
+                if item.find("a")!=None and item.find("a")["id"]=="pharmacieDropdown":
+                    for anchor in item.find("ul",{"class":"list-unstyled"}).find_all("li",recursive=False):
+                        menudict['pharmacie'][anchor.find("a").text.strip()]=dict()
+            except:
+                continue
+        for item in soup.find_all("li"):
+            try:
+                if item.find("a")!=None and item.find("a")["id"]=="parapharmacieDropdown":
+                    for anchor in item.find("ul",{"class":"list-unstyled"}).find_all("li",recursive=False):
+                        menudict['parapharmacie'][anchor.find("a").text.strip()]=dict()
+            except:
+                continue
+        for item in soup.find_all("li"):
+            try:
+                if item.find("a")!=None and item.find("a")["id"]=="pharmacieDropdown":
+                    for anchor in item.find_all("div",{"id":re.compile(r'(parent-)')}):
+                        for elem in anchor.find_all("div",{"class":"child-menu"}):
+                            menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()]=dict()
+            except:
+                continue
+        for item in soup.find_all("li"):
+            try:
+                if item.find("a")!=None and item.find("a")["id"]=="parapharmacieDropdown":
+                    for anchor in item.find_all("div",{"id":re.compile(r'(parent-)')}):
+                        for elem in anchor.find_all("div",{"class":"child-menu"}):
+                            menudict['parapharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()]=dict()
+            except:
+                continue
+        for item in soup.find_all("li"):
+            try:
+                if item.find("a")!=None and item.find("a")["id"]=="pharmacieDropdown":
+                    for anchor in item.find_all("div",{"id":re.compile(r'(parent-)')}):
+                        for elem in anchor.find_all("div",{"class":"child-menu"}):
+                            if (len(elem.find_all("li"))>0):
+                                for subseg in elem.find("ul",{"class":"child-child-menu list-unstyled"}).find_all("li",recursive=False):
+                                    menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
+                                        subseg.find("a").text.strip()]=dict()
+                                    menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][subseg.find("a").text.strip()]['url']=config['site']+subseg.find("a")['href']
+                            else:
+                                menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
+                                    subseg.find("a").text.strip()]=dict()
+                                menudict['pharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
+                                    subseg.find("a").text.strip()]['url']=config['site']+elem.find("a")['href']
+            except:
+                continue
+        for item in soup.find_all("li"):
+            try:
+                if item.find("a")!=None and item.find("a")["id"]=="parapharmacieDropdown":
+                    for anchor in item.find_all("div",{"id":re.compile(r'(parent-)')}):
+                        for elem in anchor.find_all("div",{"class":"child-menu"}):
+                            if (len(elem.find_all("li"))>0):
+                                for subseg in elem.find("ul",{"class":"child-child-menu list-unstyled"}).find_all("li",recursive=False):
+                                    menudict['parapharmacie'][anchor.find("h3").text.strip()][
+                                        elem.find("a").text.strip()][subseg.find("a").text.strip()]=dict()
+                                    menudict['parapharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][subseg.find("a").text.strip()]['url']=config['site']+subseg.find("a")['href']
+                            else:
+                                menudict['parapharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
+                                    subseg.find("a").text.strip()]=dict()
+                                menudict['parapharmacie'][anchor.find("h3").text.strip()][elem.find("a").text.strip()][
+                                    subseg.find("a").text.strip()]['url']=config['site']+elem.find("a")['href']
+            except:
+                continue
 
+        return menudict
 
-
-    def is_product(self, url):
-        soup = self.get_soup(url)
-        return (len(soup.find_all('div', {"itemtype": "http://schema.org/Product"})) > 0)
 
     def get_proddata(self, url):
         config = self.config
@@ -72,13 +126,14 @@ class objectifsante(threading.Thread):
         client = pymongo.MongoClient(config["mongolink"])
         db = client['pharmascrape']
         nins = 0
+        run = True
         self.logger.info("Mega-category:" + config['Mega-category'])
         self.logger.info("Category:" + config['Category'])
         self.logger.info("segment:" + config['segment'])
         self.logger.info("Sub-segment:" + config['Sub-segment'])
-        while (self.is_product(url + "?&p=" + str(pgid))):
-            soup = self.get_soup(url + "?&p=" + str(pgid))
-            prods = soup.find_all('div', {"itemtype": "http://schema.org/Product"})
+        while run:
+            soup = self.get_soup(url + "?page=" + str(pgid))
+            prods = soup.find_all('div', {"class": "col-6 col-sm-4 col-lg-3"})
             self.logger.info("#Found products:" + str(len(prods)))
             for prod in prods:
                 try:
@@ -90,114 +145,49 @@ class objectifsante(threading.Thread):
                     proddict['Sub-segment'] = config['Sub-segment']
                     proddict['template'] = config['template']
                     try:
-                        proddict['Availability'] = prod.find('p', {"class": "availability stock"}).text
-                    except Exception as e:
-                        try:
-                            self.logger.error("Line 86:" + str(e))
-                            proddict['Availability'] = prod.find('p', {"class": "availability stock last"}).text
-                        except Exception as e:
-                            self.logger.error("Line 90:" + str(e))
-                            proddict['Availability'] = "None"
-                    try:
-                        proddict['Product_name'] = prod.find("a", {"itemprop": "name"}).text
+                        proddict['Product_name'] = prod.find("h5",{"class":"card-title"}).find("a").text.strip()
                         if (db['scrapes'].find(
                                 {"Source": config['site'], "Product_name": proddict['Product_name']}).count() > 0):
                             continue
                     except Exception as e:
-                        try:
-                            self.logger.error("Line 95:" + str(e))
-                            proddict['Product_name'] = prod.find("span", {"itemprop": "name"}).text
-                            if (db['scrapes'].find(
-                                    {"Source": config['site'], "Product_name": proddict['Product_name']}).count() > 0):
-                                continue
-                        except Exception as e:
-                            self.logger.error("Line 99:" + str(e))
-                            proddict['Product_name'] = "None"
-                    proddict['Format'] = prod.find("div", {"class": "caption"}).text.replace("\n", "").replace(
-                        proddict['Product_name'], "").strip()
+                        self.logger.error("Line 153:" + str(e))
+                        proddict['Product_name'] = "None"
                     try:
-                        proddict['urltoproduct'] = self.config["site"] + \
-                                                   prod.find("div", {"class": "caption"}).find("a")['href']
+                        proddict['urltoproduct'] = self.config["site"] + prod.find("h5",{"class":"card-title"}).find("a")['href']
                     except Exception as e:
-                        try:
-                            self.logger.error("Line 105:" + str(e))
-                            proddict['urltoproduct'] = self.config["site"] + \
-                                                       prod.find("div", {"class": "caption"}).find("span")['href']
-                        except Exception as e:
-                            self.logger.error("Line 109:" + str(e))
-                            proddict['urltoproduct'] = "None"
-                    proddict['Imagelink'] = prod.find("img", {"itemprop": "image"})['src']
-                    proddict['Imagefilename'] = prod.find("img", {"itemprop": "image"})['src'].split("/")[
-                        len(prod.find("img", {"itemprop": "image"})['src'].split("/")) - 1]
+                        proddict['urltoproduct'] = "None"
                     try:
-                        proddict['Price'] = float(
-                            prod.find("p", {"class": "special-price b-hideprice b-blurprice"}).text.replace("\n",
-                                                                                                            "").replace(
-                                "\xa0€", "").replace(",", ".").strip())
-                        proddict['Crossed_out_Price'] = float(
-                            prod.find("p", {"class": "old-price b-hideprice b-blurprice"}).text.replace("\n",
-                                                                                                        "").replace(
-                                "\xa0€", "").replace(",", ".").strip())
-                    except Exception as e:
-                        self.logger.error("Line 118:" + str(e))
-                        proddict['Price'] = float(
-                            prod.find("div", {"class": "price-box"}).text.replace("\n", "").replace("\xa0€",
-                                                                                                    "").replace(",",
-                                                                                                                ".").strip())
-                        proddict['Crossed_out_Price'] = "None"
-                    try:
-                        proddict['Stars'] = prod.find('div', {"class": "getln"})["data-rating"]
-                    except Exception as e:
-                        self.logger.error("Line 124:" + str(e))
-                        proddict['Stars'] = 0
-                    try:
-                        proddict['Promotional_format'] = prod.find("p", {"class": "promolot"}).text
-                    except Exception as e:
-                        self.logger.error("Line 129:" + str(e))
-                        proddict['Promotional_format'] = "None"
-                    try:
-                        proddict['Feature'] = prod.find("p", {"class": "promolottop"}).text
+                        proddict['Brand'] = prod.find("div",{"class":"font-size-1"}).text.strip()
                     except Exception as e:
                         self.logger.error("Line 134:" + str(e))
-                        proddict['Feature'] = "None"
+                        proddict['Brand'] = "None"
                     try:
-                        proddict['Discount_claim'] = prod.find("div", {"class": "callout style1 "}).text
-                    except Exception as e:
-                        self.logger.error("Line 139:" + str(e))
-                        proddict['Discount_claim'] = "None"
+                        prodsoup = self.get_soup(httplib2.iri2uri(proddict['urltoproduct']))
+                    except:
+                        self.logger.error("Line 114:" + str(e))
+                        prodsoup = "None"
                     try:
-                        prodsoup = self.get_soup(proddict['urltoproduct'])
+                        proddict['Price'] = float(prod.find("span", {"id": "product-price"}).text.replace("\n","").replace("\xa0€", "").replace(",", ".").strip())
                     except Exception as e:
-                        self.logger.error("Line 149:" + str(e))
+                        self.logger.error("Line 118:" + str(e))
+                        proddict['Price'] = "None"
                     try:
-                        revs = prodsoup.find("div", {"id": "reviews"}).find_all("div", {"class": "row review"})
-                        revlist = []
-                        for rev in revs:
-                            revdict = dict()
-                            revdict['author'] = rev.find("span", {"itemprop": "author"}).text
-                            revdict['date'] = rev.find("span", {"class": "date"}).text
-                            revdict['revhead'] = rev.find("strong", {"itemprop": "name"}).text
-                            revdict['revtext'] = rev.find("p", {"itemprop": "description"}).text
-                            revdict['rating'] = rev.find("div", {"class": "col-sm-9"}).find("div")["data-rating"]
-                            revlist.append(revdict)
-                        proddict["Reviews"] = revlist
+                        proddict['EAN13'] = int(prodsoup.find("small",{"class":"text-black-50"}).text.split(":")[1].strip())
                     except Exception as e:
-                        self.logger.error("Line 148:" + str(e))
-                        proddict["Reviews"] = "None"
+                        self.logger.error("Line 118:" + str(e))
+                        proddict['EAN13'] = "None"
                     try:
-                        proddict["NumReviews"] = prodsoup.find("span", {"itemprop": "reviewCount"}).text
+                        proddict['Promotional_Claim'] = prod.find("div", {"class": "promotion-block bg-primary text-white position-absolute font-size-1"}).find("strong").text.strip()
                     except Exception as e:
-                        self.logger.error("Line 160:" + str(e))
-                        proddict["NumReviews"] = 0
+                        self.logger.error("Line 129:" + str(e))
+                        proddict['Promotional_Claim'] = "None"
                     try:
-                        if ("Marque" in prodsoup.find("div", {"itemtype": "http://schema.org/Product"}).find("p").text):
-                            proddict["Brand"] = prodsoup.find("div", {"itemtype": "http://schema.org/Product"}).find(
-                                "p").text.replace("Marque : ", "").strip()
-                        else:
-                            proddict["Brand"] = "None"
+                        proddict['Imagelink'] = prod.find("a",{"class":"card-img-top"}).find("img")["src"]
+                        proddict['Imagefilename'] = proddict['Imagelink'] .split("/")[len(proddict['Imagelink'] .split("/"))-1]
                     except Exception as e:
-                        self.logger.error("Line 165:" + str(e))
-                        proddict["Brand"] = "None"
+                        self.logger.error("Line 129:" + str(e))
+                        proddict['Imagelink'] = "None"
+                        proddict['Imagefilename'] = "None"
                     db['scrapes'].insert_one(proddict)
                     nins = nins + 1
                     self.logger.info("#insertions:" + str(nins))
@@ -205,6 +195,8 @@ class objectifsante(threading.Thread):
                     self.logger.info("soup:" + str(prod))
                     self.logger.error("Line 79:" + str(e))
                     continue
+            if (len(soup.find_all("div",{"class":"item next disabled"}))>0):
+                run=False
             pgid = pgid + 1
         client.close()
         pass
@@ -212,52 +204,37 @@ class objectifsante(threading.Thread):
     def run(self):
         config = self.config
         url = config['urls']
-        soup = get_soup(url)
-        # get segments
-        if (config['Mega-category'] == "Medicament"):
-            config['Category'] = "Médicaments"
-            allseg = self.get_allseg(soup)
-            for key in list(allseg.keys()):
-                url = allseg[key]['url']
-                config['segment'] = key
-                allsubseg = self.get_allsubseg(soup)
-                if (len(allsubseg) == 0):
-                    config['Sub-segment'] = "None"
-                    self.config = config
-                    self.get_proddata(url)
-                else:
-                    for subseg in list(allsubseg.keys()):
-                        config['Sub-segment'] = subseg
-                        self.config = config
-                        self.get_proddata(allsubseg[subseg]['url'])
-        else:
-            catlist = self.get_catgorylinks(soup)
-            for cat in catlist:
-                config['Category'] = '-'.join(cat.split("/")[len(cat.split("/")) - 1].split("-")[:-1])
-                soup = self.get_soup(cat)
-                allseg = self.get_allseg(soup)
-                for seg in list(allseg.keys()):
-                    url = allseg[seg]['url']
-                    config['segment'] = seg
-                    allsubseg = self.get_allsubseg(self.get_soup(url))
-                    if (len(allsubseg) == 0):
+        soup = self.get_soup(url)
+        menudict = self.get_menu(soup)
+        for key1 in list(menudict.keys()):
+            config['Mega-category'] =key1
+            megadict = menudict[key1]
+            if ('url' in list(megadict.keys())):
+                config['Category'] = "None"
+                config['segment'] = "None"
+                config['Sub-segment'] = "None"
+                self.get_proddata(megadict['url'])
+            else:
+                for key2 in list(megadict.keys()):
+                    config['Category'] = key2
+                    catdict = megadict[key2]
+                    if ('url' in list(catdict.keys())):
+                        config['segment'] = "None"
                         config['Sub-segment'] = "None"
-                        self.config = config
-                        self.get_proddata(url)
+                        self.get_proddata(catdict['url'])
                     else:
-                        for subseg in list(allsubseg.keys()):
-                            config['Sub-segment'] = subseg
-                            self.config = config
-                            self.get_proddata(allsubseg[subseg]['url'])
+                        for key3 in list(catdict.keys()):
+                            config['segment'] = key3
+                            segdict = catdict[key3]
+                            if ('url' in list(segdict.keys())):
+                                config['Sub-segment'] = "None"
+                                self.get_proddata(segdict['url'])
+                            else:
+                                for key4 in list(segdict.keys()):
+                                    config['Sub-segment'] = key4
+                                    subsegdict = segdict[key4]
+                                    if ('url' in list(subsegdict.keys())):
+                                        self.get_proddata(subsegdict['url'])
         pass
 
-
-
-
-
-config = dict()
-config['template'] = "pharmaplay"
-config["mongolink"] = "mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape"
-config["site"] = "https://www.pharmaciepolygone.com/fr"
-config["urls"] = config["site"] + "/"
 
