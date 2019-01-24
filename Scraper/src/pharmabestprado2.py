@@ -24,8 +24,7 @@ class pharmabestprado2(threading.Thread):
         self.logger.setLevel(logging.INFO)
 
         # Create the Handler for logging data to a file
-        logger_handler = logging.FileHandler(
-            config['template'] + "_" + config["site"].replace("/", "_").replace(".", "_").replace(":", "") + ".log")
+        logger_handler = logging.FileHandler("logs/"+config['template'] + "_" + config["site"].replace("/", "_").replace(".", "_").replace(":", "") + ".log")
         logger_handler.setLevel(logging.DEBUG)
 
         # Create a Formatter for formatting the log messages
