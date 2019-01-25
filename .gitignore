@@ -60,5 +60,3 @@ target/
 *.xml
 
 *.iml
-
-Scraper/somefile\.html
