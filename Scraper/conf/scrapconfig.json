@@ -202,5 +202,31 @@
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
 	"urlsuffix" :"/"
+  },{
+	"template": "elsie",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"Sub-segment":"None",
+	"sites": ["https://pharmacie-gare-roissy.fr"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
+  },{
+	"template": "pharmabestamiens",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"sites": ["https://www.pharmaforce.fr"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
+  },{
+	"template": "decaroli",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"Sub-segment":"None",
+	"sites": ["https://www.paratamtam.com"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
   }
 ]

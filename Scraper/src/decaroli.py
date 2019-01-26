@@ -10,16 +10,12 @@ import pymongo
 import logging
 import requests
 import httplib2
-import platform
-import os
 import threading
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 
 # define product page extraction class
-class gpo(threading.Thread):
+class decaroli(threading.Thread):
     def __init__(self, config):
         threading.Thread.__init__(self)
         self.config = config
@@ -66,17 +62,13 @@ class gpo(threading.Thread):
 
     def get_allseg(self, soup):
         seglist = []
-        for item in soup.find("div", {"class": "menu_items"}).find("ul").find_all("li", recursive=False):
-            if (not (item.find("a") == None)):
-                if (item.find("a").text.strip())
-                catdict = dict()
-                catdict[item.find("a").text.strip()] = item.find("a")['href']
-                catlist.append(catdict)
-        for anchor in soup.find("div", {"id": "categories_block_left"}).find("ul").find_all('li', recursive=False):
-            if (not (anchor.find("ul") == None)):
-                segdict = dict()
-                segdict[anchor.find("a").text.strip()] = anchor.find("a")['href']
-                seglist.append(segdict)
+        for item in soup.find_all("ul",{"class":"menu_sub"}):
+            if item.text.startswith(self.config["Category"]):
+                for anchor in  item.find("ul",{"class":"list"}).find_all("li"):
+                    if (not (anchor.find("a") == None)):
+                        segdict = dict()
+                        segdict[anchor.find("a").text.strip()] = anchor.find("a")['href']
+                        seglist.append(segdict)
         return seglist
 
 
@@ -98,8 +90,9 @@ class gpo(threading.Thread):
         self.logger.info("Category:" + config['Category'])
         self.logger.info("segment:" + config['segment'])
         self.logger.info("Sub-segment:" + config['Sub-segment'])
-        while (self.is_product(url + "#/page-" + str(pgid))):
-            soup = self.get_soup(httplib2.iri2uri(url + "#/page-" + str(pgid)))
+        run=True
+        while run:
+            soup = self.get_soup(httplib2.iri2uri(url + "?p=" + str(pgid)))
             prods = soup.find_all('div', {"class": "product-container"})
             self.logger.info("#Found products:" + str(len(prods)))
             for prod in prods:
@@ -117,63 +110,81 @@ class gpo(threading.Thread):
                                 {"Source": config['site'], "Product_name": proddict['Product_name']}).count() > 0):
                             continue
                     except Exception as e:
-                        self.logger.error("Line 99:" + str(e))
+                        self.logger.error("Line 108:" + str(e))
                         proddict['Product_name'] = "None"
                     try:
                         proddict['urltoproduct'] = prod.find("a", {"class": "product-name"})['href']
                     except Exception as e:
-                        self.logger.error("Line 99:" + str(e))
+                        self.logger.error("Line 116:" + str(e))
                         proddict['urltoproduct'] = "None"
                     try:
-                        proddict['Price'] = float(
-                            prod.find("span", {"class": "price product-price"}).text.strip().replace("€", "."))
+                        proddict['Brand'] = prod.find("span", {"class": "m-title"}).text.strip()
                     except Exception as e:
-                        self.logger.error("Line 99:" + str(e))
-                        proddict['Price'] = "None"
-                    try:
-                        proddict['Crossed_out_Price'] = float(
-                            prod.find("span", {"class": "old-price product-price"}).text.strip().replace("€", "."))
-                    except Exception as e:
-                        self.logger.error("Line 99:" + str(e))
-                        proddict['Crossed_out_Price'] = "None"
+                        self.logger.error("Line 121:" + str(e))
+                        proddict['Brand'] = "None"
                     try:
                         prodsoup = self.get_soup(proddict['urltoproduct'])
                     except Exception as e:
-                        self.logger.error("Line 139:" + str(e))
+                        self.logger.error("Line 126:" + str(e))
                         prodsoup = "None"
                     try:
-                        proddict['Brand'] = prodsoup.find("div", {"class": "product_reference marqueProduit"}).find(
-                            "a").text.strip()
+                        proddict['Availability'] = prod.find("a",{"title":"Ajouter au panier"})['title']
                     except Exception as e:
-                        self.logger.error("Line 139:" + str(e))
-                        proddict['Brand'] = "None"
+                        self.logger.error("Line 131:" + str(e))
+                        proddict['Availability'] = "None"
                     try:
-                        proddict['EAN13'] = prodsoup.find("div", {"class": "product_reference refProduit"}).find(
-                            "span").text.strip()
+                        proddict['Crossed_out_Price'] = float(prodsoup.find("span", {"id": "old_price_display"}).find("span").text.replace("€","").replace(",",".").strip())
+                        proddict['Price'] = float(prodsoup.find("span", {"id": "our_price_display"})['content'])
                     except Exception as e:
-                        self.logger.error("Line 139:" + str(e))
+                        self.logger.error("Line 136:" + str(e))
+                        try:
+                            proddict['Price'] = float(prodsoup.find("span", {"id": "our_price_display"})['content'])
+                            proddict['Crossed_out_Price'] = "None"
+                        except Exception as e:
+                            self.logger.error("Line 141:" + str(e))
+                            proddict['Price'] = "None"
+                            proddict['Crossed_out_Price'] = "None"
+                    try:
+                        proddict['EAN13'] = proddict['urltoproduct'].split("-")[-1:][0].split(".")[0]
+                    except Exception as e:
+                        self.logger.error("Line 148:" + str(e))
                         proddict['EAN13'] = "None"
                     try:
-                        proddict['Availability'] = prodsoup.find('div', {"id": "availability_statut"}).find(
-                            "span").text.strip()
+                        proddict['EAN7'] = prodsoup.find_all("span",{"itemprop":"sku"})[1].text
                     except Exception as e:
-                        self.logger.error("Line 118:" + str(e))
-                        proddict['Availability'] = "None"
-                    proddict['Imagelink'] = prod.find("img")['src']
-                    proddict['Imagefilename'] = proddict['Imagelink'].split("/")[
-                        len(proddict['Imagelink'].split("/")) - 1]
+                        self.logger.error("Line 153:" + str(e))
+                        proddict['EAN7'] = "None"
                     try:
-                        proddict['Promotional_claim'] = prod.find("span", {"class": "product-price-reduction"}).text
+                        if (prodsoup.find('p',{"id":"reduction_percent"}).text.strip() == ""):
+                            proddict['Discount_claim'] = prodsoup.find('p',{"id":"reduction_percent"}).text.strip()
+                        elif (prodsoup.find('p',{"id":"reduction_amount"}).text.strip() == ""):
+                            proddict['Discount_claim'] = prodsoup.find('p', {"id": "reduction_amount"}).text.strip()
+                        else:
+                            proddict['Discount_claim'] = "None"
                     except Exception as e:
-                        self.logger.error("Line 129:" + str(e))
+                        self.logger.error("Line 158:" + str(e))
+                        proddict['Discount_claim'] = "None"
+                    try:
+                        proddict['Promotional_claim'] = len(prodsoup.find("div",{"id":"image-block"}).find_all('span',{"class":"promo_page"}))>0
+                    except Exception as e:
+                        self.logger.error("Line 168:" + str(e))
                         proddict['Promotional_claim'] = "None"
+                    try:
+                        proddict['Imagelink'] = prod.find("img")['src']
+                        proddict['Imagefilename'] = proddict['Imagelink'].split("/")[len(proddict['Imagelink'].split("/")) - 1]
+                    except Exception as e:
+                        self.logger.error("Line 173:" + str(e))
+                        proddict['Imagelink'] = "None"
+                        proddict['Imagefilename'] = "None"
                     db['scrapes'].insert_one(proddict)
                     nins = nins + 1
                     self.logger.info("#insertions:" + str(nins))
                 except Exception as e:
                     self.logger.info("soup:" + str(prod))
-                    self.logger.error("Line 79:" + str(e))
+                    self.logger.error("Line 100:" + str(e))
                     continue
+            if (len(prods)<60):
+                run = False
             pgid = pgid + 1
         client.close()
         pass
@@ -188,39 +199,19 @@ class gpo(threading.Thread):
         if (len(catlist) > 0):
             for cat in catlist:
                 config['Category'] = list(cat.keys())[0]
-                url = cat[config['Category']]
-                soup = self.get_soup(httplib2.iri2uri(url))
                 allseg = self.get_allseg(soup)
                 if (len(allseg) > 0):
                     for seg in allseg:
                         config['segment'] = list(seg.keys())[0]
+                        config['Sub-segment'] = "None"
                         url = seg[config['segment']]
-                        soup = self.get_soup(httplib2.iri2uri(url))
-                        allsubseg = self.get_allsubseg(soup)
-                        if (len(allsubseg) > 0):
-                            for subseg in allsubseg:
-                                config['Sub-segment'] = list(subseg.keys())[0]
-                                url = subseg[config['Sub-segment']]
-                                self.get_proddata(url)
-                        else:
-                            config['Sub-segment'] = "None"
-                            self.get_proddata(url)
+                        self.get_proddata(url)
                 else:
                     config['segment'] = "None"
                     config['Sub-segment'] = "None"
+                    url = cat[config['Category']]
                     self.get_proddata(url)
-        else:
-            config['Category'] = "None"
-            config['segment'] = "None"
-            config['Sub-segment'] = "None"
-            self.get_proddata(url)
         pass
 
 
-config=dict()
-config['template']="decaroli"
-config["mongolink"]="mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape"
-config['Mega-category']="None"
-config["site"]="https://www.paratamtam.com"
-config["urls"]=config["site"]+"/"
 

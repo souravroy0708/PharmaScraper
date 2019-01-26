@@ -23,6 +23,7 @@ from src.pharmabestamiens import pharmabestamiens
 from src.elsie import elsie
 from src.mesoignerwithlogin import mesoignerwithlogin
 from src.pharmavielogin import pharmavielogin
+from src.decaroli import decaroli
 # import libraries
 import random
 import pymongo
