@@ -212,6 +212,3 @@ class decaroli(threading.Thread):
                     url = cat[config['Category']]
                     self.get_proddata(url)
         pass
-
-
-
