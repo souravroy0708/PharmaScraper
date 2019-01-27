@@ -49,23 +49,14 @@ class astera(threading.Thread):
             soup = BeautifulSoup(r.text)
         return (soup)
 
-    def get_megacatgorylinks(self, soup):
-        megacatlist = []
-        for item in soup.find("ul", {"id": "nav-menu"}).find_all("li", recursive=False)[3:5]:
-            if (not(item.find("a") == None)):
-                megacatdict = dict()
-                megacatdict[item.find("a").text.strip()] = self.config['site']+item.find("a")['href']
-                megacatlist.append(megacatdict)
-        return megacatlist
-
 
     def get_catgorylinks(self, soup):
         catlist = []
         try:
-            for item in soup.find("div", {"class": "fluid"}).find("div").find_all("div",recursive=False):
-                if (not (item.find("a") == None) and "http" not in item.find("a")['href']):
+            for item in soup.find("div", {"id": "main_menu"}).find("table").find("tr").find_all("td",recursive=False):
+                if (not (item.find("a") == None) and "http" in item.find("a")['href']):
                     catdict = dict()
-                    catdict[item.find("a").text.strip()] = self.config['site']+item.find("a")['href']
+                    catdict[item.find("a").text.strip()] = item.find("a")['href']
                     catlist.append(catdict)
         except Exception as e:
             self.logger.info("Error:" + str(e))
@@ -74,12 +65,21 @@ class astera(threading.Thread):
 
     def get_allseg(self, soup):
         seglist = []
-        for item in soup.find("div", {"class": "productCategory-block-top"}).find("ul").find_all("li",  recursive=False):
+        for item in soup.find("ul", {"class": "inline_list"}).find_all("li",  recursive=False):
             if (not (item.find("a") == None)):
                 segdict = dict()
-                segdict[item.find("a").text.strip()] =  item.find("a")['href']
+                segdict[item.find("a")['title'].strip()] =  item.find("a")['href']
                 seglist.append(segdict)
         return seglist
+
+    def get_allsubseg(self, soup):
+        subseglist = []
+        for item in soup.find("ul", {"class": "inline_list"}).find_all("li", recursive=False):
+            if (not (item.find("a") == None)):
+                subsegdict = dict()
+                subsegdict[item.find("a")['title'].strip()] = item.find("a")['href']
+                subseglist.append(subsegdict)
+        return subseglist
 
 
     def is_product(self, url):
@@ -99,11 +99,8 @@ class astera(threading.Thread):
         self.logger.info("Sub-segment:" + config['Sub-segment'])
         run=True
         while run:
-            soup = self.get_soup(httplib2.iri2uri(url + "?page=" + str(pgid)))
-            try:
-                prods = soup.find_all('div', {"class": "col add-to-cart-form product-details"})
-            except:
-                prods =  soup.find('div', {"class": "topProducts productCategory-block-right nos-offres-du-mois"}).find_all("form",recursive=True)
+            soup = self.get_soup(httplib2.iri2uri(url + "?p=" + str(pgid)))
+            prods = soup.find_all('div', {"class": "shadow_box_1"})
             self.logger.info("#Found products:" + str(len(prods)))
             for prod in prods:
                 try:
@@ -115,13 +112,41 @@ class astera(threading.Thread):
                     proddict['Sub-segment'] = config['Sub-segment']
                     proddict['template'] = config['template']
                     try:
-                        proddict['Product_name'] = prod.find("span", {"class": "topProducts-col-name"}).text.strip()
+                        proddict['Product_name'] = prod.find("div", {"class": "flag_block_3"})['title']
                         if (db['scrapes'].find(
                                 {"Source": config['site'], "Product_name": proddict['Product_name']}).count() > 0):
                             continue
                     except Exception as e:
                         self.logger.error("Line 108:" + str(e))
                         proddict['Product_name'] = "None"
+                    try:
+                        proddict['Availability'] = prod.find("div", {"id": "list_availability"}).find("span").text.strip()
+                    except Exception as e:
+                        self.logger.error("Line 104:" + str(e))
+                        proddict['Availability'] = "None"
+                    try:
+                        proddict['urltoproduct'] = prod.find("a",recursive=False)['href']
+                    except Exception as e:
+                        proddict['urltoproduct'] = "None"
+                    try:
+                        prodsoup = self.get_soup(httplib2.iri2uri(proddict['urltoproduct']))
+                    except:
+                        self.logger.error("Line 114:" + str(e))
+                        prodsoup = "None"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     try:
                         proddict['Price'] = float(prod.find("div", {"class": "topProducts-col-price"}).text.replace("\xa0€* TTC", "").replace(",", ".").strip())
                         proddict['Crossed_out_Price'] = float(
@@ -159,47 +184,41 @@ class astera(threading.Thread):
         url = config['urls']
         soup = self.get_soup(url)
         # get mega category
-        megacatlist = self.get_megacatgorylinks(soup)
-        if (len(megacatlist)>0):
-            for megacat in megacatlist:
-                config['Mega-category'] = list(megacat.keys())[0]
-                url = megacat[config['Mega-category']]
+        catlist = self.get_catgorylinks(soup)
+        if (len(catlist) > 0):
+            for cat in catlist:
+                config['Category'] = list(cat.keys())[0]
+                url = cat[config['Category']]
                 soup = self.get_soup(url)
-                catlist = self.get_catgorylinks(soup)
-                if (len(catlist) > 0):
-                    for cat in catlist:
-                        config['Category'] = list(cat.keys())[0]
-                        url = cat[config['Category']]
+                seglist = self.get_allseg(soup)
+                if (len(seglist) > 0):
+                    for seg in seglist:
+                        config['segment'] = list(seg.keys())[0]
+                        url = seg[config['segment']]
                         soup = self.get_soup(url)
-                        seglist = self.get_allseg(soup)
-                        if (len(seglist) > 0):
-                            for seg in seglist:
-                                config['segment'] = list(seg.keys())[0]
-                                url = seg[config['segment']]
-                                soup = self.get_soup(url)
-                                subseglist = self.get_allseg(soup)
-                                if (len(subseglist) > 0):
-                                    for subseg in subseglist:
-                                        config['Sub-segment'] = list(subseg.keys())[0]
-                                        url = subseg[config['Sub-segment']]
-                                        self.get_proddata(url)
-                                else:
-                                    config['Sub-segment'] = "None"
-                                    self.get_proddata(url)
+                        subseglist = self.get_allseg(soup)
+                        if (len(subseglist) > 0):
+                            for subseg in subseglist:
+                                config['Sub-segment'] = list(subseg.keys())[0]
+                                url = subseg[config['Sub-segment']]
+                                self.get_proddata(url)
                         else:
                             config['Sub-segment'] = "None"
-                            config['segment'] = "None"
                             self.get_proddata(url)
                 else:
-                    config['Category'] = "None"
                     config['Sub-segment'] = "None"
                     config['segment'] = "None"
                     self.get_proddata(url)
         else:
-            config['Mega-category'] = "None"
             config['Category'] = "None"
             config['Sub-segment'] = "None"
             config['segment'] = "None"
             self.get_proddata(url)
         pass
 
+config=dict()
+config['template']="universpharmacie"
+config["mongolink"]="mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape"
+config['Mega-category']="None"
+config["site"]="http://www.universpharmacie.fr"
+config["urls"]=config["site"]+"/"
