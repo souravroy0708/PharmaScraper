@@ -52,7 +52,7 @@ class doctipharma(threading.Thread):
 
     def get_megacatgorylinks(self, soup):
         megacatlist = []
-        for item in soup.find("ul", {"class": "nav navbar-nav navbar-left"}).find("div").find_all("li", recursive=False):
+        for item in soup.find("ul", {"class": "nav navbar-nav navbar-left"}).find_all("li", recursive=False):
             if (not(item.find("a") == None) and not(item.find("ul") == None) and 'nav' in item['class'][0] and "www" in item.find("a")['href']):
                 megacatdict = dict()
                 megacatdict[item.find("a").text.strip()] = "https:"+item.find("a")['href']
@@ -71,6 +71,15 @@ class doctipharma(threading.Thread):
 
     def get_allseg(self, soup):
         seglist = []
+        for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
+            if (not (item.find("a") == None)):
+                segdict = dict()
+                segdict[item.find("a")["title"].strip()] = self.config['site'] + item.find("a")['href']
+                seglist.append(segdict)
+        return seglist
+
+    def get_allsubseg(self, soup):
+        subseglist = []
         for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
             if (not (item.find("a") == None)):
                 segdict = dict()
@@ -201,7 +210,7 @@ class doctipharma(threading.Thread):
         url = config['urls']
         soup = self.get_soup(url)
         # get mega category
-        megacat = self.get_megacatgorylinks(soup).
+        megacat = self.get_megacatgorylinks(soup)
         if (len(megacat)>=0):
             for megacat in megacatlist:
                 config['Mega-category'] = list(megacat.keys())[0]
@@ -218,7 +227,7 @@ class doctipharma(threading.Thread):
                             for seg in seglist:
                                 config['segment'] = list(seg.keys())[0]
                                 url = seg[config['segment']]
-                                soup = get_soup(url)
+                                soup = self.get_soup(url)
 
 
 
