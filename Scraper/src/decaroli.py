@@ -75,10 +75,13 @@ class decaroli(threading.Thread):
     def is_product(self, url):
         soup = self.get_soup(httplib2.iri2uri(url))
         self.logger.info(url)
-        cstr = soup.find('div', {"class": "product-count"}).text.strip()
-        end = int(cstr.split("sur")[1].replace(".", "").strip())
-        start = int(cstr.split("sur")[0].split("-")[1].strip())
-        return (start < end)
+        try:
+            cpg = int(url.split("=")[-1:][0])
+            numli = len(soup.find('ul', {"class": "pagination"}).find_all("li",recursive=False))
+            npg = int(soup.find('ul', {"class": "pagination"}).find_all("li",recursive=False)[numli - 1].find("a")["href"].split("=")[-1:][0])
+            return (cpg < npg)
+        except:
+            return False
 
     def get_proddata(self, url):
         config = self.config
@@ -183,8 +186,7 @@ class decaroli(threading.Thread):
                     self.logger.info("soup:" + str(prod))
                     self.logger.error("Line 100:" + str(e))
                     continue
-            if (len(prods)<60):
-                run = False
+            run = self.is_product(url + "?p=" + str(pgid))
             pgid = pgid + 1
         client.close()
         pass
