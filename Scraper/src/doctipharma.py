@@ -246,7 +246,7 @@ class doctipharma(threading.Thread):
                                 if (len(subseglist) > 0):
                                     for subseg in subseglist:
                                         config['Sub-segment'] = list(subseg.keys())[0]
-                                        url = seg[config['Sub-segment']]
+                                        url = subseg[config['Sub-segment']]
                                         self.get_proddata(url)
                                 else:
                                     config['Sub-segment'] = "None"

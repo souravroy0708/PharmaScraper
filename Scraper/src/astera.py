@@ -11,7 +11,6 @@ import logging
 import requests
 import httplib2
 import threading
-import re
 from bs4 import BeautifulSoup
 
 
@@ -55,7 +54,7 @@ class astera(threading.Thread):
         for item in soup.find("ul", {"id": "nav-menu"}).find_all("li", recursive=False)[3:5]:
             if (not(item.find("a") == None)):
                 megacatdict = dict()
-                megacatdict[item.find("a").text.strip()] = config['site']+item.find("a")['href']
+                megacatdict[item.find("a").text.strip()] = self.config['site']+item.find("a")['href']
                 megacatlist.append(megacatdict)
         return megacatlist
 
@@ -66,7 +65,7 @@ class astera(threading.Thread):
             for item in soup.find("div", {"class": "fluid"}).find("div").find_all("div",recursive=False):
                 if (not (item.find("a") == None) and "http" not in item.find("a")['href']):
                     catdict = dict()
-                    catdict[item.find("a").text.strip()] = config['site']+item.find("a")['href']
+                    catdict[item.find("a").text.strip()] = self.config['site']+item.find("a")['href']
                     catlist.append(catdict)
         except Exception as e:
             self.logger.info("Error:" + str(e))
@@ -75,35 +74,17 @@ class astera(threading.Thread):
 
     def get_allseg(self, soup):
         seglist = []
-        for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
+        for item in soup.find("div", {"class": "productCategory-block-top"}).find("ul").find_all("li",  recursive=False):
             if (not (item.find("a") == None)):
                 segdict = dict()
-                segdict[item.find("a")["title"].strip()] = self.config['site'] + item.find("a")['href']
+                segdict[item.find("a").text.strip()] =  item.find("a")['href']
                 seglist.append(segdict)
         return seglist
-
-    def get_allsubseg(self, soup):
-        subseglist = []
-        for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
-            if (not (item.find("a") == None) and item.find("a")["title"].strip() == self.config['segment']):
-                if (len(item.find_all("div",{"id":"rubrique_2_5"}))>0):
-                    for elem in item.find("div",{"id":"rubrique_2_5"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
-                        subsegdict = dict()
-                        subsegdict[elem.find("a")["title"].strip()] = self.config['site'] + elem.find("a")['href']
-                        subseglist.append(subsegdict)
-        return subseglist
 
 
     def is_product(self, url):
         soup = self.get_soup(httplib2.iri2uri(url))
-        self.logger.info(url)
-        try:
-            cpg = int(url.split("=")[-1:][0])
-            numli = len(soup.find('ul', {"class": "pages"}).find_all("li",recursive=False))
-            npg = int(soup.find('ul', {"class": "pages"}).find_all("li",recursive=False)[numli-2].find("a")["data-value"])
-            return (cpg < npg)
-        except:
-            return False
+        return(len(soup.find("a",{"rel":"next"}))>0)
 
 
     def get_proddata(self, url):
@@ -118,8 +99,11 @@ class astera(threading.Thread):
         self.logger.info("Sub-segment:" + config['Sub-segment'])
         run=True
         while run:
-            soup = self.get_soup(httplib2.iri2uri(url + "#q[page]=" + str(pgid)))
-            prods = soup.find_all('li', {"id": "list_offers"})
+            soup = self.get_soup(httplib2.iri2uri(url + "?page=" + str(pgid)))
+            try:
+                prods = soup.find_all('div', {"class": "col add-to-cart-form product-details"})
+            except:
+                prods =  soup.find('div', {"class": "topProducts productCategory-block-right nos-offres-du-mois"}).find_all("form",recursive=True)
             self.logger.info("#Found products:" + str(len(prods)))
             for prod in prods:
                 try:
@@ -131,7 +115,7 @@ class astera(threading.Thread):
                     proddict['Sub-segment'] = config['Sub-segment']
                     proddict['template'] = config['template']
                     try:
-                        proddict['Product_name'] = prod.find("span", {"itemprop": "name"}).text.strip()
+                        proddict['Product_name'] = prod.find("span", {"class": "topProducts-col-name"}).text.strip()
                         if (db['scrapes'].find(
                                 {"Source": config['site'], "Product_name": proddict['Product_name']}).count() > 0):
                             continue
@@ -139,78 +123,25 @@ class astera(threading.Thread):
                         self.logger.error("Line 108:" + str(e))
                         proddict['Product_name'] = "None"
                     try:
-                        proddict['urltoproduct'] = config['site']+prod.find("span", {"class": "info-item"}).find("a")['href']
-                    except Exception as e:
-                        self.logger.error("Line 116:" + str(e))
-                        proddict['urltoproduct'] = "None"
-                    try:
-                        prodsoup = self.get_soup(proddict['urltoproduct'])
-                    except Exception as e:
-                        self.logger.error("Line 126:" + str(e))
-                        prodsoup = "None"
-                    try:
-                        proddict['Brand'] = prod.find("span", {"class": "brandName"}).text.strip()
-                    except Exception as e:
-                        self.logger.error("Line 121:" + str(e))
-                        proddict['Brand'] = "None"
-                    try:
-                        proddict['Crossed_out_Price'] = float(prod.find("span", {"itemprop": "price"}).text.split("€")[0].replace(",",".").strip())
-                        proddict['Price'] = float(prod.find("span", {"itemprop": "price"}).text.split("€")[1].replace(",",".").strip())
+                        proddict['Price'] = float(prod.find("div", {"class": "topProducts-col-price"}).text.replace("\xa0€* TTC", "").replace(",", ".").strip())
+                        proddict['Crossed_out_Price'] = float(
+                            prod.find("div", {"class": "topProducts-col-price-old"}).text.replace("Au lieu de ", "").replace( "\xa0€* TTC", "").replace(",", ".").strip())
                     except Exception as e:
                         self.logger.error("Line 136:" + str(e))
                         try:
-                            proddict['Price'] = float(prod.find("span", {"itemprop": "price"}).text.split("€")[0].replace(",",".").strip())
-                            proddict['Crossed_out_Price'] = "None"
+                            proddict['Price'] = float(prod.find("div", {"class": "topProducts-col-price"}).text.replace("\xa0€* TTC","").replace(",", ".").strip())
+                            proddict['Crossed_out_Price']  = "None"
                         except Exception as e:
                             self.logger.error("Line 141:" + str(e))
                             proddict['Price'] = "None"
                             proddict['Crossed_out_Price'] = "None"
                     try:
-                        proddict['Availability'] = prodsoup.find("div",{"class":"block-infos-stock row"}).text.split("\n")[0].strip()
-                    except Exception as e:
-                        self.logger.error("Line 131:" + str(e))
-                        proddict['Availability'] = "None"
-                    try:
-                        proddict['NumReviews'] = int(prodsoup.find("div",{"class":"rating"}).find("meta",{"itemprop":"ratingCount"})['content'])
-                    except Exception as e:
-                        self.logger.error("Line 119:" + str(e))
-                        proddict['NumReviews'] = 0
-                    try:
-                        proddict['Stars'] = int(prodsoup.find("div",{"class":"rating"}).find("meta",{"itemprop":"ratingValue"})['content'])
-                    except Exception as e:
-                        self.logger.error("Line 124:" + str(e))
-                        proddict['Stars'] = 0.0
-                    try:
-                        proddict['Imagelink'] = "https:"+prod.find("img")['src']
+                        proddict['Imagelink'] = config['site']+ soup.find("div",{"class":"topProducts-image"})["style"].split("'")[1].split("&")[0]
                         proddict['Imagefilename'] = proddict['Imagelink'].split("/")[len(proddict['Imagelink'].split("/")) - 1]
                     except Exception as e:
                         self.logger.error("Line 173:" + str(e))
                         proddict['Imagelink'] = "None"
                         proddict['Imagefilename'] = "None"
-                    try:
-                        proddict['EAN13'] = proddict['Imagefilename'].split("-")[-1:][0].split(".")[0]
-                    except Exception as e:
-                        self.logger.error("Line 148:" + str(e))
-                        proddict['EAN13'] = "None"
-                    try:
-                        revs = prodsoup.find_all("li", {"id": re.compile("la_comment_front_bundle_comment_display.*")})
-                        revlist = []
-                        for rev in revs:
-                            revdict = dict()
-                            revdict['author'] = rev.find("span",{"class":"name"}).text.strip()
-                            revdict['date'] = rev.find("em").text.strip().split(" ")[1]
-                            revdict['revtext'] = rev.find("blockquote").text.strip()
-                            revdict['rating'] = rev.find("span",{"class":"note_eval"}).text.split("/")[0]
-                            revlist.append(revdict)
-                        proddict["Reviews"] = revlist
-                    except Exception as e:
-                        self.logger.error("Line 148:" + str(e))
-                        proddict["Reviews"] = "None"
-                    try:
-                        proddict['Discount_claim'] = prod.find("font",{"class":"_TOSPAN btn tag discount"}).text.strip()
-                    except Exception as e:
-                        self.logger.error("Line 158:" + str(e))
-                        proddict['Discount_claim'] = "None"
                     db['scrapes'].insert_one(proddict)
                     nins = nins + 1
                     self.logger.info("#insertions:" + str(nins))
@@ -246,11 +177,11 @@ class astera(threading.Thread):
                                 config['segment'] = list(seg.keys())[0]
                                 url = seg[config['segment']]
                                 soup = self.get_soup(url)
-                                subseglist = self.get_allsubseg(soup)
+                                subseglist = self.get_allseg(soup)
                                 if (len(subseglist) > 0):
                                     for subseg in subseglist:
                                         config['Sub-segment'] = list(subseg.keys())[0]
-                                        url = seg[config['Sub-segment']]
+                                        url = subseg[config['Sub-segment']]
                                         self.get_proddata(url)
                                 else:
                                     config['Sub-segment'] = "None"
@@ -272,10 +203,3 @@ class astera(threading.Thread):
             self.get_proddata(url)
         pass
 
-
-config=dict()
-config['template']="astera"
-config["mongolink"]="mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape"
-config['Mega-category']="None"
-config["site"]="https://www.pharmaciedelapointe.fr"
-config["urls"]=config["site"]+"/"
