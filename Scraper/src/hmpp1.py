@@ -54,7 +54,7 @@ class hmpp1(threading.Thread):
     def get_catgorylinks(self, soup):
         catlist = []
         try:
-            for item in soup.find("div", {"id": "main_menu"}).find("table").find("tr").find_all("td",recursive=False):
+            for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li",{"class":"ms-level0"},recursive=False)[0:9]:
                 if (not (item.find("a") == None) and "http" in item.find("a")['href']):
                     catdict = dict()
                     catdict[item.find("a").text.strip()] = item.find("a")['href']
@@ -66,15 +66,29 @@ class hmpp1(threading.Thread):
 
     def get_allseg(self, soup):
         seglist = []
-        for item in soup.find("ul", {"class": "inline_list"}).find_all("li",  recursive=False):
-            if (not (item.find("a") == None)):
-                segdict = dict()
-                segdict[item.find("a")['title'].strip()] =  item.find("a")['href']
-                seglist.append(segdict)
+        for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li", {"class": "ms-level0"}, recursive=False)[0:9]:
+            if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip()==config['Category']):
+                for elem in item.find("div",{"class":"col-level col-xs-6"}).find_all("div",{"class":"col-xs-12"}):
+                    segdict = dict()
+                    segdict[elem.find("a")['title'].strip()] = "https:"+elem.find("a")['href']
+                    seglist.append(segdict)
         return seglist
 
     def get_allsubseg(self, soup):
         subseglist = []
+        for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li", {"class": "ms-level0"}, recursive=False)[0:9]:
+            if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip() == config['Category']):
+                for elem in item.find("div", {"class": "col-level col-xs-6"}).find_all("div", {"class": "col-xs-12"}):
+                    if (not(elem.find("a") == None) and elem.find("a")['title'].strip()==config['segment']):
+                        print(elem)
+                        for part in elem.find_all("div",{"class":"form-group"},recursive=False):
+                            if (not(part.find("a") == None)):
+                                subsegdict = dict()
+                                subsegdict[part.find("a")['title'].strip()] = part.find("a")['href']
+                                subseglist.append(subsegdict)
+
+
+
         for item in soup.find("ul", {"class": "inline_list"}).find_all("li", recursive=False):
             if (not (item.find("a") == None)):
                 subsegdict = dict()
@@ -225,5 +239,5 @@ config=dict()
 config['template']="hmpp1"
 config["mongolink"]="mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape"
 config['Mega-category']="None"
-config["site"]="http://www.universpharmacie.fr"
+config["site"]="http://www.parapharmacie.leclerc"
 config["urls"]=config["site"]+"/"
