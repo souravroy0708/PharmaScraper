@@ -11,11 +11,12 @@ import logging
 import requests
 import httplib2
 import threading
+import re
 from bs4 import BeautifulSoup
 
 
 # define product page extraction class
-class astera(threading.Thread):
+class universpharmacie(threading.Thread):
     def __init__(self, config):
         threading.Thread.__init__(self)
         self.config = config
@@ -84,7 +85,11 @@ class astera(threading.Thread):
 
     def is_product(self, url):
         soup = self.get_soup(httplib2.iri2uri(url))
-        return(len(soup.find("a",{"rel":"next"}))>0)
+        try:
+            isnotdisabled = not(soup.find("li",{"id":"pagination_next"})["class"].strip() == "disabled")
+            return(isnotdisabled)
+        except:
+            return(False)
 
 
     def get_proddata(self, url):
@@ -117,54 +122,53 @@ class astera(threading.Thread):
                                 {"Source": config['site'], "Product_name": proddict['Product_name']}).count() > 0):
                             continue
                     except Exception as e:
-                        self.logger.error("Line 108:" + str(e))
+                        self.logger.error("Line 116:" + str(e))
                         proddict['Product_name'] = "None"
                     try:
                         proddict['Availability'] = prod.find("div", {"id": "list_availability"}).find("span").text.strip()
                     except Exception as e:
-                        self.logger.error("Line 104:" + str(e))
+                        self.logger.error("Line 124:" + str(e))
                         proddict['Availability'] = "None"
                     try:
                         proddict['urltoproduct'] = prod.find("a",recursive=False)['href']
                     except Exception as e:
+                        self.logger.error("Line 129:" + str(e))
                         proddict['urltoproduct'] = "None"
                     try:
                         prodsoup = self.get_soup(httplib2.iri2uri(proddict['urltoproduct']))
                     except:
-                        self.logger.error("Line 114:" + str(e))
+                        self.logger.error("Line 134:" + str(e))
                         prodsoup = "None"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     try:
-                        proddict['Price'] = float(prod.find("div", {"class": "topProducts-col-price"}).text.replace("\xa0€* TTC", "").replace(",", ".").strip())
-                        proddict['Crossed_out_Price'] = float(
-                            prod.find("div", {"class": "topProducts-col-price-old"}).text.replace("Au lieu de ", "").replace( "\xa0€* TTC", "").replace(",", ".").strip())
+                        proddict['Brand'] = prodsoup.find("div",{"id":"center_column"}).find_all("div",{"class":"block_0"},recursive=False)[2].text.replace(" Voir tous les produits de la marque ","").strip().split("\n")[0]
                     except Exception as e:
-                        self.logger.error("Line 136:" + str(e))
-                        try:
-                            proddict['Price'] = float(prod.find("div", {"class": "topProducts-col-price"}).text.replace("\xa0€* TTC","").replace(",", ".").strip())
-                            proddict['Crossed_out_Price']  = "None"
-                        except Exception as e:
-                            self.logger.error("Line 141:" + str(e))
-                            proddict['Price'] = "None"
-                            proddict['Crossed_out_Price'] = "None"
+                        self.logger.error("Line 139:" + str(e))
+                        proddict['Brand'] = "None"
                     try:
-                        proddict['Imagelink'] = config['site']+ soup.find("div",{"class":"topProducts-image"})["style"].split("'")[1].split("&")[0]
+                        proddict['Format'] = re.search(".\d+ ml",prod.find("div", {"class": "flag_block_3"})['title']).group(0).strip()
+                    except Exception as e:
+                        self.logger.error("Line 144:"+str(e))
+                        proddict['Format'] = "None"
+                    try:
+                        proddict['EAN13'] = proddict['urltoproduct'].split("-")[-1:][0].split(".")[0]
+                    except Exception as e:
+                        self.logger.error("Line 149:"+str(e))
+                        proddict['EAN13'] = "None"
+                    try:
+                        proddict['Price'] = float(prod.find("div", {"itemprop": "price"})['content'].strip())
+                    except Exception as e:
+                        self.logger.error("Line 154:" + str(e))
+                        proddict['Price'] = "None"
+                    try:
+                        proddict['Loyalty'] = prodsoup.find("div",{"class":"flag_block_4a"}).find("img")["src"]
+                    except Exception as e:
+                        self.logger.error("Line 159:" + str(e))
+                        proddict['Loyalty'] = "None"
+                    try:
+                        proddict['Imagelink'] = prod.find("div",{"class":"prod_image_block"}).find("img")["src"]
                         proddict['Imagefilename'] = proddict['Imagelink'].split("/")[len(proddict['Imagelink'].split("/")) - 1]
                     except Exception as e:
-                        self.logger.error("Line 173:" + str(e))
+                        self.logger.error("Line 164:" + str(e))
                         proddict['Imagelink'] = "None"
                         proddict['Imagefilename'] = "None"
                     db['scrapes'].insert_one(proddict)
@@ -174,7 +178,7 @@ class astera(threading.Thread):
                     self.logger.info("soup:" + str(prod))
                     self.logger.error("Line 100:" + str(e))
                     continue
-            run = self.is_product(url + "#q[page]=" + str(pgid))
+            run = self.is_product(url + "?p=" + str(pgid))
             pgid = pgid + 1
         client.close()
         pass
@@ -215,10 +219,3 @@ class astera(threading.Thread):
             config['segment'] = "None"
             self.get_proddata(url)
         pass
-
-config=dict()
-config['template']="universpharmacie"
-config["mongolink"]="mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape"
-config['Mega-category']="None"
-config["site"]="http://www.universpharmacie.fr"
-config["urls"]=config["site"]+"/"
