@@ -204,3 +204,11 @@ class hmpp1(threading.Thread):
             config['segment'] = "None"
             self.get_proddata(url)
         pass
+
+
+config=dict()
+config['template']="pharmarket"
+config["mongolink"]="mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape"
+config['Mega-category']="None"
+config["site"]="https://www.pharmarket.com/"
+config["urls"]=config["site"]+"/"
