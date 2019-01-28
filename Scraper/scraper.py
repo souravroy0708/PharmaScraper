@@ -24,6 +24,8 @@ from src.elsie import elsie
 from src.mesoignerwithlogin import mesoignerwithlogin
 from src.pharmavielogin import pharmavielogin
 from src.decaroli import decaroli
+from src.astera import astera
+from src.universpharmacie import universpharmacie
 # import libraries
 import random
 import pymongo
