@@ -64,7 +64,7 @@ class hmpp1(threading.Thread):
             self.logger.info("No Categories")
         return catlist
 
-    def get_allseg(self, soup):
+    def get_allseg(soup):
         seglist = []
         for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li", {"class": "ms-level0"}, recursive=False)[0:9]:
             if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip()==config['Category']):
@@ -74,26 +74,16 @@ class hmpp1(threading.Thread):
                     seglist.append(segdict)
         return seglist
 
-    def get_allsubseg(self, soup):
+    def get_allsubseg(self, soup, segkey ):
         subseglist = []
         for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li", {"class": "ms-level0"}, recursive=False)[0:9]:
             if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip() == config['Category']):
-                for elem in item.find("div", {"class": "col-level col-xs-6"}).find_all("div", {"class": "col-xs-12"}):
-                    if (not(elem.find("a") == None) and elem.find("a")['title'].strip()==config['segment']):
-                        print(elem)
-                        for part in elem.find_all("div",{"class":"form-group"},recursive=False):
-                            if (not(part.find("a") == None)):
-                                subsegdict = dict()
-                                subsegdict[part.find("a")['title'].strip()] = part.find("a")['href']
-                                subseglist.append(subsegdict)
-
-
-
-        for item in soup.find("ul", {"class": "inline_list"}).find_all("li", recursive=False):
-            if (not (item.find("a") == None)):
-                subsegdict = dict()
-                subsegdict[item.find("a")['title'].strip()] = item.find("a")['href']
-                subseglist.append(subsegdict)
+                for elem in item.find("div", {"class": "col-xs-6 dynamic-content"}).find_all("div", {"class": "form-group"}):
+                    for part in elem.find_all("div",{"class":"form-group text-left"}):
+                        if (not(part.find("a") == None) and segkey in part.find("a")['href']):
+                            subsegdict = dict()
+                            subsegdict[part.find("a")['title'].strip()] = part.find("a")['href']
+                            subseglist.append(subsegdict)
         return subseglist
 
 
@@ -214,11 +204,12 @@ class hmpp1(threading.Thread):
                         config['segment'] = list(seg.keys())[0]
                         url = seg[config['segment']]
                         soup = self.get_soup(url)
-                        subseglist = self.get_allseg(soup)
+                        subseglist = self.get_allsubseg(soup,url.split("/")[-1:][0])
                         if (len(subseglist) > 0):
                             for subseg in subseglist:
                                 config['Sub-segment'] = list(subseg.keys())[0]
-                                url = subseg[config['Sub-segment']]
+                                url = subseg[config['Sub-segment']
+                                break
                                 self.get_proddata(url)
                         else:
                             config['Sub-segment'] = "None"
