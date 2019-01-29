@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 
 
 # define product page extraction class
-class hmpp1(threading.Thread):
+class pharmarket(threading.Thread):
     def __init__(self, config):
         threading.Thread.__init__(self)
         self.config = config
@@ -49,11 +49,20 @@ class hmpp1(threading.Thread):
             soup = BeautifulSoup(r.text)
         return (soup)
 
+    def get_megacatgorylinks(self, soup):
+        megacatlist = []
+        for item in soup.find("ul", {"class": "menu count-9"}).find_all("li", recursive=False)[2:4]:
+            if (not(item.find("a") == None)):
+                megacatdict = dict()
+                megacatdict[item.find("a").text.strip()] = item.find("a")['href']
+                megacatlist.append(megacatdict)
+        return megacatlist
+
 
     def get_catgorylinks(self, soup):
         catlist = []
         try:
-            for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li",{"class":"ms-level0"},recursive=False)[0:9]:
+            for item in soup.find("div",{"class":"blockSousCat gammeSousCatFullPage"}).find("div", {"class": "inner"}).find("ul").find_all("li",recursive=False):
                 if (not (item.find("a") == None) and "http" in item.find("a")['href']):
                     catdict = dict()
                     catdict[item.find("a").text.strip()] = item.find("a")['href']
@@ -65,31 +74,38 @@ class hmpp1(threading.Thread):
 
     def get_allseg(self,soup):
         seglist = []
-        for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li", {"class": "ms-level0"}, recursive=False)[0:9]:
-            if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip()==config['Category']):
-                for elem in item.find("div",{"class":"col-level col-xs-6"}).find_all("div",{"class":"col-xs-12"}):
+        try:
+            for item in soup.find("div", {"class": "blockSousCat gammeSousCatFullPage"}).find("div",
+                                                                                              {"class": "inner"}).find(
+                    "ul").find_all("li", recursive=False):
+                if (not (item.find("a") == None) and "http" in item.find("a")['href']):
                     segdict = dict()
-                    segdict[elem.find("a")['title'].strip()] = "https:"+elem.find("a")['href']
+                    segdict[item.find("a").text.strip()] = item.find("a")['href']
                     seglist.append(segdict)
+        except Exception as e:
+            self.logger.info("Error:" + str(e))
+            self.logger.info("No Categories")
         return seglist
 
     def get_allsubseg(self, soup, segkey ):
         subseglist = []
-        for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li", {"class": "ms-level0"}, recursive=False)[0:9]:
-            if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip() == config['Category']):
-                for elem in item.find("div", {"class": "col-xs-6 dynamic-content"}).find_all("div", {"class": "form-group"}):
-                    for part in elem.find_all("div",{"class":"form-group text-left"}):
-                        if (not(part.find("a") == None) and segkey in part.find("a")['href']):
-                            subsegdict = dict()
-                            subsegdict[part.find("a")['title'].strip()] = "https:"+part.find("a")['href']
-                            subseglist.append(subsegdict)
+        try:
+            for item in soup.find("div", {"class": "catBanner catGamme banner-1"}).find("div",{"class": "inner"}).find(
+                "ul").find_all("li", recursive=False):
+                if (not (item.find("a") == None) and "http" in item.find("a")['href']):
+                    subsegdict = dict()
+                    subsegdict[item.find("a").text.strip()] = item.find("a")['href']
+                    subseglist.append(subsegdict)
+        except Exception as e:
+            self.logger.info("Error:" + str(e))
+            self.logger.info("No Categories")
         return subseglist
 
 
     def is_product(self, url):
         soup = self.get_soup(httplib2.iri2uri(url))
         try:
-            isnotdisabled = not(soup.find("a",{"class":"next i-next"})==None)
+            isnotdisabled = not(soup.find("a",{"class":"link next"})==None)
             return(isnotdisabled)
         except:
             return(False)
@@ -107,8 +123,8 @@ class hmpp1(threading.Thread):
         self.logger.info("Sub-segment:" + config['Sub-segment'])
         run=True
         while run:
-            soup = self.get_soup(httplib2.iri2uri(url + "?p=" + str(pgid)))
-            prods = soup.find_all('li', {"class": "item last"})
+            soup = self.get_soup(httplib2.iri2uri(url + "?page=" + str(pgid)))
+            prods = soup.find("div",{"class":"listProducts"}).find("div").find("section").find_all('article', {"class": "item"},recursive=False)
             self.logger.info("#Found products:" + str(len(prods)))
             for prod in prods:
                 try:
@@ -120,7 +136,7 @@ class hmpp1(threading.Thread):
                     proddict['Sub-segment'] = config['Sub-segment']
                     proddict['template'] = config['template']
                     try:
-                        proddict['Product_name'] = prod.find("p", {"class": "product-name"}).find("a")['title']
+                        proddict['Product_name'] = prod.find("a", {"class": "visual productThumb jsGoToProductPage"}).find("img")['alt']
                         if (db['scrapes'].find(
                                 {"Source": config['site'], "Product_name": proddict['Product_name']}).count() > 0):
                             continue
@@ -128,34 +144,42 @@ class hmpp1(threading.Thread):
                         self.logger.error("Line 116:" + str(e))
                         proddict['Product_name'] = "None"
                     try:
-                        proddict['Brand'] = prod.find("h2", {"class": "product-marque"}).find("a")['title']
+                        proddict['Brand'] = prod.find("span", {"class": "brandName"}).text.strip()
                     except Exception as e:
                         self.logger.error("Line 139:" + str(e))
                         proddict['Brand'] = "None"
                     try:
-                        proddict['Price'] = float(prod.find("p",{"class":"special-price"}).text.strip().replace("\xa0€","").replace(",","."))
-                        proddict['Crossed_out_Price'] = float(prod.find("p",{"class":"old-price"}).text.strip().replace("\xa0€","").replace(",",".").split(" ")[-1:][0])
+                        proddict['Price'] = float(prod.find("span",{"class":"new"}).text.strip().replace("€","").replace(",","."))
                     except Exception as e:
                         self.logger.error("Line 116:" + str(e))
-                        proddict['Price'] = float(prod.find("span",{"class":"price"}).text.strip().replace("\xa0€","").replace(",","."))
-                        proddict['Crossed_out_Price'] = "None"
+                        proddict['Price'] = "None"
                     try:
-                        proddict['Discount_Claim'] = prod.find("div",{"class":"elements-reduc"}).find("div",{"class":"premier"}).text.replace(" ","")
+                        proddict['urltoproduct'] = prod.find("a", {"class": "visual productThumb jsGoToProductPage"})['href']
                     except Exception as e:
-                            self.logger.error("Line 135:" + str(e))
-                            proddict['Discount_Claim'] = "None"
+                        self.logger.error("Line 109:" + str(e))
+                        proddict['urltoproduct'] = "None"
                     try:
-                        proddict['Promotional_Claim'] = prod.find("div",{"class":"elements-reduc"}).find("div",{"class":"premier"}).text.replace(" ","")
+                        prodsoup = self.get_soup(httplib2.iri2uri(proddict['urltoproduct']))
+                    except:
+                        self.logger.error("Line 114:" + str(e))
+                        prodsoup = "None"
+                    try:
+                        proddict['Availability'] = prodsoup.find("span", {"class": "infoStock"}).text.strip().split("\n")[0].strip()
                     except Exception as e:
-                            self.logger.error("Line 135:" + str(e))
-                            proddict['Promotional_Claim'] = "None"
+                        self.logger.error("Line 109:" + str(e))
+                        proddict['Availability'] = "None"
                     try:
-                        proddict['Imagelink'] = prod.find("div",{"class":"action-product-list"}).find("img")["src"]
+                        proddict['Imagelink'] = config['site']+ prod.find("a", {"class": "visual productThumb jsGoToProductPage"}).find("img")["src"]
                         proddict['Imagefilename'] = proddict['Imagelink'].split("/")[len(proddict['Imagelink'].split("/")) - 1]
                     except Exception as e:
                         self.logger.error("Line 164:" + str(e))
                         proddict['Imagelink'] = "None"
                         proddict['Imagefilename'] = "None"
+                    try:
+                        proddict['Loyalty'] = prodsoup.find("span",{"class":"jsProductFidelity"}).parent.text.strip().replace("\n","").replace("  ","").replace("\xa0","").replace("€","€ ").replace(",",".").replace("0."," 0.")
+                    except Exception as e:
+                        self.logger.error("Line 135:" + str(e))
+                        proddict['Loyalty'] = "None"
                     db['scrapes'].insert_one(proddict)
                     nins = nins + 1
                     self.logger.info("#insertions:" + str(nins))
@@ -163,7 +187,7 @@ class hmpp1(threading.Thread):
                     self.logger.info("soup:" + str(prod))
                     self.logger.error("Line 100:" + str(e))
                     continue
-            run = self.is_product(url + "?p=" + str(pgid))
+            run = self.is_product(url + "?page=" + str(pgid))
             pgid = pgid + 1
         client.close()
         pass
@@ -173,42 +197,47 @@ class hmpp1(threading.Thread):
         url = config['urls']
         soup = self.get_soup(url)
         # get mega category
-        catlist = self.get_catgorylinks(soup)
-        if (len(catlist) > 0):
-            for cat in catlist:
-                config['Category'] = list(cat.keys())[0]
-                url = cat[config['Category']]
+        megacatlist = self.get_megacatgorylinks(soup)
+        if (len(megacatlist) > 0):
+            for megacat in megacatlist:
+                config['Mega-category'] = list(megacat.keys())[0]
+                url = megacat[config['Mega-category']]
                 soup = self.get_soup(url)
-                seglist = self.get_allseg(soup)
-                if (len(seglist) > 0):
-                    for seg in seglist:
-                        config['segment'] = list(seg.keys())[0]
-                        url = seg[config['segment']]
+                catlist = self.get_catgorylinks(soup)
+                if (len(catlist) > 0):
+                    for cat in catlist:
+                        config['Category'] = list(cat.keys())[0]
+                        url = cat[config['Category']]
                         soup = self.get_soup(url)
-                        subseglist = self.get_allsubseg(soup,url.split("/")[-1:][0])
-                        if (len(subseglist) > 0):
-                            for subseg in subseglist:
-                                config['Sub-segment'] = list(subseg.keys())[0]
-                                url = subseg[config['Sub-segment']]
-                                self.get_proddata(url)
+                        seglist = self.get_allseg(soup)
+                        if (len(seglist) > 0):
+                            for seg in seglist:
+                                config['segment'] = list(seg.keys())[0]
+                                url = seg[config['segment']]
+                                soup = self.get_soup(url)
+                                subseglist = self.get_allseg(soup)
+                                if (len(subseglist) > 0):
+                                    for subseg in subseglist:
+                                        config['Sub-segment'] = list(subseg.keys())[0]
+                                        url = subseg[config['Sub-segment']]
+                                        self.get_proddata(url)
+                                else:
+                                    config['Sub-segment'] = "None"
+                                    self.get_proddata(url)
                         else:
                             config['Sub-segment'] = "None"
+                            config['segment'] = "None"
                             self.get_proddata(url)
                 else:
+                    config['Category'] = "None"
                     config['Sub-segment'] = "None"
                     config['segment'] = "None"
                     self.get_proddata(url)
         else:
+            config['Mega-category'] = "None"
             config['Category'] = "None"
             config['Sub-segment'] = "None"
             config['segment'] = "None"
             self.get_proddata(url)
         pass
 
-
-config=dict()
-config['template']="pharmarket"
-config["mongolink"]="mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape"
-config['Mega-category']="None"
-config["site"]="https://www.pharmarket.com/"
-config["urls"]=config["site"]+"/"
