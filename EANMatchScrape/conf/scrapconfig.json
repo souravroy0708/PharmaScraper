@@ -1,0 +1,12 @@
+{
+	"eanlistfile" : "./files/eanmatchlist.csv",
+	"eantemplates": [{
+		"template": "pharmanity",
+		"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+		"sites": ["https://www.pharmanity.com"],
+		"formattype": ["%s/search/get?product=%d&search_id=0&search_cat=none&product_slug=%d"],
+		"db": "pharmascrape",
+		"collection": "scrapes",
+		"urlsuffix": "/parapharmacie"
+	}]
+}
