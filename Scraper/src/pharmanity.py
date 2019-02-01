@@ -124,7 +124,7 @@ class pharmanity(threading.Thread):
                     except Exception as e:
                         try:
                             self.logger.error("Line 123:"+str(e))
-                            proddict['urltoproduct']=self.config["site"] + prod.find("div",{"class":"caption"}).find("span")['href']
+                            proddict['urltoproduct']=self.config["site"] + "/" + prod.find("div",{"class":"proxy"}).find("button")["data-attr"].text.strip() + "-prd" + prod.find("div",{"class":"caption"}).find("span")['data-href'].split("ceq")[1].strip()
                         except Exception as e:
                             self.logger.error("Line 126:"+str(e))
                             proddict['urltoproduct']="None"
