@@ -66,7 +66,7 @@ class pharmonweb(threading.Thread):
     def is_product(self, url):
         soup = self.get_soup(httplib2.iri2uri(url))
         try:
-            isnotdisabled = not(soup.find("a",{"class":"link next"})==None)
+            isnotdisabled = not(soup.find("span",{"class":"disabled"})==None)
             return(isnotdisabled)
         except:
             return(False)
@@ -123,26 +123,15 @@ class pharmonweb(threading.Thread):
                         proddict['Imagelink'] = "None"
                         proddict['Imagefilename'] = "None"
                     try:
+                        proddict['EAN7'] = proddict['Imagefilename'].split(".")[0]
+                    except Exception as e:
+                        self.logger.error("Line 116:" + str(e))
+                        proddict['EAN7'] = "None"
+                    try:
                         proddict['urltoproduct'] = config['site']+ prod.find("div", {"class": "product-image"}).find("a")['href']
                     except Exception as e:
                         self.logger.error("Line 109:" + str(e))
                         proddict['urltoproduct'] = "None"
-                    try:
-                        prodsoup = self.get_soup(httplib2.iri2uri(proddict['urltoproduct']))
-                    except:
-                        self.logger.error("Line 114:" + str(e))
-                        prodsoup = "None"
-                    try:
-                        proddict['Availability'] = prodsoup.find("span", {"class": "infoStock"}).text.strip().split("\n")[0].strip()
-                    except Exception as e:
-                        self.logger.error("Line 109:" + str(e))
-                        proddict['Availability'] = "None"
-
-                    try:
-                        proddict['Loyalty'] = prodsoup.find("span",{"class":"jsProductFidelity"}).parent.text.strip().replace("\n","").replace("  ","").replace("\xa0","").replace("€","€ ").replace(",",".").replace("0."," 0.")
-                    except Exception as e:
-                        self.logger.error("Line 135:" + str(e))
-                        proddict['Loyalty'] = "None"
                     db['scrapes'].insert_one(proddict)
                     nins = nins + 1
                     self.logger.info("#insertions:" + str(nins))
@@ -150,7 +139,7 @@ class pharmonweb(threading.Thread):
                     self.logger.info("soup:" + str(prod))
                     self.logger.error("Line 100:" + str(e))
                     continue
-            run = self.is_product(url + "?page=" + str(pgid))
+            run = self.is_product(url + "/" + str(pgid))
             pgid = pgid + 1
         client.close()
         pass
@@ -177,9 +166,3 @@ class pharmonweb(threading.Thread):
             self.get_proddata(url)
         pass
 
-
-config = dict()
-config['template'] = "pharmonweb"
-config["mongolink"] = "mongodb://pharmaadmin:pharmafrpwdd@localhost:27017/pharmascrape"
-config['site'] = "https://www.pharmaciedescaps.fr"
-config["urls"] = config["site"] + "/"
