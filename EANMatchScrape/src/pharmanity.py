@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 
 
 # define product page extraction class
-class pharmanity(threading.Thread):
+class pharmanityean(threading.Thread):
     def __init__(self, config):
         threading.Thread.__init__(self)
         self.config = config
@@ -42,42 +42,8 @@ class pharmanity(threading.Thread):
         soup = BeautifulSoup(page)
         return (soup)
 
-    def get_catgorylinks(self, soup):
-        catlist = []
-        for item in soup.find_all("ul", {"class": "mobile-sub wsmenu-list"})[0].find_all("li"):
-            if (item.find("a") != None):
-                if ("parapharmacie" in item.find("a")['href']):
-                    catlist.append(self.config["site"] + item.find("a")['href'])
-        return catlist
-
-    def get_allseg(self, soup):
-        segdict = dict()
-        for anchor in soup.findAll('li', {"class": "parL2"}):
-            segdict[anchor.text.strip().replace(anchor.find('span').text, "").strip()] = dict()
-            segdict[anchor.text.strip().replace(anchor.find('span').text, "").strip()]['count'] = int(
-                anchor.find('span').text.replace(")", "").replace("(", ""))
-            segdict[anchor.text.strip().replace(anchor.find('span').text, "").strip()]['url'] = self.config["site"] + \
-                                                                                                anchor.find('a')['href']
-        return segdict
-
-    def get_allsubseg(self, soup):
-        subsegdict = dict()
-        for anchor in soup.findAll('li', {"class": "parL3"}):
-            subsegdict[anchor.text.strip().replace(anchor.find('span').text, "").strip()] = dict()
-            subsegdict[anchor.text.strip().replace(anchor.find('span').text, "").strip()]['count'] = int(
-                anchor.find('span').text.replace(")", "").replace("(", ""))
-            subsegdict[anchor.text.strip().replace(anchor.find('span').text, "").strip()]['url'] = self.config["site"] + \
-                                                                                                   anchor.find('a')[
-                                                                                                       'href']
-        return subsegdict
-
-    def is_product(self, url):
-        soup = self.get_soup(url)
-        return (len(soup.find_all('div', {"itemtype": "http://schema.org/Product"})) > 0)
-
-    def get_proddata(self, url):
+    def get_proddata(self, soup):
         config = self.config
-        pgid = 1
         client = pymongo.MongoClient(config["mongolink"])
         db = client[str(config['db'])]
         nins = 0
@@ -227,58 +193,8 @@ class pharmanity(threading.Thread):
 
     def run(self):
         config = self.config
-        url = config['urls']
-        soup = self.get_soup(url)
-        # get segments
-        if (config['Mega-category'] == "Medicament"):
-            config['Category'] = "Médicaments"
-            try:
-                allseg = self.get_allseg(soup)
-            except:
-                allseg = {}
-            for key in list(allseg.keys()):
-                url = allseg[key]['url']
-                config['segment'] = key
-                try:
-                    allsubseg = self.get_allsubseg(soup)
-                except:
-                    allsubseg = dict()
-                if (len(allsubseg) == 0):
-                    config['Sub-segment'] = "None"
-                    self.config = config
-                    self.get_proddata(url)
-                else:
-                    for subseg in list(allsubseg.keys()):
-                        config['Sub-segment'] = subseg
-                        self.config = config
-                        self.get_proddata(allsubseg[subseg]['url'])
-        else:
-            try:
-                catlist = self.get_catgorylinks(soup)
-            except:
-                catlist = []
-            for cat in catlist:
-                config['Category'] = '-'.join(cat.split("/")[len(cat.split("/")) - 1].split("-")[:-1])
-                soup = self.get_soup(cat)
-                try:
-                    allseg = self.get_allseg(soup)
-                except:
-                    allseg = {}
-                for seg in list(allseg.keys()):
-                    url = allseg[seg]['url']
-                    config['segment'] = seg
-                    try:
-                        allsubseg = self.get_allsubseg(self.get_soup(url))
-                    except:
-                        allsubseg = dict()
-                    if (len(allsubseg) == 0):
-                        config['Sub-segment'] = "None"
-                        self.config = config
-                        self.get_proddata(url)
-                    else:
-                        for subseg in list(allsubseg.keys()):
-                            config['Sub-segment'] = subseg
-                            self.config = config
-                            self.get_proddata(allsubseg[subseg]['url'])
+        for i in range(0,len(tempconf['sites'])):
+            url = tempconf['formattype'] % (tempconf['sites'][i],tempconf['ean'],tempconf['ean'])
+            soup = self.get_soup(url)
         pass
 
