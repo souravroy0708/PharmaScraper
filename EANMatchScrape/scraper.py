@@ -2,7 +2,6 @@
 
 # import libraries
 import random
-import pymongo
 import pandas as pd
 import json
 import threading
@@ -12,7 +11,7 @@ def main(config,nthread):
     eandf = pd.read_csv(config["eanlistfile"])
     for i in range(0,len(eandf)):
         ean = eandf['Code Produit'][i]
-        tempconf = next(item for item in config['eantemplates'] if item["template"] == "pharmanityean")
+        tempconf = next(item for item in config['eantemplates'] if item["template"] == "asteraean")
         tempconf['ean'] = ean
 
 
@@ -26,17 +25,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     main(config,int(args.numthreads))
 
-
-    args = parser.parse_args()
-    if (args.whichtemplate != "all"):
-        confdict=[]
-        for item in scrapconfig:
-            if (item['template'] == args.whichtemplate):
-                confdict.append(item)
-            else:
-                continue
-        scrapconfig = confdict
-    main(scrapconfig,int(args.numthreads))
 
 
 
