@@ -1,0 +1,12 @@
+{
+	"eanlistfile" : "./files/eanmatchlist.csv",
+	"eantemplates": [{
+		"template": "asteraean",
+		"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+		"sites": ["https://www.pharmaciedelamarine.fr","https://www.pharmaciedelapointe.fr","https://www.pharmacie-de-merville.fr","https://www.pharmaciedesforges-vallet.fr","https://www.pharmacielaurentfigeac.fr","http://www.pharmaciesaintetienne.fr"],
+		"formattype": "%s/search/get?product=%s&search_id=0&search_cat=none&product_slug=%s",
+		"db": "pharmascrape",
+		"collection": "eansearch",
+		"urlsuffix": "/parapharmacie"
+	}]
+}
