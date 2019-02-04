@@ -228,5 +228,61 @@
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
 	"urlsuffix" :"/"
+  },{
+	"template": "doctipharma",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"Sub-segment":"None",
+	"sites": ["https://www.doctipharma.fr/"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
+  },{
+	"template": "astera",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"Sub-segment":"None",
+	"sites": ["https://www.pharmaciedelamarine.fr","https://www.pharmaciedelapointe.fr","https://www.pharmacie-de-merville.fr","https://www.pharmaciedesforges-vallet.fr","https://www.pharmacielaurentfigeac.fr","http://www.pharmaciesaintetienne.fr"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
+  },{
+	"template": "universpharmacie",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"Sub-segment":"None",
+	"sites": ["http://www.universpharmacie.fr/"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
+  },{
+	"template": "hmpp1",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"Sub-segment":"None",
+	"sites": ["https://www.parapharmacie.leclerc/"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
+  },{
+	"template": "pharmarket",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"Sub-segment":"None",
+	"sites": ["https://www.pharmarket.com/"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
+  },{
+	"template": "pharmonweb",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"Sub-segment":"None",
+	"sites": ["https://www.mapetitepharma.fr","https://www.pharmaciebesnier.fr","https://www.pharmaciecathedralesoissons.fr","https://www.pharmacie-cavailhes.fr","https://www.pharmaciedelafriperie.fr","https://www.pharmaciedelagare-amiens.fr","https://www.pharmacie-de-la-haie.fr","https://www.pharmaciedelamelelievre.fr","https://www.pharmaciedelaplacemontmedy.fr","https://www.pharmaciedelobservatoire.fr","https://www.pharmaciedenervaise.fr","https://www.pharmaciedesaffre.fr","https://www.pharmacie-de-saint-jacques.fr","https://www.pharmaciedesarry.fr","https://www.pharmaciedescaps.fr","https://www.pharmaciedesdeuxvallees.fr","https://www.pharmaciedetourville.com","https://www.pharmaciedetourville.com/","https://www.pharmaciediot.fr","https://www.pharmaciedubecquet.fr","https://www.pharmacie-du-buisson.fr","https://www.pharmaciedufinosello.fr","https://www.pharmaciedupaysdaigre.fr","https://www.pharmaciedupont-antony.fr","https://www.pharmaciedurhodon.fr","https://www.pharmaciedurouvray-reservation.fr","https://www.pharmaciedutardenois.fr","https://www.pharmaciedutrocadero.fr","https://www.pharmacieduvillars.fr","https://www.pharmacie-eclaron.fr","https://www.pharmacieforet.fr","https://www.pharmacie-garches.fr","https://www.pharmacie-indre.fr","https://www.pharmaciejouandet.fr","https://www.pharmacie-la-fontaine.fr","https://www.pharmacielouis.fr","https://www.pharmacie-maupetit-coueron.fr","https://www.pharmaciemerceron.fr","https://www.pharmaciemeridien.fr","https://www.pharmacie-niquet-cast.fr","https://www.pharmacieorlyparc.fr","https://www.pharmacieorthopedie77.fr","https://www.pharmaciepasteur77.fr","https://www.pharmacie-polesud.com","https://www.pharmaciepontstemilion.fr","https://www.pharmacieprovin80.fr","https://www.pharmacieroyesanchez-wambrechies.fr","https://www.pharmaciesaintgermain94.fr","https://www.pharmaciesaintpierre76.fr","https://www.pharmaciesalhi.fr","https://www.pharmaciestebrigitte.fr","https://www.pharmaciesteloi.fr","https://www.pharmaciestgenes.fr","https://www.pharmacie-terlain.fr","https://www.pharmacieternay.fr","https://www.pharmacie-toulouse-chiche.com","https://www.pharmacietriel.fr","https://www.pharmacievarin.fr","https://www.pharmacity.fr"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
   }
+
+
 ]
