@@ -115,8 +115,8 @@ class gpo(threading.Thread):
         self.logger.info("Category:"+config['Category'])
         self.logger.info("segment:"+config['segment'])
         self.logger.info("Sub-segment:"+config['Sub-segment'])
-        while (self.is_product(url+"#/page-"+str(pgid))):
-            soup = self.get_soup(httplib2.iri2uri(url+"#/page-"+str(pgid)))
+        while (self.is_product(url+"?p="+str(pgid))):
+            soup = self.get_soup(httplib2.iri2uri(url+"?p="+str(pgid)))
             prods=soup.find_all('div', {"class":"product-container"})
             self.logger.info("#Found products:" + str(len(prods)))
             for prod in prods:

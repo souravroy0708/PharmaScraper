@@ -11,8 +11,9 @@ def main(config,nthread):
     eandf = pd.read_csv(config["eanlistfile"])
     for i in range(0,len(eandf)):
         ean = eandf['Code Produit'][i]
-        tempconf = next(item for item in config['eantemplates'] if item["template"] == "asteraean")
-        tempconf['ean'] = ean
+        for template in config['eantemplates']:
+            template['ean'] = ean
+            exec(str("threadlist.append(" + template["template"] + "(template))"))
 
 
 

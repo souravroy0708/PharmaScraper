@@ -26,6 +26,9 @@ from src.pharmavielogin import pharmavielogin
 from src.decaroli import decaroli
 from src.astera import astera
 from src.universpharmacie import universpharmacie
+from src.pharmabestprado1 import pharmabestprado1
+from src.pharmabestprado2 import pharmabestprado2
+
 # import libraries
 import random
 import pymongo

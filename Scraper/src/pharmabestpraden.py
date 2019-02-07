@@ -11,9 +11,13 @@ import logging
 import requests
 import httplib2
 import re
+import os
+import time
+import platform
 import threading
 from bs4 import BeautifulSoup
-
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 # define product page extraction class
 class pharmabestpraden(threading.Thread):
@@ -40,12 +44,36 @@ class pharmabestpraden(threading.Thread):
     
     def get_soup(self,url):
         try:
-            page = urllib.request.urlopen(url).read()
-            soup = BeautifulSoup(page)
+            # define chrome options
+            chrome_options = Options()
+            chrome_options.add_argument('--dns-prefetch-disable')
+            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--lang=en-US')
+            chrome_options.add_argument("headless")
+            # chrome_options.add_argument('--headless')
+            if (platform.system() == "Darwin"):
+                driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver_mac",
+                                          chrome_options=chrome_options)
+            elif (platform.system() == "Linux"):
+                driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver_linux",
+                                          chrome_options=chrome_options)
+            else:
+                driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver.exe",
+                                          chrome_options=chrome_options)
+            driver.get(url)
+            time.sleep(10)
+            html = driver.page_source
+            soup = BeautifulSoup(html)
         except:
-            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)     Chrome/37.0.2049.0 Safari/537.36'}
-            r = requests.get(url, headers=headers)
-            soup = BeautifulSoup(r.text)
+            self.logger.error("Error in selenium in :" + str(url))
+            try:
+                page = urllib.request.urlopen(url).read()
+                soup = BeautifulSoup(page)
+            except:
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)     Chrome/37.0.2049.0 Safari/537.36'}
+                r = requests.get(url, headers=headers)
+                soup = BeautifulSoup(r.text)
         return(soup)
         
     def get_catgorylinks(self,soup):
@@ -105,13 +133,16 @@ class pharmabestpraden(threading.Thread):
     
     def is_product(self,url):
         soup = self.get_soup(httplib2.iri2uri(url))
-        currpage = soup.find("li",{"id":"pagination_next"})
-        if (currpage==None):
+        try:
+            currpage = soup.find("li",{"id":"pagination_next"})
+            if (currpage==None):
+                return False
+            elif (currpage['class'][0]=="disabled"):
+                return False
+            else:
+                return True
+        except:
             return False
-        elif (currpage['class']=="disabled pagination_next"):
-            return False
-        else:
-            return True
     
     
     def get_proddata(self,url):
