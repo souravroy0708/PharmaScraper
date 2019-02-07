@@ -28,7 +28,10 @@ from src.astera import astera
 from src.universpharmacie import universpharmacie
 from src.pharmabestprado1 import pharmabestprado1
 from src.pharmabestprado2 import pharmabestprado2
-
+from src.doctipharma import doctipharma
+from src.hmpp1 import hmpp1
+from src.pharmarket import pharmarket
+from src.pharmonweb import pharmonweb
 # import libraries
 import random
 import pymongo
