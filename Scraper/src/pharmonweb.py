@@ -56,7 +56,7 @@ class pharmonweb(threading.Thread):
             if (not(item.find("a") == None)):
                 itr=itr+1
                 megacatdict = dict()
-                megacatdict[item.find("a").text.strip()] = config['site'] + item.find("a")['href']
+                megacatdict[item.find("a").text.strip()] = self.config['site'] + item.find("a")['href']
                 if (itr==2):
                     megacatdict[item.find("a").text.strip()] = megacatdict[item.find("a").text.strip()] +"/2"
                 megacatlist.append(megacatdict)
@@ -157,12 +157,20 @@ class pharmonweb(threading.Thread):
                 config['Category'] = "None"
                 config['Sub-segment'] = "None"
                 config['segment'] = "None"
-                self.get_proddata(url)
+                try:
+                    self.get_proddata(url)
+                except Exception as e:
+                    self.logger.error("Line 100:" + str(e))
+                    continue
         else:
             config['Mega-category'] = "None"
             config['Category'] = "None"
             config['Sub-segment'] = "None"
             config['segment'] = "None"
-            self.get_proddata(url)
+            try:
+                self.get_proddata(url)
+            except Exception as e:
+                self.logger.error("Line 100:" + str(e))
+                continue
         pass
 
