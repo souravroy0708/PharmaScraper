@@ -161,7 +161,7 @@ class pharmabestamiens(threading.Thread):
         config = self.config
         url = config['urls']
         soup = self.get_soup(url)
-        menudict = self.get_menu(soup)
+        menudict = self.get_categorymenu(soup)
         for key1 in list(menudict.keys()):
             config['Category'] =key1
             catdict = menudict[key1]
