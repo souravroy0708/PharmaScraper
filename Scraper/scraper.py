@@ -39,7 +39,7 @@ import json
 import threading
 import argparse
 
-def main(scrapconfig,nthread):
+def main(scrapconfig,nthread,skiplim):
     configlist=[]
     for template in scrapconfig:
         config = dict()
@@ -56,7 +56,7 @@ def main(scrapconfig,nthread):
                 sitecount = db[str(template['collection'])].find({"Source": config['site']}).count()
                 print(sitecount)
                 client.close()
-                if (sitecount < 100):
+                if (sitecount < skiplim):
                     config["urls"] = str(config["site"] + template["urlsuffix"])
                     configlist.append(config.copy())
                 else:
@@ -81,6 +81,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--whichtemplate', dest='whichtemplate', default="lasante",help='mention the class name to run')
     parser.add_argument('--numthreads', dest='numthreads', default=10,help='how many threads')
+    parser.add_argument('--skiplim', dest='skiplim', default=500,help='minimum data limit to skip')
     args = parser.parse_args()
     if (args.whichtemplate != "all"):
         confdict=[]
@@ -90,7 +91,4 @@ if __name__ == "__main__":
             else:
                 continue
         scrapconfig = confdict
-    main(scrapconfig,int(args.numthreads))
-
-
-
+    main(scrapconfig,int(args.numthreads),int(args.skiplim))

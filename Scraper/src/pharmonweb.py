@@ -171,6 +171,5 @@ class pharmonweb(threading.Thread):
                 self.get_proddata(url)
             except Exception as e:
                 self.logger.error("Line 100:" + str(e))
-                continue
         pass
 

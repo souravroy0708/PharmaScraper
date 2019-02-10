@@ -51,11 +51,14 @@ class astera(threading.Thread):
 
     def get_megacatgorylinks(self, soup):
         megacatlist = []
-        for item in soup.find("ul", {"id": "nav-menu"}).find_all("li", recursive=False)[3:5]:
-            if (not(item.find("a") == None)):
-                megacatdict = dict()
-                megacatdict[item.find("a").text.strip()] = self.config['site']+item.find("a")['href']
-                megacatlist.append(megacatdict)
+        if(soup.find("ul", {"id": "nav-menu"})==None):
+            return megacatlist
+        else:
+            for item in soup.find("ul", {"id": "nav-menu"}).find_all("li", recursive=False)[3:5]:
+                if (not(item.find("a") == None)):
+                    megacatdict = dict()
+                    megacatdict[item.find("a").text.strip()] = self.config['site']+item.find("a")['href']
+                    megacatlist.append(megacatdict)
         return megacatlist
 
 
@@ -74,17 +77,24 @@ class astera(threading.Thread):
 
     def get_allseg(self, soup):
         seglist = []
-        for item in soup.find("div", {"class": "productCategory-block-top"}).find("ul").find_all("li",  recursive=False):
-            if (not (item.find("a") == None)):
-                segdict = dict()
-                segdict[item.find("a").text.strip()] =  item.find("a")['href']
-                seglist.append(segdict)
+        if (soup.find("div", {"class": "productCategory-block-top"})==None):
+            return seglist
+        else:
+            if (len(soup.find("div", {"class": "productCategory-block-top"}).find("ul"))>0):
+                for item in soup.find("div", {"class": "productCategory-block-top"}).find("ul").find_all("li",  recursive=False):
+                    if (not (item.find("a") == None)):
+                        segdict = dict()
+                        segdict[item.find("a").text.strip()] =  item.find("a")['href']
+                        seglist.append(segdict)
         return seglist
 
 
     def is_product(self, url):
         soup = self.get_soup(httplib2.iri2uri(url))
-        return(len(soup.find("a",{"rel":"next"}))>0)
+        if (soup.find("a",{"rel":"next"})==None):
+            return False
+        else:
+            return(len(soup.find("a",{"rel":"next"}))>0)
 
 
     def get_proddata(self, url):
@@ -149,7 +159,7 @@ class astera(threading.Thread):
                     self.logger.info("soup:" + str(prod))
                     self.logger.error("Line 100:" + str(e))
                     continue
-            run = self.is_product(url + "#q[page]=" + str(pgid))
+            run = self.is_product(url + "?page=" + str(pgid))
             pgid = pgid + 1
         client.close()
         pass
