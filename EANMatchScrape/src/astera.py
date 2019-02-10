@@ -67,6 +67,7 @@ class asteraean(threading.Thread):
             retdict['product']=soup.find("h1",{"class":"title"}).text
             retdict['site'] = self.config['site']
             retdict['image'] = self.config['site'] + soup.find("a", {"class": "lightbox"})['href']
+            driver.quit()
         except Exception as e:
             self.logger.info("url:" + self.config['site'])
             self.logger.info("ean:" + self.config['ean'])

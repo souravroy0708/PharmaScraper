@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 
 
 # define product page extraction class
-class pharmaviewolean(threading.Thread):
+class pharmabestamiensean(threading.Thread):
     def __init__(self, config):
         threading.Thread.__init__(self)
         self.config = config
@@ -39,7 +39,7 @@ class pharmaviewolean(threading.Thread):
 
     def get_search_res(self):
         try:
-            url = self.config['site']  + self.config['urlsuffix'] + self.config['ean']
+            url = self.config['site'] + self.config['urlsuffix'] + self.config['ean']
             try:
                 page = urllib.request.urlopen(url).read()
                 soup = BeautifulSoup(page)
@@ -48,15 +48,15 @@ class pharmaviewolean(threading.Thread):
                     'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)     Chrome/37.0.2049.0 Safari/537.36'}
                 r = requests.get(url, headers=headers)
                 soup = BeautifulSoup(r.text)
-            retdict=dict()
-            retdict['url'] = self.config['site'] + "/" + soup.find("h2",{"class":"product-title"}).find("a")['href']
-            retdict['product']=soup.find("h2",{"class":"product-title"}).find("a").text.strip()
+            retdict = dict()
+            retdict['url'] = self.config['site'] + "/" + soup.find("div", {"class": "texts"}).find_all("a")[-1:][0]['href']
+            retdict['product'] = soup.find("div", {"class": "title"}).text.strip()
             retdict['site'] = self.config['site']
-            retdict['image'] = soup.find("div",{"class":"product-image"}).find("img")['src']
+            retdict['image'] = soup.find("div", {"class": "image"}).find("img")['src']
         except Exception as e:
             self.logger.info("url:" + self.config['site'])
             self.logger.info("ean:" + self.config['ean'])
-            retdict=dict()
+            retdict = dict()
         return (retdict)
 
     def run(self):

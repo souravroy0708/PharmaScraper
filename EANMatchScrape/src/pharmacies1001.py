@@ -5,16 +5,16 @@ Created on Thu Dec  6 15:36:57 2018
 
 @author: abhishekray
 """
-import requests
-import urllib
 import pymongo
 import logging
 import threading
+import platform
 from bs4 import BeautifulSoup
-
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 # define product page extraction class
-class pharmaviewolean(threading.Thread):
+class pharmacies1001ean(threading.Thread):
     def __init__(self, config):
         threading.Thread.__init__(self)
         self.config = config
@@ -39,24 +39,32 @@ class pharmaviewolean(threading.Thread):
 
     def get_search_res(self):
         try:
-            url = self.config['site']  + self.config['urlsuffix'] + self.config['ean']
-            try:
-                page = urllib.request.urlopen(url).read()
-                soup = BeautifulSoup(page)
-            except:
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)     Chrome/37.0.2049.0 Safari/537.36'}
-                r = requests.get(url, headers=headers)
-                soup = BeautifulSoup(r.text)
-            retdict=dict()
-            retdict['url'] = self.config['site'] + "/" + soup.find("h2",{"class":"product-title"}).find("a")['href']
-            retdict['product']=soup.find("h2",{"class":"product-title"}).find("a").text.strip()
+            url = self.config['site'] + self.config['urlsuffix'] + self.config['ean'] + "&page=1"
+            chrome_options = Options()
+            chrome_options.add_argument('--dns-prefetch-disable')
+            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--lang=en-US')
+            # chrome_options.add_argument('--headless')
+            if (platform.system() == "Darwin"):
+                driver = webdriver.Chrome("./chromedrivers/chromedriver_mac",
+                                          chrome_options=chrome_options)
+            elif (platform.system() == "Linux"):
+                driver = webdriver.Chrome("./chromedrivers/chromedriver_linux", chrome_options=chrome_options)
+            else:
+                driver = webdriver.Chrome("./chromedrivers/chromedriver.exe",
+                                          chrome_options=chrome_options)
+            driver.get(self.config['site'])
+            soup=BeautifulSoup(driver.page_source)
+            retdict = dict()
+            retdict['url'] = self.config['site'] + "/" + soup.find("h2", {"class": "title order-1 mb-0"}).find("a")['href']
+            retdict['product'] = soup.find("h2", {"class": "title order-1 mb-0"}).find("a").text.strip()
             retdict['site'] = self.config['site']
-            retdict['image'] = soup.find("div",{"class":"product-image"}).find("img")['src']
+            retdict['image'] = soup.find("div", {"class": "illus"}).find("img")['src']
+            driver.quit()
         except Exception as e:
             self.logger.info("url:" + self.config['site'])
             self.logger.info("ean:" + self.config['ean'])
-            retdict=dict()
+            retdict = dict()
         return (retdict)
 
     def run(self):

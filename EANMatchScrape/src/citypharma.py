@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 
 
 # define product page extraction class
-class citypharma(threading.Thread):
+class citypharmaean(threading.Thread):
     def __init__(self, config):
         threading.Thread.__init__(self)
         self.config = config
