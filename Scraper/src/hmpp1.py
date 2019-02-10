@@ -66,7 +66,7 @@ class hmpp1(threading.Thread):
     def get_allseg(self,soup):
         seglist = []
         for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li", {"class": "ms-level0"}, recursive=False)[0:9]:
-            if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip()==config['Category']):
+            if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip()==self.config['Category']):
                 for elem in item.find("div",{"class":"col-level col-xs-6"}).find_all("div",{"class":"col-xs-12"}):
                     segdict = dict()
                     segdict[elem.find("a")['title'].strip()] = "https:"+elem.find("a")['href']
@@ -76,7 +76,7 @@ class hmpp1(threading.Thread):
     def get_allsubseg(self, soup, segkey ):
         subseglist = []
         for item in soup.find("ul", {"id": "ms-topmenu"}).find_all("li", {"class": "ms-level0"}, recursive=False)[0:9]:
-            if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip() == config['Category']):
+            if (not (item.find("a") == None) and "http" in item.find("a")['href'] and item.find("a").text.strip() == self.config['Category']):
                 for elem in item.find("div", {"class": "col-xs-6 dynamic-content"}).find_all("div", {"class": "form-group"}):
                     for part in elem.find_all("div",{"class":"form-group text-left"}):
                         if (not(part.find("a") == None) and segkey in part.find("a")['href']):
