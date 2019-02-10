@@ -36,7 +36,7 @@ class pharmabestamiens(threading.Thread):
         self.logger.addHandler(logger_handler)
         self.logger.info('Completed configuring logger()!')
 
-    def get_soup(url):
+    def get_soup(self,url):
         try:
             page = urllib.request.urlopen(url).read()
             soup = BeautifulSoup(page)
