@@ -177,14 +177,18 @@ class doctipharma(threading.Thread):
                         self.logger.error("Line 124:" + str(e))
                         proddict['Stars'] = 0.0
                     try:
-                        proddict['Imagelink'] = "https:"+prod.find("img")['src']
-                        proddict['Imagefilename'] = proddict['Imagelink'].split("/")[len(proddict['Imagelink'].split("/")) - 1]
+                        if (prod.find("span",{"class":"item-link"}).find("img",{"itemprop":"image"})['src'].startswith("data")):
+                            proddict['Imagelink'] = "https:"+prod.find("span",{"class":"item-link"}).find("img",{"itemprop":"image"})['src']
+                            proddict['Imagefilename'] = proddict['Imagelink'].split("/")[len(proddict['Imagelink'].split("/")) - 1]
+                        else:
+                            proddict['Imagelink'] = "https:"+prodsoup.find("figure",{"class":"wrap-img"}).find("img",{"itemprop":"image"})['src']
+                            proddict['Imagefilename'] = proddict['Imagelink'].split("/")[len(proddict['Imagelink'].split("/")) - 1]
                     except Exception as e:
                         self.logger.error("Line 173:" + str(e))
                         proddict['Imagelink'] = "None"
                         proddict['Imagefilename'] = "None"
                     try:
-                        proddict['EAN13'] = proddict['Imagefilename'].split("-")[-1:][0].split(".")[0]
+                        proddict['EAN13'] = proddict['Imagefilename'].split("-")[0]
                     except Exception as e:
                         self.logger.error("Line 148:" + str(e))
                         proddict['EAN13'] = "None"
