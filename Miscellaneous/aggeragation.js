@@ -5,7 +5,7 @@ db.getCollection("scrapes").aggregate(
 		// Stage 1
 		{
 			$group: {
-			    _id: {"Template":"$template","Source":"$Source","Megacat":"$Mega-category"}, count:{"$sum":1}
+			    _id: {"Template":"$template","Source":"$Source"}, count:{"$sum":1}
 			}
 		},
 
