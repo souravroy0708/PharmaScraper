@@ -92,7 +92,10 @@ class pharmonweb(threading.Thread):
                     proddict = dict()
                     proddict['Source'] = config['site']
                     proddict['Mega-category'] = config['Mega-category']
-                    proddict['Category'] = prod.find("span", {"class": "theme"}).text.strip()
+                    try:
+                        proddict['Category'] = prod.find("span", {"class": "theme"}).text.strip()
+                    except:
+                        proddict['Category'] = "None"
                     proddict['segment'] = config['segment']
                     proddict['Sub-segment'] = config['Sub-segment']
                     proddict['template'] = config['template']

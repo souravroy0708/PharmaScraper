@@ -242,7 +242,7 @@
 	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"Mega-category":"None",
 	"Sub-segment":"None",
-	"sites": ["https://www.pharmaciedelamarine.fr","https://www.pharmaciedelapointe.fr","https://www.pharmacie-de-merville.fr","https://www.pharmaciedesforges-vallet.fr","https://www.pharmacielaurentfigeac.fr","http://www.pharmaciesaintetienne.fr"],
+	"sites": ["https://www.pharmaciedelamarine.fr","https://www.pharmaciedelapointe.fr","https://www.pharmacie-de-merville.fr","https://www.pharmaciedesforges-vallet.fr","https://www.pharmacielaurentfigeac.fr"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
 	"urlsuffix" :"/"
@@ -269,7 +269,7 @@
 	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"Mega-category":"None",
 	"Sub-segment":"None",
-	"sites": ["https://www.pharmarket.com/"],
+	"sites": ["https://paris-beaugrenelle.pharmarket.com/","https://pharmacie-centrale-plan-de-cuques.pharmarket.com/","https://grande-pharmacie-croix-bleue-nimes.pharmarket.com/","https://pharmacie-remicourt-saint-quentin.pharmarket.com/","https://pharmacie-des-ecoles-marignane.pharmarket.com/","https://pharmacie-des-salines-montmorot.pharmarket.com/","https://pharmacie-du-rieu-fargniers.pharmarket.com/","https://pharmacie-mikou-bray-sur-seine.pharmarket.com/","https://pharmacie-des-salines-ajaccio.pharmarket.com/","https://pharmacie-morelle-avesnes-aubert.pharmarket.com/","https://pharmacie-rochefort-saint-michel.pharmarket.com/","https://pharmacie-souffel-weyersheim.pharmarket.com/","https://pharmacie-hamani-saint-michel-sur-orge.pharmarket.com/","https://www.pharmarket.com/"],
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
 	"urlsuffix" :"/"
