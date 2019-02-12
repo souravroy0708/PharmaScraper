@@ -80,7 +80,7 @@
 		"urlsuffix": "/search?q="
 	},
 	{
-		"template": "doctipharma",
+		"template": "doctipharmaean",
 		"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 		"sites": ["https://www.doctipharma.fr"],
 		"db": "pharmascrape",

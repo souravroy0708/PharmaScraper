@@ -24,7 +24,7 @@ class mesoignerwithloginean(threading.Thread):
 
         # Create the Handler for logging data to a file
         logger_handler = logging.FileHandler(
-            "logs/" + config['template'] + "_" + config["site"].replace("/", "_").replace(".", "_").replace(":","") + ".log")
+            "logs/" + config['template'] + ".log")
         logger_handler.setLevel(logging.DEBUG)
 
         # Create a Formatter for formatting the log messages
@@ -53,6 +53,7 @@ class mesoignerwithloginean(threading.Thread):
             retdict['product']=soup.find("h2",{"class":"product-title"}).find("a").text.strip()
             retdict['site'] = self.config['site']
             retdict['image'] = soup.find("div",{"class":"product-image"}).find("img")['src']
+            retdict['ean'] = self.config['ean']
         except Exception as e:
             self.logger.info("url:" + self.config['site'])
             self.logger.info("ean:" + self.config['ean'])
@@ -62,9 +63,11 @@ class mesoignerwithloginean(threading.Thread):
     def run(self):
         for site in self.config['sites']:
             self.config['site'] = site
-            retdict = self.get_search_res(self)
-            if (len(retdict)>0):
-                client = pymongo.MongoClient(self.config["mongolink"])
-                db = client[self.config["db"]]
-                db[self.config["collection"]].insert_one(retdict)
+            for ean in self.config['eanlist']:
+                self.config['ean'] = ean
+                retdict = self.get_search_res()
+                if (len(retdict) > 0):
+                    client = pymongo.MongoClient(self.config["mongolink"])
+                    db = client[self.config["db"]]
+                    db[self.config["collection"]].insert_one(retdict)
         pass
