@@ -49,8 +49,8 @@ class pharmabestpraden(threading.Thread):
             chrome_options.add_argument('--dns-prefetch-disable')
             chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--lang=en-US')
-            chrome_options.add_argument("headless")
-            # chrome_options.add_argument('--headless')
+            #chrome_options.add_argument("headless")
+            #chrome_options.add_argument('--headless')
             if (platform.system() == "Darwin"):
                 driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver_mac",
                                           chrome_options=chrome_options)
@@ -64,6 +64,7 @@ class pharmabestpraden(threading.Thread):
             time.sleep(10)
             html = driver.page_source
             soup = BeautifulSoup(html)
+            driver.quit()
         except:
             self.logger.error("Error in selenium in :" + str(url))
             try:
