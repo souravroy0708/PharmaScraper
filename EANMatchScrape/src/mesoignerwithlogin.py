@@ -65,13 +65,14 @@ class mesoignerwithloginean(threading.Thread):
             self.config['site'] = site
             for ean in self.config['eanlist']:
                 self.config['ean'] = ean
-                retdict = self.get_search_res()
-                if (len(retdict) > 0):
-                    client = pymongo.MongoClient(self.config["mongolink"])
-                    db = client[self.config["db"]]
-                    if (db[self.config["collection"]].find(
-                            {"site": retdict['site'], "ean": retdict['ean']}).count() > 0):
-                        continue
-                    else:
+                client = pymongo.MongoClient(self.config["mongolink"])
+                db = client[self.config["db"]]
+                if (db[self.config["collection"]].find(
+                        {"site": self.config['site'], "ean": self.config['ean']}).count() > 0):
+                    continue
+                else:
+                    retdict = self.get_search_res()
+                    if (len(retdict) > 0):
                         db[self.config["collection"]].insert_one(retdict)
+                client.close()
         pass
