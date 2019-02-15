@@ -72,5 +72,9 @@ class pharmabestamiensean(threading.Thread):
                 if (len(retdict) > 0):
                     client = pymongo.MongoClient(self.config["mongolink"])
                     db = client[self.config["db"]]
-                    db[self.config["collection"]].insert_one(retdict)
+                    if (db[self.config["collection"]].find(
+                            {"site": retdict['site'], "ean": retdict['ean']}).count() > 0):
+                        continue
+                    else:
+                        db[self.config["collection"]].insert_one(retdict)
         pass
