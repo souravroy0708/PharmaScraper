@@ -291,6 +291,14 @@
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
 	"urlsuffix" :"/"
+  },{
+	"template": "groupuniverspharmacie",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"sites": ["https://clickncollect.groupeuniverspharmacie.com/1190FINE80/","https://clickncollect.groupeuniverspharmacie.com/1184ROUS24/","https://clickncollect.groupeuniverspharmacie.com/1291MOLA59/","https://clickncollect.groupeuniverspharmacie.com/1294BATB63/","https://clickncollect.groupeuniverspharmacie.com/1255GHEP68/","https://clickncollect.groupeuniverspharmacie.com/1225MIKD62/","https://clickncollect.groupeuniverspharmacie.com/1279BLAG86/","https://clickncollect.groupeuniverspharmacie.com/1132FEGA27/","https://clickncollect.groupeuniverspharmacie.com/1128DIME70/","https://clickncollect.groupeuniverspharmacie.com/1164SCLA31/","https://clickncollect.groupeuniverspharmacie.com/1216LACV86/","https://clickncollect.groupeuniverspharmacie.com/1183IYIC68/","https://clickncollect.groupeuniverspharmacie.com/1259WIMB01/","https://clickncollect.groupeuniverspharmacie.com/1174LEFE41/","https://clickncollect.groupeuniverspharmacie.com/1182MAIL33/","https://clickncollect.groupeuniverspharmacie.com/1245BLOA88/","https://clickncollect.groupeuniverspharmacie.com/1269HEND88/","https://clickncollect.groupeuniverspharmacie.com/1178BETR06/","https://clickncollect.groupeuniverspharmacie.com/1211LAMP88/","https://clickncollect.groupeuniverspharmacie.com/1051LAMI80/","https://clickncollect.groupeuniverspharmacie.com/1129MEUN70/","https://clickncollect.groupeuniverspharmacie.com/1095AUBE02/"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
   }
 
 
