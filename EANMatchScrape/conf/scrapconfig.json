@@ -1,5 +1,11 @@
 {
 	"eanlistfile" : "./files/eanmatchlist.csv",
+	"fetchean" : "False",
+	"matchean" : "True",
+	"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"db": "pharmascrape",
+	"sourcecollection": "eansearch",
+	"targetcollection": "scrapes",
 	"eantemplates": [{
 		"template": "asteraean",
 		"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",

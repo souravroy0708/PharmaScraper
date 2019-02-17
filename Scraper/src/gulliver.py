@@ -42,8 +42,8 @@ class gulliver(threading.Thread):
         self.logger.addHandler(logger_handler)
         self.logger.info('Completed configuring logger()!')
 
-    def get_soup(self, url):
-        site = "https://www.pharmacie-madeleine-5avenues.fr/appli_mobile"
+    def get_soup(self):
+        #site = self.config['site']
         if (platform.system() == "Darwin"):
             driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver_mac", chrome_options=chrome_options)
         elif (platform.system() == "Linux"):
@@ -145,49 +145,7 @@ class gulliver(threading.Thread):
         pass
 
     def run(self):
-        config = self.config
-        url = config['urls']
-        soup = self.get_soup(httplib2.iri2uri(url))
-        # get segments
-        try:
-            catlist = self.get_catgorylinks(soup)
-        except:
-            catlist = []
-        if (len(catlist) > 0):
-            for cat in catlist:
-                config['Category'] = list(cat.keys())[0]
-                url = cat[config['Category']]
-                soup = self.get_soup(httplib2.iri2uri(url))
-                try:
-                    allseg = self.get_allseg(soup)
-                except:
-                    allseg = dict()
-                if (len(allseg) > 0):
-                    for seg in list(allseg.keys()):
-                        url = allseg[seg]
-                        config['segment'] = seg
-                        soup = self.get_soup(httplib2.iri2uri(url))
-                        try:
-                            allsubseg = self.get_allseg(soup)
-                        except:
-                            allsubseg = dict()
-                        if (len(allsubseg) > 0):
-                            for subseg in list(allsubseg.keys()):
-                                url = allsubseg[subseg]
-                                config['Sub-segment'] = subseg
-                                self.get_proddata(url)
-                        else:
-                            config['Sub-segment'] = "None"
-                            self.get_proddata(url)
-                else:
-                    config['segment'] = "None"
-                    config['Sub-segment'] = "None"
-                    self.get_proddata(url)
-        else:
-            config['Category'] = "None"
-            config['segment'] = "None"
-            config['Sub-segment'] = "None"
-            self.get_proddata(url)
+        menulist = self.get_soup()
         pass
 
 
