@@ -282,6 +282,15 @@
 	"db" : "pharmascrape",
 	"collection" : "scrapes",
 	"urlsuffix" :"/"
+  },{
+	"template": "gulliver",
+	"mongolink":  "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
+	"Mega-category":"None",
+	"Sub-segment":"None",
+	"sites": ["https://www.pharmacie-madeleine-5avenues.fr/appli_mobile"],
+	"db" : "pharmascrape",
+	"collection" : "scrapes",
+	"urlsuffix" :"/"
   }
 
 
