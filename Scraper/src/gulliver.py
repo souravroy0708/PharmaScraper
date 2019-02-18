@@ -9,6 +9,7 @@ import platform
 import time
 import threading
 from bs4 import BeautifulSoup
+import pymongo
 # define chrome options
 chrome_options = Options()
 chrome_options.add_argument('--dns-prefetch-disable')
@@ -42,8 +43,44 @@ class gulliver(threading.Thread):
         self.logger.addHandler(logger_handler)
         self.logger.info('Completed configuring logger()!')
 
-    def get_soup(self):
-        #site = self.config['site']
+    def send_data(self,config,pagesoup):
+        client = pymongo.MongoClient(self.config["mongolink"])
+        db = client[str(self.config['db'])]
+        prods= pagesoup.find("div",{"id":"page_custom"}).find_all("div",{"class":"col-sm-6"})
+        for prod in prods:
+            proddict=config.copy()
+            try:
+                proddict['Product_name'] = prod.find("h4",{"class":"name-area"}).text
+                if (db['scrapes'].find(
+                        {"Source": self.config['site'], "Product_name": proddict['Product_name']}).count() > 0):
+                    continue
+            except:
+                self.logger.error("Line 100:" + str(e))
+                proddict['Product_name'] = "None"
+            try:
+                proddict['Price'] = float(
+                    prod.find("span", {"class": "price product-price"}).text.replace("€", ".").strip())
+                proddict['Crossed_out_Price'] = "None"
+            except Exception as e:
+                self.logger.error("Line 122:" + str(e))
+                proddict['Price'] = float(prod.find("p", {"class": "price-area"}).text.replace("€","").replace(",","").strip())
+                proddict['Crossed_out_Price'] = "None"
+            try:
+                proddict['Imagelink'] = prod.find("img")['src']
+                proddict['Imagefilename'] = proddict['Imagelink'].split("/")[len(proddict['Imagelink'].split("/")) - 1]
+            except:
+                self.logger.error("Line 122:" + str(e))
+                proddict['Imagelink'] = "None"
+                proddict['Imagefilename'] = "None"
+            db[str(self.config['collection'])].insert_one(proddict)
+        client.close()
+        pass
+
+
+
+    def run(self):
+        config = self.config
+        site = config['urls']
         if (platform.system() == "Darwin"):
             driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver_mac", chrome_options=chrome_options)
         elif (platform.system() == "Linux"):
@@ -52,43 +89,38 @@ class gulliver(threading.Thread):
             driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver.exe", chrome_options=chrome_options)
         # pull page ...login and get dataframe
         driver.get(site)
-
         #### Choosing the product Category link ####
         element = driver.find_element_by_xpath('/html/body/nav[1]/div/div[1]/div[1]/a')
         driver.execute_script("arguments[0].click();", element)
-
         element = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul/li[6]/a')
         driver.execute_script("arguments[0].click();", element)
-
-        menulist = []
-        # sante
         categories = driver.find_element_by_class_name("dropdown-menu").find_elements_by_tag_name("a")
         for i in range(0, len(categories)):
-            print(i)
             cat = categories[i]
-            catdict = {}
-            catdict[cat.text] = {}
             currcatkey = cat.text
             driver.execute_script("arguments[0].click();", cat)
             time.sleep(10)
             segments = driver.find_element_by_class_name("nav-area").find_elements_by_tag_name("button")
             for j in range(0, len(segments)):
-                print(j)
                 seg = segments[j]
-                catdict[currcatkey][seg.text] = dict()
                 currsegkey = seg.text
                 driver.execute_script("arguments[0].click();", seg)
                 time.sleep(10)
                 brands = driver.find_element_by_class_name("brands-area").find_elements_by_class_name("caps")
                 for k in range(0, len(brands)):
-                    print(k)
                     brand = brands[k]
-                    catdict[currcatkey][currsegkey][brand.text] = dict()
                     currbrandkey = brand.text
                     driver.execute_script("arguments[0].click();", brand.find_element_by_tag_name("a"))
                     time.sleep(15)
                     try:
-                        catdict[currcatkey][currsegkey][currbrandkey]['page'] = driver.page_source
+                        page = driver.page_source
+                        configdict ={}
+                        configdict['Source']=site
+                        configdict['Brand'] = currbrandkey
+                        configdict['segment'] = currsegkey
+                        configdict['Category'] = currcatkey
+                        configdict['template'] = "gulliver"
+                        self.send_data(configdict, BeautifulSoup(page))
                     except:
                         driver.quit()
                         driver.get(site)
@@ -137,117 +169,4 @@ class gulliver(threading.Thread):
             driver.execute_script("arguments[0].click();", element)
             time.sleep(10)
             categories = driver.find_element_by_class_name("dropdown-menu").find_elements_by_tag_name("a")
-            menulist.append(catdict)
-        return (menulist)
-
-    def get_proddata(self, htmlpage):
-        soup=
         pass
-
-    def run(self):
-        menulist = self.get_soup()
-        pass
-
-
-
-site = "https://www.pharmacie-madeleine-5avenues.fr/appli_mobile"
-if (platform.system() == "Darwin"):
-    driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver_mac", chrome_options=chrome_options)
-elif (platform.system() == "Linux"):
-    driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver_linux", chrome_options=chrome_options)
-else:
-    driver = webdriver.Chrome(os.getcwd() + "/chromedrivers/chromedriver.exe", chrome_options=chrome_options)
-# pull page ...login and get dataframe
-driver.get(site)
-
-#### Choosing the product Category link ####
-element = driver.find_element_by_xpath('/html/body/nav[1]/div/div[1]/div[1]/a')
-driver.execute_script("arguments[0].click();", element)
-
-element = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul/li[6]/a')
-driver.execute_script("arguments[0].click();", element)
-
-menulist=[]
-#sante
-categories = driver.find_element_by_class_name("dropdown-menu").find_elements_by_tag_name("a")
-for i in range(0,len(categories)):
-    print(i)
-    cat = categories[i]
-    catdict = {}
-    catdict[cat.text] = {}
-    currcatkey = cat.text
-    driver.execute_script("arguments[0].click();", cat)
-    time.sleep(10)
-    segments = driver.find_element_by_class_name("nav-area").find_elements_by_tag_name("button")
-    for j in range(0,len(segments)):
-        print(j)
-        seg=segments[j]
-        catdict[currcatkey][seg.text]=dict()
-        currsegkey = seg.text
-        driver.execute_script("arguments[0].click();", seg)
-        time.sleep(10)
-        brands = driver.find_element_by_class_name("brands-area").find_elements_by_class_name("caps")
-        for k in range(0,len(brands)):
-            print(k)
-            brand=brands[k]
-            catdict[currcatkey][currsegkey][brand.text] = dict()
-            currbrandkey = brand.text
-            driver.execute_script("arguments[0].click();", brand.find_element_by_tag_name("a"))
-            time.sleep(15)
-            try:
-                catdict[currcatkey][currsegkey][currbrandkey]['page']=driver.page_source
-            except:
-                driver.quit()
-                driver.get(site)
-                element = driver.find_element_by_xpath('/html/body/nav[1]/div/div[1]/div[1]/a')
-                driver.execute_script("arguments[0].click();", element)
-                time.sleep(10)
-                element = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul/li[6]/a')
-                driver.execute_script("arguments[0].click();", element)
-                categories = driver.find_element_by_class_name("dropdown-menu").find_elements_by_tag_name("a")
-                driver.execute_script("arguments[0].click();", categories[i])
-                time.sleep(10)
-                segments = driver.find_element_by_class_name("nav-area").find_elements_by_tag_name("button")
-                driver.execute_script("arguments[0].click();", segments[j])
-                time.sleep(10)
-                brands = driver.find_element_by_class_name("brands-area").find_elements_by_class_name("caps")
-                continue
-            driver.get(site)
-            element = driver.find_element_by_xpath('/html/body/nav[1]/div/div[1]/div[1]/a')
-            driver.execute_script("arguments[0].click();", element)
-            time.sleep(10)
-            element = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul/li[6]/a')
-            driver.execute_script("arguments[0].click();", element)
-            categories = driver.find_element_by_class_name("dropdown-menu").find_elements_by_tag_name("a")
-            driver.execute_script("arguments[0].click();", categories[i])
-            time.sleep(10)
-            segments = driver.find_element_by_class_name("nav-area").find_elements_by_tag_name("button")
-            driver.execute_script("arguments[0].click();", segments[j])
-            time.sleep(10)
-            brands = driver.find_element_by_class_name("brands-area").find_elements_by_class_name("caps")
-        driver.get(site)
-        element = driver.find_element_by_xpath('/html/body/nav[1]/div/div[1]/div[1]/a')
-        driver.execute_script("arguments[0].click();", element)
-        time.sleep(10)
-        element = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul/li[6]/a')
-        driver.execute_script("arguments[0].click();", element)
-        time.sleep(10)
-        categories = driver.find_element_by_class_name("dropdown-menu").find_elements_by_tag_name("a")
-        driver.execute_script("arguments[0].click();", categories[i])
-        time.sleep(10)
-        segments = driver.find_element_by_class_name("nav-area").find_elements_by_tag_name("button")
-    driver.get(site)
-    element = driver.find_element_by_xpath('/html/body/nav[1]/div/div[1]/div[1]/a')
-    driver.execute_script("arguments[0].click();", element)
-    time.sleep(10)
-    element = driver.find_element_by_xpath('//*[@id="bs-example-navbar-collapse-1"]/ul/li[6]/a')
-    driver.execute_script("arguments[0].click();", element)
-    time.sleep(10)
-    categories = driver.find_element_by_class_name("dropdown-menu").find_elements_by_tag_name("a")
-    menulist.append(catdict)
-    #driver.execute_script("arguments[0].click();", seg)
-
-
-
-
-
