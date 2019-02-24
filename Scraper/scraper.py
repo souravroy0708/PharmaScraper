@@ -33,6 +33,8 @@ from src.hmpp1 import hmpp1
 from src.pharmarket import pharmarket
 from src.pharmonweb import pharmonweb
 from src.groupuniverspharmacie import groupuniverspharmacie
+from src.gulliver import gulliver
+from src.pharmaexpress import pharmaexpress
 # import libraries
 import random
 import pymongo
