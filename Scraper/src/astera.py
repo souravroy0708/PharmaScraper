@@ -116,11 +116,9 @@ class astera(threading.Thread):
                 prods =  soup.find('div', {"class": "topProducts productCategory-block-right nos-offres-du-mois"}).find_all("form",recursive=True)
             if (len(prods)==0):
                 try:
-                    prods = soup.find_all('form', {"class": "col add-to-cart-form ng-pristine ng-valid"})
+                    prods = soup.find('div', {"id": "products-list"}).find_all("form",recursive=False)
                 except:
-                    prods = soup.find('div',
-                                      {"class": "topProducts productCategory-block-right nos-offres-du-mois"}).find_all(
-                        "form", recursive=True)
+                    prods = []
             self.logger.info("#Found products:" + str(len(prods)))
             for prod in prods:
                 try:
