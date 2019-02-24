@@ -54,11 +54,11 @@ class astera(threading.Thread):
         if(soup.find("ul", {"id": "nav-menu"})==None):
             return megacatlist
         else:
-            for item in soup.find("ul", {"id": "nav-menu"}).find_all("li", recursive=False)[3:5]:
-                if (not(item.find("a") == None)):
-                    megacatdict = dict()
-                    megacatdict[item.find("a").text.strip()] = self.config['site']+item.find("a")['href']
-                    megacatlist.append(megacatdict)
+            item  = soup.find("ul", {"id": "nav-menu"}).find_all("li", recursive=False)[4]
+            if (not(item.find("a") == None)):
+                megacatdict = dict()
+                megacatdict[item.find("a").text.strip()] = self.config['site']+item.find("a")['href']
+                megacatlist.append(megacatdict)
         return megacatlist
 
 
@@ -114,6 +114,13 @@ class astera(threading.Thread):
                 prods = soup.find_all('div', {"class": "col add-to-cart-form product-details"})
             except:
                 prods =  soup.find('div', {"class": "topProducts productCategory-block-right nos-offres-du-mois"}).find_all("form",recursive=True)
+            if (len(prods)==0):
+                try:
+                    prods = soup.find_all('form', {"class": "col add-to-cart-form ng-pristine ng-valid"})
+                except:
+                    prods = soup.find('div',
+                                      {"class": "topProducts productCategory-block-right nos-offres-du-mois"}).find_all(
+                        "form", recursive=True)
             self.logger.info("#Found products:" + str(len(prods)))
             for prod in prods:
                 try:
