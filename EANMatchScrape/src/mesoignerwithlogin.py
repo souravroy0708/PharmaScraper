@@ -69,6 +69,8 @@ class mesoignerwithloginean(threading.Thread):
                 db = client[self.config["db"]]
                 if (db[self.config["collection"]].find(
                         {"site": self.config['site'], "ean": self.config['ean']}).count() > 0):
+                    self.logger.info("Success url:" + self.config['site'])
+                    self.logger.info("Success ean:" + self.config['ean'])
                     continue
                 else:
                     retdict = self.get_search_res()
