@@ -39,7 +39,7 @@ class doctipharma(threading.Thread):
         self.logger.addHandler(logger_handler)
         self.logger.info('Completed configuring logger()!')
 
-    def get_soup(self, url):
+    def get_soup(self,url):
         try:
             page = urllib.request.urlopen(url).read()
             soup = BeautifulSoup(page)
@@ -52,41 +52,53 @@ class doctipharma(threading.Thread):
 
     def get_megacatgorylinks(self, soup):
         megacatlist = []
-        for item in soup.find("ul", {"class": "nav navbar-nav navbar-left"}).find_all("li", recursive=False):
-            if (not(item.find("a") == None) and not(item.find("ul") == None) and 'nav' in item['class'][0] and "www" in item.find("a")['href']):
-                megacatdict = dict()
-                megacatdict[item.find("a").text.strip()] = "https:"+item.find("a")['href']
-                megacatlist.append(megacatdict)
+        try:
+            for item in soup.find("ul", {"class": "nav navbar-nav navbar-left"}).find_all("li", recursive=False):
+                if (not(item.find("a") == None) and not(item.find("ul") == None) and 'nav' in item['class'][0] and "www" in item.find("a")['href']):
+                    megacatdict = dict()
+                    megacatdict[item.find("a").text.strip()] = "https:"+item.find("a")['href']
+                    megacatlist.append(megacatdict)
+        except:
+            return megacatlist
         return megacatlist
 
 
     def get_catgorylinks(self, soup):
         catlist = []
-        for item in soup.find("div", {"id": "rubrique_0_2"}).find("div").find("div").find_all("div", {"class":"accordion-group"},recursive=False):
-            if (not (item.find("a") == None)):
-                catdict = dict()
-                catdict[item.find("a")["title"].strip()] = self.config['site']+item.find("a")['href']
-                catlist.append(catdict)
+        try:
+            for item in soup.find("div", {"id": "rubrique_0_2"}).find("div").find("div").find_all("div", {"class":"accordion-group"},recursive=False):
+                if (not (item.find("a") == None)):
+                    catdict = dict()
+                    catdict[item.find("a")["title"].strip()] = self.config['site']+item.find("a")['href']
+                    catlist.append(catdict)
+        except:
+            return catlist
         return catlist
 
     def get_allseg(self, soup):
         seglist = []
-        for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
-            if (not (item.find("a") == None)):
-                segdict = dict()
-                segdict[item.find("a")["title"].strip()] = self.config['site'] + item.find("a")['href']
-                seglist.append(segdict)
+        try:
+            for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
+                if (not (item.find("a") == None)):
+                    segdict = dict()
+                    segdict[item.find("a")["title"].strip()] = self.config['site'] + item.find("a")['href']
+                    seglist.append(segdict)
+        except:
+            return seglist
         return seglist
 
     def get_allsubseg(self, soup):
         subseglist = []
-        for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
-            if (not (item.find("a") == None) and item.find("a")["title"].strip() == self.config['segment']):
-                if (len(item.find_all("div",{"id":"rubrique_2_5"}))>0):
-                    for elem in item.find("div",{"id":"rubrique_2_5"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
-                        subsegdict = dict()
-                        subsegdict[elem.find("a")["title"].strip()] = self.config['site'] + elem.find("a")['href']
-                        subseglist.append(subsegdict)
+        try:
+            for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
+                if (not (item.find("a") == None) and item.find("a")["title"].strip() == self.config['segment']):
+                    if (len(item.find_all("div",{"id":"rubrique_2_5"}))>0):
+                        for elem in item.find("div",{"id":"rubrique_2_5"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
+                            subsegdict = dict()
+                            subsegdict[elem.find("a")["title"].strip()] = self.config['site'] + elem.find("a")['href']
+                            subseglist.append(subsegdict)
+        except:
+            subseglist
         return subseglist
 
 
