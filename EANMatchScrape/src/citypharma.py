@@ -56,8 +56,8 @@ class citypharmaean(threading.Thread):
             retdict['ean'] = self.config['ean']
             retdict['template'] = self.config['template']
         except Exception as e:
-            self.logger.info("url:" + self.config['site'])
-            self.logger.info("ean:" + self.config['ean'])
+            self.logger.info("Failed url:" + self.config['site'])
+            self.logger.info("Failed ean:" + self.config['ean'])
             retdict=dict()
         return (retdict)
 
@@ -75,5 +75,7 @@ class citypharmaean(threading.Thread):
                     retdict = self.get_search_res()
                     if (len(retdict) > 0):
                         db[self.config["collection"]].insert_one(retdict)
+                        self.logger.info("Success url:" + self.config['site'])
+                        self.logger.info("Success ean:" + self.config['ean'])
                 client.close()
         pass
