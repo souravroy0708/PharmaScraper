@@ -75,10 +75,10 @@ class doctipharma(threading.Thread):
             return catlist
         return catlist
 
-    def get_allseg(self, soup):
+    def get_allseg(self, soup, catid):
         seglist = []
         try:
-            for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
+            for item in soup.find("div", {"id": "rubrique_1_"+catid}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
                 if (not (item.find("a") == None)):
                     segdict = dict()
                     segdict[item.find("a")["title"].strip()] = self.config['site'] + item.find("a")['href']
@@ -87,13 +87,13 @@ class doctipharma(threading.Thread):
             return seglist
         return seglist
 
-    def get_allsubseg(self, soup):
+    def get_allsubseg(self, soup,catid,segid):
         subseglist = []
         try:
-            for item in soup.find("div", {"id": "rubrique_1_3"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
+            for item in soup.find("div", {"id": "rubrique_1_"+catid}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
                 if (not (item.find("a") == None) and item.find("a")["title"].strip() == self.config['segment']):
-                    if (len(item.find_all("div",{"id":"rubrique_2_5"}))>0):
-                        for elem in item.find("div",{"id":"rubrique_2_5"}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
+                    if (len(item.find_all("div",{"id":"rubrique_2_"+segid}))>0):
+                        for elem in item.find("div",{"id":"rubrique_2_"+segid}).find("div").find("div").find_all("div", {"class": "accordion-group"}, recursive=False):
                             subsegdict = dict()
                             subsegdict[elem.find("a")["title"].strip()] = self.config['site'] + elem.find("a")['href']
                             subseglist.append(subsegdict)
@@ -251,14 +251,16 @@ class doctipharma(threading.Thread):
                     for cat in catlist:
                         config['Category'] = list(cat.keys())[0]
                         url = cat[config['Category']]
+                        catid = url.split("/")[-1:][0].split("-")[0]
                         soup = self.get_soup(url)
-                        seglist = self.get_allseg(soup)
+                        seglist = self.get_allseg(soup,catid)
                         if (len(seglist) > 0):
                             for seg in seglist:
                                 config['segment'] = list(seg.keys())[0]
                                 url = seg[config['segment']]
+                                segid = url.split("/")[-1:][0].split("-")[0]
                                 soup = self.get_soup(url)
-                                subseglist = self.get_allsubseg(soup)
+                                subseglist = self.get_allsubseg(soup,catid,segid)
                                 if (len(subseglist) > 0):
                                     for subseg in subseglist:
                                         config['Sub-segment'] = list(subseg.keys())[0]
