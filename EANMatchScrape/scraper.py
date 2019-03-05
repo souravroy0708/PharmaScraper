@@ -38,14 +38,14 @@ def main(config):
     if (config['matchean']=="True"):
         client = pymongo.MongoClient(config["mongolink"])
         db = client[config["db"]]
-        cursor = db[config["targetcollection"]].find({"EAN13": { "$exists": False }, "EAN7": {"$exists": False }})
+        cursor = db[config["targetcollection"]].find({"EAN13": { "$exists": False }, "EAN7": {"$exists": False },"eanmatchval": { "$exists": False },}, no_cursor_timeout=True)
         for doc in cursor:
             try:
                 prodname = doc['Product_name']
                 sitename = doc['Source'].split('/')[2]
-                isfound = db[config["sourcecollection"]].find({"product": {"$regex": ".*"+ prodname +".*", "$options": "-i"},"site": {"$regex": ".*"+ sitename +".*", "$options": "-i"}}).count()
+                isfound = db[config["sourcecollection"]].find({"product": {"$regex": ".*"+ prodname +".*", "$options": "-i"}}).count()#,"site": {"$regex": ".*"+ sitename +".*", "$options": "-i"}}).count()
                 if (isfound>0):
-                    matchcursor = db[config["sourcecollection"]].find({"product": {"$regex": ".*"+ prodname +".*", "$options": "-i"},"site": {"$regex": ".*"+ sitename +".*", "$options": "-i"}})
+                    matchcursor = db[config["sourcecollection"]].find({"product": {"$regex": ".*"+ prodname +".*", "$options": "-i"}})#,"site": {"$regex": ".*"+ sitename +".*", "$options": "-i"}})
                     eanmatcharray=[]
                     docidarray = []
                     matchsimarray = []
@@ -57,12 +57,12 @@ def main(config):
                     print("Updated")
                 else:
                     isfound = db[config["targetcollection"]].find(
-                        {"Product_name": {"$regex": ".*" + prodname + ".*", "$options": "-i"},
-                         "Source": {"$regex": ".*" + sitename + ".*", "$options": "-i"},"EAN13": { "$exists": True }}).count()
+                        {"Product_name": {"$regex": ".*" + prodname + ".*", "$options": "-i"}}).count()#,
+                         #"Source": {"$regex": ".*" + sitename + ".*", "$options": "-i"},"EAN13": { "$exists": True }}).count()
                     if (isfound>0):
                         matchcursor = db[config["targetcollection"]].find(
-                        {"Product_name": {"$regex": ".*" + prodname + ".*", "$options": "-i"},
-                         "Source": {"$regex": ".*" + sitename + ".*", "$options": "-i"},"EAN13": { "$exists": True }})
+                        {"Product_name": {"$regex": ".*" + prodname + ".*", "$options": "-i"}})#,
+                         #"Source": {"$regex": ".*" + sitename + ".*", "$options": "-i"},"EAN13": { "$exists": True }})
                         eanmatcharray = []
                         docidarray = []
                         matchsimarray = []
@@ -76,12 +76,12 @@ def main(config):
                         print("Updated")
                     else:
                         isfound = db[config["targetcollection"]].find(
-                            {"Product_name": {"$regex": ".*" + prodname + ".*", "$options": "-i"},
-                             "Source": {"$regex": ".*" + sitename + ".*", "$options": "-i"}, "EAN7": {"$exists": True}}).count()
+                            {"Product_name": {"$regex": ".*" + prodname + ".*", "$options": "-i"}}).count()#,
+                             #"Source": {"$regex": ".*" + sitename + ".*", "$options": "-i"}, "EAN7": {"$exists": True}}).count()
                         if (isfound>0):
                             matchcursor = db[config["targetcollection"]].find(
-                                {"Product_name": {"$regex": ".*" + prodname + ".*", "$options": "-i"},
-                                 "Source": {"$regex": ".*" + sitename + ".*", "$options": "-i"}, "EAN7": {"$exists": True}})
+                                {"Product_name": {"$regex": ".*" + prodname + ".*", "$options": "-i"}})#,
+                                 #"Source": {"$regex": ".*" + sitename + ".*", "$options": "-i"}, "EAN7": {"$exists": True}})
                             eanmatcharray = []
                             docidarray = []
                             matchsimarray = []
