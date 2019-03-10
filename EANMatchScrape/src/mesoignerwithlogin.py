@@ -54,6 +54,7 @@ class mesoignerwithloginean(threading.Thread):
             retdict['site'] = self.config['site']
             retdict['image'] = soup.find("div",{"class":"product-image"}).find("img")['src']
             retdict['ean'] = self.config['ean']
+            retdict['template'] = self.config['template']
         except Exception as e:
             self.logger.info("Failed url:" + self.config['site'])
             self.logger.info("Failed ean:" + self.config['ean'])

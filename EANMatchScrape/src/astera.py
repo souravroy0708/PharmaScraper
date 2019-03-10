@@ -46,7 +46,7 @@ class asteraean(threading.Thread):
             chrome_options.add_argument('--dns-prefetch-disable')
             chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--lang=en-US')
-            # chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--headless')
             if (platform.system() == "Darwin"):
                 driver = webdriver.Chrome("./chromedrivers/chromedriver_mac",
                                           chrome_options=chrome_options)
