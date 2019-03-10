@@ -5,18 +5,16 @@ Created on Thu Dec  6 15:36:57 2018
 
 @author: abhishekray
 """
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import time
-import platform
+import requests
 import pymongo
 import logging
 import threading
+import re
 from bs4 import BeautifulSoup
 
 
 # define product page extraction class
-class doctipharmaean(threading.Thread):
+class googlesearch(threading.Thread):
     def __init__(self, config):
         threading.Thread.__init__(self)
         self.config = config
@@ -39,40 +37,17 @@ class doctipharmaean(threading.Thread):
         self.logger.addHandler(logger_handler)
         self.logger.info('Completed configuring logger()!')
 
-    def get_search_res(self):
+    def get_search_links(self):
+        url = "https://www.google.dz/search?q=" + self.config['prod']
+        urllist = []
         try:
-            # define chrome options
-            chrome_options = Options()
-            chrome_options.add_argument('--dns-prefetch-disable')
-            chrome_options.add_argument('--no-sandbox')
-            chrome_options.add_argument('--lang=en-US')
-            chrome_options.add_argument('--headless')
-            if (platform.system() == "Darwin"):
-                driver = webdriver.Chrome("./chromedrivers/chromedriver_mac",
-                                          chrome_options=chrome_options)
-            elif (platform.system() == "Linux"):
-                driver = webdriver.Chrome("./chromedrivers/chromedriver_linux",chrome_options=chrome_options)
-            else:
-                driver = webdriver.Chrome("./chromedrivers/chromedriver.exe",
-                                          chrome_options=chrome_options)
-            driver.get(self.config['site'])
-            ean_input = driver.find_element_by_tag_name("input")
-            ean_input.send_keys(self.config['ean'])
-            time.sleep(2)
-            soup=BeautifulSoup(driver.page_source)
-            retdict=dict()
-            retdict['url'] = soup.find("div",{"class":"df-card"}).find("a")["href"]
-            retdict['product']=soup.find("div",{"class":"df-card__title"}).text.strip()
-            retdict['site'] = self.config['site']
-            retdict['image'] = "https://"+soup.find("figure",{"class":"df-card__image"}).find("img")["src"]
-            retdict['ean'] = self.config['ean']
-            retdict['template'] = self.config['template']
-            driver.quit()
-        except Exception as e:
-            self.logger.info("Failed url:" + self.config['site'])
-            self.logger.info("Failed ean:" + self.config['ean'])
-            retdict=dict()
-        return (retdict)
+            page = requests.get(url)
+            soup = BeautifulSoup(page.content)
+            for link in soup.find_all("a", href=re.compile("(?<=/url\?q=)(htt.*://.*)")):
+                urllist.extend(re.split(":(?=http)", link["href"].replace("/url?q=", "")))
+        except:
+            self.logger.info("Failed url:" + self.config['prod'])
+        return (urllist)
 
     def run(self):
         for site in self.config['sites']:

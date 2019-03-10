@@ -67,7 +67,7 @@ class pharmabestamiensean(threading.Thread):
         for site in self.config['sites']:
             self.config['site'] = site
             for ean in self.config['eanlist']:
-                self.config['ean'] = ean
+                self.config['ean'] = str(ean)
                 client = pymongo.MongoClient(self.config["mongolink"])
                 db = client[self.config["db"]]
                 if (db[self.config["collection"]].find(

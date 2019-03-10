@@ -44,7 +44,7 @@ class pharmacies1001ean(threading.Thread):
             chrome_options.add_argument('--dns-prefetch-disable')
             chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--lang=en-US')
-            # chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--headless')
             if (platform.system() == "Darwin"):
                 driver = webdriver.Chrome("./chromedrivers/chromedriver_mac",
                                           chrome_options=chrome_options)
@@ -73,7 +73,7 @@ class pharmacies1001ean(threading.Thread):
         for site in self.config['sites']:
             self.config['site'] = site
             for ean in self.config['eanlist']:
-                self.config['ean'] = ean
+                self.config['ean'] = str(ean)
                 client = pymongo.MongoClient(self.config["mongolink"])
                 db = client[self.config["db"]]
                 if (db[self.config["collection"]].find(
