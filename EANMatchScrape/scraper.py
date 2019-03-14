@@ -10,6 +10,7 @@ from src.mesoignerwithlogin import mesoignerwithloginean
 from src.pharmavielogin import pharmavieloginean
 from src.pharmaviewol import pharmaviewolean
 from src.pharmacies1001 import pharmacies1001ean
+from src.google import googlesearch
 # import libraries
 import pandas as pd
 import json
@@ -96,8 +97,10 @@ def main(config):
             except Exception as e:
                 print(str(e))
                 continue
-    if (config['gsearchean'] == "True"):
-
+    if (config['searchgoogle'] == "True"):
+        tg = googlesearch(config)
+        tg.start()
+        tg.join()
         pass
 
 

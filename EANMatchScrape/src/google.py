@@ -24,7 +24,7 @@ class googlesearch(threading.Thread):
 
         # Create the Handler for logging data to a file
         logger_handler = logging.FileHandler(
-            "logs/" + config['template'] + ".log")
+            "logs/google.log")
         logger_handler.setLevel(logging.DEBUG)
 
         # Create a Formatter for formatting the log messages
@@ -37,35 +37,57 @@ class googlesearch(threading.Thread):
         self.logger.addHandler(logger_handler)
         self.logger.info('Completed configuring logger()!')
 
-    def get_search_links(self):
-        url = "https://www.google.dz/search?q=" + self.config['prod']
+    def get_search_links(self,prodname):
+        url = "https://www.google.com/search?q=" + "%20".join(prodname.split(" "))
         urllist = []
         try:
             page = requests.get(url)
             soup = BeautifulSoup(page.content)
-            for link in soup.find_all("a", href=re.compile("(?<=/url\?q=)(htt.*://.*)")):
-                urllist.extend(re.split(":(?=http)", link["href"].replace("/url?q=", "")))
+            for link in soup.find_all("a"):
+                if (link.has_attr('href')):
+                    if ("https://" in link['href'] and "webcache" not in link['href'] and "google." not in link['href'] and "youtube." not in link['href']):
+                        templink = link['href'].split("&")[0]
+                        if ("https:" in templink):
+                            urllist.append("http" +templink.split("http")[1])
         except:
-            self.logger.info("Failed url:" + self.config['prod'])
+            self.logger.info("Failed prod:" + prodname)
         return (urllist)
 
+    def get_ean_regex(urllist,regex=r"\b(\d{7}|\d{13})\b"):
+        eangllist = []
+        for url in urllist:
+            page = requests.get(url)
+            soup = BeautifulSoup(page.content)
+            textsite = soup.text
+            eanmatch = list(set(re.findall(regex, textsite)))
+            if (len(eanmatch)>0):
+                eandict=dict()
+                eandict['url'] = url
+                eandict['eanmatch'] = eanmatch
+                eangllist.append(eandict)
+            else:
+                continue
+        return(eangllist)
+
+
     def run(self):
-        for site in self.config['sites']:
-            self.config['site'] = site
-            for ean in self.config['eanlist']:
-                self.config['ean'] = str(ean)
+        run = True
+        while run:
+            try:
                 client = pymongo.MongoClient(self.config["mongolink"])
                 db = client[self.config["db"]]
-                if (db[self.config["collection"]].find(
-                        {"site": self.config['site'], "ean": self.config['ean']}).count() > 0):
-                    self.logger.info("Success url:" + self.config['site'])
-                    self.logger.info("Success ean:" + self.config['ean'])
-                    continue
-                else:
-                    retdict = self.get_search_res()
-                    if (len(retdict) > 0):
-                        db[self.config["collection"]].insert_one(retdict)
-                        self.logger.info("Success url:" + self.config['site'])
-                        self.logger.info("Success ean:" + self.config['ean'])
+                cursor = db[self.config["targetcollection"]].find({"$or":[{"EAN13":{ "$exists": False }},{"EAN7":{ "$exists": False}}]},no_cursor_timeout=True)
+                for doc in cursor:
+                    prodname = doc["Product_name"]
+                    urllist = self.get_search_links(prodname)
+                    eanlist = self.get_ean_regex(urllist)
+                    if (len(eanlist)>0):
+                        db[self.config["targetcollection"]].update_one({"_id": doc['_id']},{"$set": {"googleean" : eanlist}})
+                    else:
+                        db[self.config["targetcollection"]].update_one({"_id": doc['_id']},{"$set": {"googleean": ["NotFound"]}})
+            except:
                 client.close()
-        pass
+                count = db[self.config["targetcollection"]].find({"$or":[{"EAN13":{ "$exists": False }},{"EAN7":{ "$exists": False}},{"googleean":{ "$exists": False}}]},no_cursor_timeout=True).count()
+                if (count==0):
+                    run = False
+

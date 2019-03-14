@@ -1,7 +1,8 @@
 {
 	"eanlistfile" : "./files/eanmatchlistv2.csv",
-	"fetchean" : "True",
+	"fetchean" : "False",
 	"matchean" : "False",
+	"searchgoogle" : "True",
 	"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
 	"db": "pharmascrape",
 	"sourcecollection": "eansearch",
