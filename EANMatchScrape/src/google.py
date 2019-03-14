@@ -53,7 +53,7 @@ class googlesearch(threading.Thread):
             self.logger.info("Failed prod:" + prodname)
         return (urllist)
 
-    def get_ean_regex(urllist,regex=r"\b(\d{7}|\d{13})\b"):
+    def get_ean_regex(self,urllist,regex=r"\b(\d{7}|\d{13})\b"):
         eangllist = []
         for url in urllist:
             page = requests.get(url)
@@ -90,4 +90,5 @@ class googlesearch(threading.Thread):
                 count = db[self.config["targetcollection"]].find({"$or":[{"EAN13":{ "$exists": False }},{"EAN7":{ "$exists": False}},{"googleean":{ "$exists": False}}]},no_cursor_timeout=True).count()
                 if (count==0):
                     run = False
+        pass
 
