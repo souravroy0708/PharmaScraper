@@ -76,7 +76,7 @@ class googlesearch(threading.Thread):
             try:
                 client = pymongo.MongoClient(self.config["mongolink"])
                 db = client[self.config["db"]]
-                cursor = db[self.config["targetcollection"]].find({"$or":[{"EAN13":{ "$exists": False }},{"EAN7":{ "$exists": False}}]},no_cursor_timeout=True)
+                cursor = db[self.config["targetcollection"]].find({"$or":[{"EAN13":{ "$exists": False }},{"EAN7":{ "$exists": False}},{"googleean":{ "$exists": False}}]},no_cursor_timeout=True)
                 for doc in cursor:
                     prodname = doc["Product_name"]
                     urllist = self.get_search_links(prodname)
