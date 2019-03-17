@@ -99,8 +99,7 @@ def main(config):
                 continue
     if (config['searchgoogle'] == "True"):
         tg = googlesearch(config)
-        tg.start()
-        tg.join()
+        tg.run()
         pass
 
 
