@@ -66,9 +66,12 @@ class googlesearch(threading.Thread):
                                         urllist.append("http" + templink.split("http")[1])
                         if (len(urllist)>0):
                             itr = 6
+                            break
                         else:
                             itr = itr+1
-        except:
+            self.logger.info("Number of sites found:" + str(len(urllist)))
+        except Exception as e:
+            self.logger.info("Error:" + str(e))
             self.logger.info("Failed prod:" + prodname)
         return (urllist)
 
