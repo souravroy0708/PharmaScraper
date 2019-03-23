@@ -50,6 +50,7 @@ class googlesearch(threading.Thread):
                         templink = link['href'].split("&")[0]
                         if ("https:" in templink):
                             urllist.append("http" +templink.split("http")[1])
+            self.logger.info("Numbe rof links received:" + str(len(urllist)))
         except:
             self.logger.info("Failed prod:" + prodname)
         return (urllist)
@@ -74,7 +75,8 @@ class googlesearch(threading.Thread):
                     eangllist.append(eandict)
                 else:
                     continue
-            except:
+            except Exception as e:
+                self.logger.info("Error in parsing regex:" + str(e))
                 continue
         return(eangllist)
 
