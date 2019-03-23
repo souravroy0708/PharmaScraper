@@ -11,7 +11,7 @@ import logging
 import threading
 import re
 from bs4 import BeautifulSoup
-
+from http_request_randomizer.requests.proxy.requestProxy import RequestProxy
 
 # define product page extraction class
 class googlesearch(threading.Thread):
@@ -50,7 +50,24 @@ class googlesearch(threading.Thread):
                         templink = link['href'].split("&")[0]
                         if ("https:" in templink):
                             urllist.append("http" +templink.split("http")[1])
-            self.logger.info("Numbe rof links received:" + str(len(urllist)))
+            if (len(urllist)>0):
+                itr = 0
+                while itr < 5:
+                    req_proxy = RequestProxy()
+                    request = req_proxy.generate_proxied_request(url)
+                    if (request.status_code==200 and request is not None):
+                        soup = BeautifulSoup(request.content)
+                        for link in soup.find_all("a"):
+                            if (link.has_attr('href')):
+                                if ("https://" in link['href'] and "webcache" not in link['href'] and "google." not in
+                                        link['href'] and "youtube." not in link['href']):
+                                    templink = link['href'].split("&")[0]
+                                    if ("https:" in templink):
+                                        urllist.append("http" + templink.split("http")[1])
+                        if (len(urllist)>0):
+                            itr = 6
+                        else:
+                            itr = itr+1
         except:
             self.logger.info("Failed prod:" + prodname)
         return (urllist)
