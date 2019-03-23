@@ -50,25 +50,29 @@ class googlesearch(threading.Thread):
                         templink = link['href'].split("&")[0]
                         if ("https:" in templink):
                             urllist.append("http" +templink.split("http")[1])
-            if (len(urllist)>0):
+            if (len(urllist)==0):
                 itr = 0
                 while itr < 5:
-                    req_proxy = RequestProxy()
-                    request = req_proxy.generate_proxied_request(url)
-                    if (request.status_code==200 and request is not None):
-                        soup = BeautifulSoup(request.content)
-                        for link in soup.find_all("a"):
-                            if (link.has_attr('href')):
-                                if ("https://" in link['href'] and "webcache" not in link['href'] and "google." not in
-                                        link['href'] and "youtube." not in link['href']):
-                                    templink = link['href'].split("&")[0]
-                                    if ("https:" in templink):
-                                        urllist.append("http" + templink.split("http")[1])
-                        if (len(urllist)>0):
-                            itr = 6
-                            break
-                        else:
-                            itr = itr+1
+                    try:
+                        req_proxy = RequestProxy()
+                        request = req_proxy.generate_proxied_request(url)
+                        if (request.status_code==200 and request is not None):
+                            soup = BeautifulSoup(request.content)
+                            for link in soup.find_all("a"):
+                                if (link.has_attr('href')):
+                                    if ("https://" in link['href'] and "webcache" not in link['href'] and "google." not in
+                                            link['href'] and "youtube." not in link['href']):
+                                        templink = link['href'].split("&")[0]
+                                        if ("https:" in templink):
+                                            urllist.append("http" + templink.split("http")[1])
+                            if (len(urllist)>0):
+                                itr = 6
+                                break
+                            else:
+                                itr = itr+1
+                    except:
+                        itr = itr + 1
+                        continue
             self.logger.info("Number of sites found:" + str(len(urllist)))
         except Exception as e:
             self.logger.info("Error:" + str(e))
