@@ -74,6 +74,8 @@ class googlegetean(threading.Thread):
                     except:
                         itr = itr + 1
                         continue
+                if (len(urllist)==0):
+                    urllist = list(search(query = "%20".join(prodname.split(" ")), tld = "fr", lang = "fr", num=10, start=1, stop =20))
             self.logger.info("Number of sites found:" + str(len(urllist)))
         except Exception as e:
             self.logger.info("Error:" + str(e))
