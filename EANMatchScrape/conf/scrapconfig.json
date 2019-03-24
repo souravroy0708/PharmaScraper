@@ -1,6 +1,6 @@
 {
 	"eanlistfile" : "./files/eanmatchlistv2.csv",
-	"fetchean" : "False",
+	"fetchean" : "True",
 	"matchean" : "False",
 	"searchgoogle" : "False",
 	"mongolink": "mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/admin",
