@@ -15,6 +15,7 @@ from src.google import googlegetean
 import pandas as pd
 import json
 import pymongo
+import argparse
 
 def get_jaccard_sim(str1, str2):
     a = set(str1.split())
@@ -106,6 +107,14 @@ def main(config):
 if __name__ == "__main__":
     with open('./conf/scrapconfig.json') as jsonfile:
         config = json.load(jsonfile)
+    parser = argparse.ArgumentParser(description='Process EAN')
+    parser.add_argument("--fetchean",dest='fetchean', type=str, default="False")
+    parser.add_argument("--matchean", dest='matchean', type=str, default="False")
+    parser.add_argument("--searchgoogle", dest='searchgoogle', type=str, default="True")
+    args = parser.parse_args()
+    config['fetchean'] = args.fetchean
+    config['matchean'] = args.matchean
+    config['searchgoogle'] = args.searchgoogle
     main(config)
 
 
