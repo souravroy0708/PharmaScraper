@@ -11,10 +11,11 @@ import logging
 import threading
 import re
 from bs4 import BeautifulSoup
+from googlesearch import search
 from http_request_randomizer.requests.proxy.requestProxy import RequestProxy
 
 # define product page extraction class
-class googlesearch(threading.Thread):
+class googlegetean(threading.Thread):
     def __init__(self, config):
         threading.Thread.__init__(self)
         self.config = config

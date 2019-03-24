@@ -10,7 +10,7 @@ from src.mesoignerwithlogin import mesoignerwithloginean
 from src.pharmavielogin import pharmavieloginean
 from src.pharmaviewol import pharmaviewolean
 from src.pharmacies1001 import pharmacies1001ean
-from src.google import googlesearch
+from src.google import googlegetean
 # import libraries
 import pandas as pd
 import json
@@ -98,7 +98,7 @@ def main(config):
                 print(str(e))
                 continue
     if (config['searchgoogle'] == "True"):
-        tg = googlesearch(config)
+        tg = googlegetean(config)
         tg.run()
         pass
 
