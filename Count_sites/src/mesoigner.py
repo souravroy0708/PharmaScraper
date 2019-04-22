@@ -24,15 +24,14 @@ else:
                               chrome_options=chrome_options)
 driver.get('https://www.mesoigner.fr/trouver-une-pharmacie/code-postal')
 retdict=dict()
-j=i
-for i in tqdm.tqdm(range(j,len(zips.zip))):
+#j=i
+for i in tqdm.tqdm(range(0,len(zips.zip))):
     inputElement = driver.find_element_by_id("find-zipcode")
     inputElement.send_keys(zips.zip[i])
     driver.find_element_by_css_selector('body > div.container.block > div > form > div > div > span > button').click()
     soup = BeautifulSoup(driver.page_source)
     retdict[str(zips.zip[i])]=list(map(lambda x: x['href'],soup.find_all("a",{"class":"btn"})))
 
-pagetext =
 driver.quit()
 
 driver.fin
