@@ -1,0 +1,12 @@
+{
+  "database": "mongodb",
+  "username": "abhir",
+  "password": "AbhiPrecision19",
+  "mongourl": "mongodb-712-0.cloudclusters.net:27017",
+  "data":"pharmascrape",
+  "collection": "scrapes",
+  "errorname": "errorname",
+  "errorurltoproduct" : "errorurltoproduct",
+  "image_error" : "image_error"
+
+}
