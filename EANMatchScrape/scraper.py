@@ -112,7 +112,10 @@ def main(config):
         for doc in cursor:
             numlist = []
             for elem in doc['googleean']:
-                numlist.append(elem['eanmatchurltext'])
+                try:
+                    numlist.append(elem['eanmatchurltext'])
+                except:
+                    continue
             elemlist = [item for sublist in numlist for item in sublist]
             ean13list = [item for item in elemlist if int(item) > 1000000000000]
             ean7list = [item for item in elemlist if int(item) > 1000000 and int(item) < 10000000]
