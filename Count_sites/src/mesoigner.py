@@ -47,3 +47,16 @@ with open('filename.pickle', 'rb') as handle:
     b = pickle.load(handle)
 
 print a == b
+
+import pymongo
+from pymongo import MongoClient
+
+client = MongoClient('mongodb://abhir:AbhiPrecision19@mongodb-712-0.cloudclusters.net:27017/')
+db = client['pharmascrape']
+coll = db['sitesmonitor']
+
+for elem in list(b.keys()):
+    if (len(b[elem])>0):
+        for site in b[elem]:
+            upload={"Site":site,"Template":"Mesoigner","Zip":elem}
+            coll.insert_one(upload)

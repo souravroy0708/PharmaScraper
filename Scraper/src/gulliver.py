@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ###declare libraries
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -15,6 +16,7 @@ chrome_options = Options()
 chrome_options.add_argument('--dns-prefetch-disable')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--lang=en-US')
+chrome_options.add_argument('--headless')
 prefs = {"download.default_directory": os.getcwd()}
 
 
@@ -59,11 +61,11 @@ class gulliver(threading.Thread):
                 proddict['Product_name'] = "None"
             try:
                 proddict['Price'] = float(
-                    prod.find("span", {"class": "price product-price"}).text.replace("€", ".").strip())
+                    prod.find("span", {"class": "price product-price"}).text.replace("\\€", ".").strip())
                 proddict['Crossed_out_Price'] = "None"
             except Exception as e:
                 self.logger.error("Line 122:" + str(e))
-                proddict['Price'] = float(prod.find("p", {"class": "price-area"}).text.replace("€","").replace(",","").strip())
+                proddict['Price'] = float(prod.find("p", {"class": "price-area"}).text.replace("\\€","").replace(",","").strip())
                 proddict['Crossed_out_Price'] = "None"
             try:
                 proddict['Imagelink'] = prod.find("img")['src']
