@@ -44,6 +44,7 @@ import argparse
 
 def main(scrapconfig,nthread,skiplim):
     configlist=[]
+    thrds=0
     for template in scrapconfig:
         config = dict()
         for key in list(set(list(template.keys()))-set(['sites','urlsuffix'])):
@@ -60,17 +61,17 @@ def main(scrapconfig,nthread,skiplim):
                 print(sitecount)
                 client.close()
                 if (sitecount < skiplim):
+                    thrds = thrds +1
                     config["urls"] = str(config["site"] + template["urlsuffix"])
                     configlist.append(config.copy())
+                    if (thrds >= nthread and nthread>0):
+                        break
                 else:
                     continue
             except Exception as e:
                 print(str(e))
                 continue
     threadlist=[]
-    if (nthread > 0):
-        if (len(configlist) > nthread):
-            configlist = random.sample(configlist, nthread)
     for config in configlist:
         exec(str("threadlist.append("+config["template"]+"(config))"))
     for thread in threadlist:
@@ -82,7 +83,7 @@ if __name__ == "__main__":
     with open('./conf/scrapconfig.json') as jsonfile:
         scrapconfig = json.load(jsonfile)
     parser = argparse.ArgumentParser()
-    parser.add_argument('--whichtemplate', dest='whichtemplate', default="lasante",help='mention the class name to run')
+    parser.add_argument('--whichtemplate', dest='whichtemplate', default="pharmanity",help='mention the class name to run')
     parser.add_argument('--numthreads', dest='numthreads', default=10,help='how many threads')
     parser.add_argument('--skiplim', dest='skiplim', default=500,help='minimum data limit to skip')
     args = parser.parse_args()
