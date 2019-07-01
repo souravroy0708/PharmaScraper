@@ -1,11 +1,12 @@
 import requests
-import urllib2
+import urllib
 import pymongo
 import logging
 import threading
 import re
 from bs4 import BeautifulSoup
-
+import pandas as pd
+from pymongo import MongoClient
 
 url = "https://www.pharmanity.com/pharmacies"
 try:
@@ -28,7 +29,7 @@ for i in range(0, len(urls)):
         url = str(urls[i])
         locat = url.split("/")[len(url.split("/"))-1]
         print(locat)
-        page = urllib2.urlopen(url)
+        page = urllib.request.urlopen(url)
         soup = BeautifulSoup(page)
         for item in soup.find_all("li", {"style": "margin-bottom: 10px"}):
             for link in item.find_all("a"):
@@ -39,18 +40,31 @@ for i in range(0, len(urls)):
         locsites[locat] = {}
         locsites[locat]["sites"] = sites
 
+df5=pd.DataFrame()
+df5['Website']=locsites[locat]['sites']
+df5['Pharma']='pharmanity'
 
+
+data_pharma5 = df5.to_dict(orient='records')
+
+myclient = MongoClient("mongodb://localhost:27017/")
+db=myclient['allpharmacy']
+col5=db['pharmacy']
+try:
+    col5.insert_many(data_pharma5)
+except Exception as e:
+    print(str(e))
 
 for keyl in list(locsites.keys()):
     numl = []
     for site in locsites[keyl]["sites"]:
-        url = sites[len(sites)-1]
-        page_med = urllib2.urlopen(url)
+        #url = sites[len(sites)-1]
+        page_med = urllib.request.urlopen(site)
         soup_med = BeautifulSoup(page_med)
         item_med = soup_med.find_all("a", class_='menuMedi')[0]
         link_part_med = item_med['href']
         link_med = 'https://www.pharmanity.com'+link_part_med
-        page_med_2 = urllib2.urlopen(link_med)
+        page_med_2 = urllib.request.urlopen(link_med)
         soup_med_2 = BeautifulSoup(page_med_2)
         item_med_2 = soup_med_2.find_all("a", class_='current')[0]
         txt = str(item_med_2.span.text)
@@ -58,7 +72,7 @@ for keyl in list(locsites.keys()):
         item_para = soup_med.find_all("a", class_='menuPara')[0]
         link_part_para = item_para['href']
         link_para = 'https://www.pharmanity.com'+link_part_para
-        page_para_2 = urllib2.urlopen(link_para)
+        page_para_2 = urllib.request.urlopen(link_para)
         soup_para_2 = BeautifulSoup(page_para_2)
         item_para_2 = soup_para_2.find("div", class_='sidebox menuparapharmacie')
         strong_para_2 = item_para_2.find_all("strong")
