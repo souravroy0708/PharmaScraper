@@ -14,9 +14,7 @@ import json
 # coonecting with mongo db
 
 def connect_mongodb(config):
-
     client = MongoClient(config["database"]://config["username"]:config["password"]@config["mongourl"])
-
     return client
 
 # choose collection and field
@@ -25,20 +23,12 @@ def db(config,client):
     db = db[config["collection"]]
     return db
 
-pr1 = db.find({}).count()
-pr2 = db.find({"Price":{"$gte": 0}}).count()
 
 #updating price field
-
 def update_price(config,db):
-
     db.update_many({"Price":"None"}, {"$set": {config["errorprice"]: True}})
-
-
-
     while True:
         cursor = db.find({config["errorprice"]: True},no_cursor_timeout=True)
-
         print(cursor.count())
         for doc in cursor:
             if ("urltoproduct" in list(doc.keys())):
@@ -56,20 +46,11 @@ def update_price(config,db):
                     db.update({"_id": doc['_id']}, {"$unset": {"errorprice": ""}})
                 except:
                     continue
-
-
-
-
-
         break
 
 def urlproduct(config,db):
-
     ##urlproduct =  db.find({"urltoproduct": True},no_cursor_timeout=True)
-
     urlproduct = db.find({"urltoproduct" : {"$regex" : "^(?!http.)"},"urltoproduct" : {"$regex" : "^(?!www.)"},"urltoproduct" : {"$regex" : "^(?!https.)"}})
-
-
     for doc in urlproduct:
         if (doc['urltoproduct'] != "None"):
             url = "https://"+doc['Source'].split("/")[2]+doc['urltoproduct']
@@ -99,8 +80,6 @@ def image_error(config,db)
             }
         }
     ]
-
-
     cursor = db.find(query,no_cursor_timeout = True)
 
     for doc in cursor:

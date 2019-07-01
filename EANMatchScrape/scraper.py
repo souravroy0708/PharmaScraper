@@ -16,6 +16,7 @@ import pandas as pd
 import json
 import pymongo
 import argparse
+from collections import Counter
 
 def get_jaccard_sim(str1, str2):
     a = set(str1.split())
@@ -101,6 +102,30 @@ def main(config):
     if (config['searchgoogle'] == "True"):
         tg = googlegetean(config)
         tg.run()
+        pass
+    if (config['matchgoogle'] == "True"):
+        client = pymongo.MongoClient(config["mongolink"])
+        db = client[config["db"]]
+        cursor = db[config["targetcollection"]].find(
+            {"googleean": {"$exists": True} },
+            no_cursor_timeout=True)
+        for doc in cursor:
+            numlist = []
+            for elem in doc['googleean']:
+                try:
+                    numlist.append(elem['eanmatchurltext'])
+                except:
+                    continue
+            elemlist = [item for sublist in numlist for item in sublist]
+            ean13list = [item for item in elemlist if int(item) > 1000000000000]
+            ean7list = [item for item in elemlist if int(item) > 1000000 and int(item) < 10000000]
+            if (len(ean13list)>0):
+                c = Counter(ean13list)
+                probableean = c.most_common(1)
+            else:
+                c = Counter(ean7list)
+                probableean = c.most_common(1)
+            db[config["targetcollection"]].update_one({"_id":doc['_id']},{"$set":{"probableean":probableean}})
         pass
 
 
