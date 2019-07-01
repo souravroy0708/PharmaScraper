@@ -114,7 +114,7 @@ class googlegetean(threading.Thread):
             try:
                 client = pymongo.MongoClient(self.config["mongolink"])
                 db = client[self.config["db"]]
-                cursor = db[self.config["targetcollection"]].find({"$and":[{"EAN13":{ "$exists": False }},{"EAN7":{ "$exists": False}},{"googleean":{ "$exists": False}}]},no_cursor_timeout=True)
+                cursor = db[self.config["targetcollection"]].aggregate([{ "$match": {"$and":[{"EAN13":{ "$exists": False }},{"EAN7":{ "$exists": False}},{"googleean":{ "$exists": False}}]}}, { "$sample": { "size": 1 } }])
                 for doc in cursor:
                     prodname = doc["Product_name"]
                     self.logger.info("STarted prod:" + prodname)
